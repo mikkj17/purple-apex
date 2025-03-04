@@ -94,7 +94,7 @@ apollo {
     service("purple-apex") {
         packageName.set("com.example")
         introspection {
-            endpointUrl.set("http://0.0.0.0:8080/graphql")
+            endpointUrl.set("https://purple-apex.com/graphql")
             schemaFile.set(file("src/commonMain/graphql/schema.graphqls"))
         }
     }

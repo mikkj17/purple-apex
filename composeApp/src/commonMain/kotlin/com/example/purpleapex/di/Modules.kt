@@ -12,7 +12,7 @@ import org.koin.dsl.module
 val sharedModule = module {
     single {
         ApolloClient.Builder()
-            .serverUrl("http://10.0.2.2:8080/graphql")
+            .serverUrl("https://purple-apex.com/graphql")
             .build()
     }
     singleOf(::ApolloDriverClient).bind<DriverClient>()
