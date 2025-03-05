@@ -21,7 +21,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -64,7 +63,7 @@ fun DriverListScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Blue)
+            .background(MaterialTheme.colorScheme.background)
             .statusBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -83,6 +82,7 @@ fun DriverListScreen(
         )
 
         Surface(
+            color = MaterialTheme.colorScheme.surface,
             shape = RoundedCornerShape(
                 topStart = 32.dp,
                 topEnd = 32.dp,

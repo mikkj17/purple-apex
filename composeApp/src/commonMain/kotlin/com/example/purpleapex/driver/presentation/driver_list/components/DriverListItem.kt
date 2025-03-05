@@ -28,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
@@ -46,7 +45,7 @@ fun DriverListItem(
 ) {
     Surface(
         shape = RoundedCornerShape(32.dp),
-        color = Color.Gray,
+        color = MaterialTheme.colorScheme.secondaryContainer,
         modifier = modifier
             .clickable(onClick = onClick),
     ) {

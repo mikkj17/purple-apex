@@ -20,7 +20,6 @@ import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 
@@ -33,8 +32,8 @@ fun DriverSearchBar(
 ) {
     CompositionLocalProvider(
         LocalTextSelectionColors provides TextSelectionColors(
-            handleColor = Color.Red,
-            backgroundColor = Color.Red,
+            handleColor = MaterialTheme.colorScheme.surfaceContainer,
+            backgroundColor = MaterialTheme.colorScheme.surfaceContainer,
         )
     ) {
         OutlinedTextField(
@@ -42,11 +41,8 @@ fun DriverSearchBar(
             onValueChange = onSearchQueryChange,
             shape = RoundedCornerShape(100),
             colors = OutlinedTextFieldDefaults.colors(
-                cursorColor = Color.Red,
-                focusedTextColor = Color.Red,
-                unfocusedTextColor = Color.Red,
-                focusedBorderColor = Color.Red,
-                unfocusedBorderColor = Color.Red
+                cursorColor = MaterialTheme.colorScheme.onSurface,
+                focusedBorderColor = MaterialTheme.colorScheme.onSurface,
             ),
             placeholder = {
                 Text(text = "Search...")
