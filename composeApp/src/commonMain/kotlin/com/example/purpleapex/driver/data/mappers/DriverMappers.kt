@@ -1,4 +1,4 @@
-package com.example.purpleapex.driver.data
+package com.example.purpleapex.driver.data.mappers
 
 import com.example.DriverQuery
 import com.example.DriversQuery

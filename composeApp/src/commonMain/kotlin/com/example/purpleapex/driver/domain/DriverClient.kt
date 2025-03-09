@@ -1,6 +1,4 @@
-package com.example.purpleapex.driver.domain.network
-
-import com.example.purpleapex.driver.domain.Driver
+package com.example.purpleapex.driver.domain
 
 interface DriverClient {
     suspend fun getDriver(id: String): Driver

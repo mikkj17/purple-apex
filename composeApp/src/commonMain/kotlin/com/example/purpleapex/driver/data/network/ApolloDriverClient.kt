@@ -4,9 +4,9 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import com.example.DriverQuery
 import com.example.DriversQuery
-import com.example.purpleapex.driver.data.toDriver
+import com.example.purpleapex.driver.data.mappers.toDriver
 import com.example.purpleapex.driver.domain.Driver
-import com.example.purpleapex.driver.domain.network.DriverClient
+import com.example.purpleapex.driver.domain.DriverClient
 
 class ApolloDriverClient(
     private val apolloClient: ApolloClient
