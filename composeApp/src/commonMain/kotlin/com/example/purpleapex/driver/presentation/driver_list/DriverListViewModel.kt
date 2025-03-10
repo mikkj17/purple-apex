@@ -2,6 +2,8 @@ package com.example.purpleapex.driver.presentation.driver_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.purpleapex.core.fuzzysearch.FuzzySearch
+import com.example.purpleapex.driver.domain.Driver
 import com.example.purpleapex.driver.domain.DriverRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,6 +27,7 @@ class DriverListViewModel(
                     isLoading = false,
                 )
             }
+            updateSearchResults()
         }
     }
 
@@ -34,11 +37,51 @@ class DriverListViewModel(
                 _state.update {
                     it.copy(searchQuery = action.query)
                 }
+                updateSearchResults()
             }
 
             is DriverListAction.OnDriverClick -> {
 
             }
+        }
+    }
+
+    private fun updateSearchResults() {
+        _state.update {
+            it.copy(searchResults = computeSearchResults())
+        }
+    }
+
+    private fun computeSearchResults(): List<Driver> {
+        val drivers = _state.value.drivers
+        val query = _state.value.searchQuery
+
+        if ("""\d{1,2}""".toRegex().matches(query)) {
+            return FuzzySearch.extract(
+                query = query,
+                candidates = drivers,
+                threshold = 0.75,
+            ) {
+                listOf(number.toString())
+            }
+        }
+
+        if (query.length < 3) {
+
+            return drivers
+        }
+
+        return FuzzySearch.extract(
+            query = query,
+            candidates = drivers
+        ) {
+            listOf(
+                "$givenName $familyName",
+                givenName,
+                familyName,
+                nationality,
+                dateOfBirth,
+            )
         }
     }
 }

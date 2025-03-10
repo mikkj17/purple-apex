@@ -117,18 +117,18 @@ fun DriverListScreen(
                                 )
                             }
 
-//                            state.searchResults.isEmpty() -> {
-//                                Text(
-//                                    text = "No drivers found...",
-//                                    textAlign = TextAlign.Center,
-//                                    style = MaterialTheme.typography.headlineSmall,
-//                                    color = MaterialTheme.colorScheme.error,
-//                                )
-//                            }
+                            state.searchResults.isEmpty() -> {
+                                Text(
+                                    text = "No drivers found...",
+                                    textAlign = TextAlign.Center,
+                                    style = MaterialTheme.typography.headlineSmall,
+                                    color = MaterialTheme.colorScheme.error,
+                                )
+                            }
 
                             else -> {
                                 DriverList(
-                                    drivers = state.drivers,
+                                    drivers = state.searchResults,
                                     onDriverClick = {
                                         onAction(DriverListAction.OnDriverClick(it))
                                     },
