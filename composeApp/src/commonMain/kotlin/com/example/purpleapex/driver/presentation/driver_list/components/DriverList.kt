@@ -33,13 +33,11 @@ fun DriverList(
         ) { driver ->
             DriverListItem(
                 driver = driver,
+                onClick = { onDriverClick(driver) },
                 modifier = Modifier
-                    .widthIn(max = 700.dp)
+                    .widthIn(max = 512.dp)
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                onClick = {
-                    onDriverClick(driver)
-                }
+                    .padding(horizontal = 16.dp)
             )
         }
     }

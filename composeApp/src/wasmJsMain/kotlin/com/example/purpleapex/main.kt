@@ -2,6 +2,7 @@ package com.example.purpleapex
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
+import com.example.purpleapex.app.App
 import com.example.purpleapex.di.initKoin
 import kotlinx.browser.document
 

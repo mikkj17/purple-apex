@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.apollo.graphql)
 }
 
@@ -73,6 +74,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.jetbrains.compose.navigation)
 
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
