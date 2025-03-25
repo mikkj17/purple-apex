@@ -7,6 +7,12 @@ sealed interface Route {
     data object Graph : Route
 
     @Serializable
+    data object Standings : Route
+
+    @Serializable
+    data object Results : Route
+
+    @Serializable
     data object Home : Route
 
     @Serializable

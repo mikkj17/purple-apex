@@ -76,6 +76,8 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.jetbrains.compose.navigation)
 
+            implementation(libs.material.icons.extended)
+
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
             api(libs.koin.core)
