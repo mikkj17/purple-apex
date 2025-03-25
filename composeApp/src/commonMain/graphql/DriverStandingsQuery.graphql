@@ -1,0 +1,26 @@
+query DriverStandingsQuery($year: Int!, $round: Int) {
+    driverStandings(year: $year, round: $round) {
+        round
+        season
+        standings {
+            points
+            position
+            positionText
+            wins
+            constructors {
+                id
+                name
+                nationality
+            }
+            driver {
+                code
+                dateOfBirth
+                familyName
+                givenName
+                id
+                nationality
+                number
+            }
+        }
+    }
+}
