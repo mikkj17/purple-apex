@@ -1,7 +1,7 @@
 package com.example.purpleapex.standings.domain
 
-data class ConstructorStandingList(
+data class DriverStandingsList(
     val season: Int,
     val round: Int,
-    val standings: List<ConstructorStanding>,
+    val standings: List<DriverStanding>,
 )

@@ -3,12 +3,12 @@ package com.example.purpleapex.standings.data.mappers
 import com.example.StandingsQuery
 import com.example.purpleapex.standings.domain.Constructor
 import com.example.purpleapex.standings.domain.ConstructorStanding
-import com.example.purpleapex.standings.domain.ConstructorStandingList
+import com.example.purpleapex.standings.domain.ConstructorStandingsList
 import com.example.purpleapex.standings.domain.Driver
 import com.example.purpleapex.standings.domain.DriverStanding
-import com.example.purpleapex.standings.domain.DriverStandingList
+import com.example.purpleapex.standings.domain.DriverStandingsList
 
-fun StandingsQuery.DriverStandings.toDriverStandingList() = DriverStandingList(
+fun StandingsQuery.DriverStandings.toDriverStandingList() = DriverStandingsList(
     season = season,
     round = round,
     standings = driverStanding.map { it.toDriverStanding() },
@@ -39,7 +39,7 @@ fun StandingsQuery.Constructor.toConstructor() = Constructor(
     nationality = nationality,
 )
 
-fun StandingsQuery.ConstructorStandings.toConstructorStandingList() = ConstructorStandingList(
+fun StandingsQuery.ConstructorStandings.toConstructorStandingList() = ConstructorStandingsList(
     season = season,
     round = round,
     standings = constructorStanding.map { it.toConstructorStanding() },

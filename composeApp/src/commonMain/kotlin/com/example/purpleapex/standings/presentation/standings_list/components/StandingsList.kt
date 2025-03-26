@@ -11,27 +11,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.purpleapex.standings.domain.ConstructorStandingList
 
 @Composable
-fun ConstructorStandingsList(
-    constructorStandings: ConstructorStandingList,
+fun <T> StandingsList(
+    standings: List<T>,
+    key: (T) -> String,
+    content: @Composable (T, Modifier) -> Unit,
     modifier: Modifier = Modifier,
     scrollState: LazyListState = rememberLazyListState(),
 ) {
     LazyColumn(
         modifier = modifier,
         state = scrollState,
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         items(
-            constructorStandings.standings,
-            key = { it.constructor.id },
-        ) { constructorStanding ->
-            ConstructorStandingListItem(
-                constructorStanding = constructorStanding,
-                modifier = Modifier
+            standings,
+            key = key,
+        ) { standing ->
+            content(
+                standing,
+                Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             )

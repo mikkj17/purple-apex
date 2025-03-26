@@ -25,8 +25,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.purpleapex.standings.presentation.standings_list.components.ConstructorStandingsList
-import com.example.purpleapex.standings.presentation.standings_list.components.DriverStandingsList
+import com.example.purpleapex.standings.presentation.standings_list.components.ConstructorStandingListItem
+import com.example.purpleapex.standings.presentation.standings_list.components.DriverStandingListItem
+import com.example.purpleapex.standings.presentation.standings_list.components.StandingsList
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -130,14 +131,26 @@ private fun StandingsListScreen(
                         )
                     }
 
-                    pageIndex == 0 -> DriverStandingsList(
-                        state.driverStandings,
-                        modifier = Modifier.fillMaxSize(),
+                    pageIndex == 0 -> StandingsList(
+                        standings = state.driverStandings.standings,
+                        key = { it.driver.id },
+                        content = { driverStanding, modifier ->
+                            DriverStandingListItem(
+                                driverStanding = driverStanding,
+                                modifier = modifier,
+                            )
+                        }
                     )
 
-                    else -> ConstructorStandingsList(
-                        state.constructorStandings,
-                        modifier = Modifier.fillMaxSize(),
+                    else -> StandingsList(
+                        standings = state.constructorStandings.standings,
+                        key = { it.constructor.id },
+                        content = { constructorStanding, modifier ->
+                            ConstructorStandingListItem(
+                                constructorStanding = constructorStanding,
+                                modifier = modifier,
+                            )
+                        }
                     )
                 }
             }

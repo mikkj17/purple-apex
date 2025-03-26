@@ -4,5 +4,5 @@ interface StandingsClient {
     suspend fun getStandings(
         year: Int,
         round: Int?
-    ): Pair<DriverStandingList?, ConstructorStandingList?>
+    ): Pair<DriverStandingsList?, ConstructorStandingsList?>
 }

@@ -4,5 +4,5 @@ interface StandingsRepository {
     suspend fun getStandings(
         year: Int,
         round: Int? = null
-    ): Pair<DriverStandingList?, ConstructorStandingList?>
+    ): Pair<DriverStandingsList?, ConstructorStandingsList?>
 }
