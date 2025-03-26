@@ -1,8 +1,8 @@
-query DriverStandingsQuery($year: Int!, $round: Int) {
+query StandingsQuery($year: Int!, $round: Int) {
     driverStandings(year: $year, round: $round) {
-        round
         season
-        standings {
+        round
+        driverStanding: standings {
             points
             position
             positionText
@@ -20,6 +20,21 @@ query DriverStandingsQuery($year: Int!, $round: Int) {
                 id
                 nationality
                 number
+            }
+        }
+    }
+    constructorStandings(year: $year, round: $round) {
+        season
+        round
+        constructorStanding: standings {
+            points
+            position
+            positionText
+            wins
+            constructor {
+                id
+                name
+                nationality
             }
         }
     }

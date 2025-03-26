@@ -19,9 +19,11 @@ class StandingsListViewModel(
             _state.update {
                 it.copy(isLoading = true)
             }
+            val standings = standingsRepository.getStandings(year = 2025)
             _state.update {
                 it.copy(
-                    driverStandings = standingsRepository.getDriverStandings(year = 2025),
+                    driverStandings = standings.first,
+                    constructorStandings = standings.second,
                     isLoading = false,
                 )
             }
@@ -29,6 +31,12 @@ class StandingsListViewModel(
     }
 
     fun onAction(action: StandingsListAction) {
-
+        when (action) {
+            is StandingsListAction.OnTabSelected -> {
+                _state.update {
+                    it.copy(selectedTabIndex = action.index)
+                }
+            }
+        }
     }
 }
