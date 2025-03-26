@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.purpleapex.core.presentation.extensions.formatAsPoints
 import com.example.purpleapex.standings.domain.ConstructorStanding
 
 @Composable
@@ -63,7 +64,7 @@ fun ConstructorStandingListItem(
                 color = MaterialTheme.colorScheme.secondaryContainer,
             ) {
                 Text(
-                    "${constructorStanding.points.toInt()} PTS",
+                    "${constructorStanding.points.formatAsPoints()} PTS",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)

@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.purpleapex.core.presentation.extensions.formatAsPoints
 import com.example.purpleapex.standings.domain.DriverStanding
 
 @Composable
@@ -74,7 +75,7 @@ fun DriverStandingListItem(
                 color = MaterialTheme.colorScheme.secondaryContainer,
             ) {
                 Text(
-                    "${driverStanding.points.toInt()} PTS",
+                    "${driverStanding.points.formatAsPoints()} PTS",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
