@@ -29,7 +29,7 @@ type ConstructorStanding {
 
   points: Float!
 
-  position: Int!
+  position: Int
 
   positionText: String!
 

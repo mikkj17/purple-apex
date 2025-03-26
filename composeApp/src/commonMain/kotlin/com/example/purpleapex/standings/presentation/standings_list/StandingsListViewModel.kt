@@ -15,27 +15,38 @@ class StandingsListViewModel(
     val state = _state.asStateFlow()
 
     init {
+        loadStandings()
+    }
+
+    fun onAction(action: StandingsListAction) {
+        when (action) {
+            is StandingsListAction.SelectedYearChanged -> {
+                _state.update {
+                    it.copy(selectedYear = action.year)
+                }
+                loadStandings()
+            }
+
+            is StandingsListAction.OnTabSelected -> {
+                _state.update {
+                    it.copy(selectedTabIndex = action.index)
+                }
+            }
+        }
+    }
+
+    private fun loadStandings() {
         viewModelScope.launch {
             _state.update {
                 it.copy(isLoading = true)
             }
-            val standings = standingsRepository.getStandings(year = 2025)
+            val standings = standingsRepository.getStandings(year = _state.value.selectedYear)
             _state.update {
                 it.copy(
                     driverStandings = standings.first,
                     constructorStandings = standings.second,
                     isLoading = false,
                 )
-            }
-        }
-    }
-
-    fun onAction(action: StandingsListAction) {
-        when (action) {
-            is StandingsListAction.OnTabSelected -> {
-                _state.update {
-                    it.copy(selectedTabIndex = action.index)
-                }
             }
         }
     }

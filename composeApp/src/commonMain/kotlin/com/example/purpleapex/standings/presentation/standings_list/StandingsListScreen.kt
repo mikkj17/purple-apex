@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.standings.presentation.standings_list.components.ConstructorStandingListItem
 import com.example.purpleapex.standings.presentation.standings_list.components.DriverStandingListItem
+import com.example.purpleapex.standings.presentation.standings_list.components.SeasonDropdown
 import com.example.purpleapex.standings.presentation.standings_list.components.StandingsList
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -41,6 +43,7 @@ fun StandingsListScreenRoot(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun StandingsListScreen(
     state: StandingsListState,
@@ -59,6 +62,13 @@ private fun StandingsListScreen(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        SeasonDropdown(
+            selectedYear = state.selectedYear,
+            onSelectedYearChanged = {
+                onAction(StandingsListAction.SelectedYearChanged(it))
+            }
+        )
+        Spacer(modifier = Modifier.height(4.dp))
         TabRow(
             selectedTabIndex = state.selectedTabIndex,
             containerColor = MaterialTheme.colorScheme.tertiary,
