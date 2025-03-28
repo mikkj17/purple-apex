@@ -15,7 +15,7 @@ import com.example.purpleapex.driver.presentation.driver_list.DriverListScreenRo
 import com.example.purpleapex.driver.presentation.driver_list.DriverListViewModel
 import com.example.purpleapex.home.presentation.HomeScreenRoot
 import com.example.purpleapex.result.presentation.result_list.ResultListScreenRoot
-import com.example.purpleapex.standings.presentation.StandingsScreenRoot
+import com.example.purpleapex.standings.presentation.standings_list.StandingsListScreenRoot
 import com.example.purpleapex.ui.theme.AppTheme
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -42,7 +42,7 @@ fun App() {
                     startDestination = Route.Home
                 ) {
                     composable<Route.Standings> {
-                        StandingsScreenRoot()
+                        StandingsListScreenRoot()
                     }
                     composable<Route.Results> {
                         ResultListScreenRoot()

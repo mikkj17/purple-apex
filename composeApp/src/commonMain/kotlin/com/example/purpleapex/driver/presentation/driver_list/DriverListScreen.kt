@@ -81,38 +81,35 @@ fun DriverListScreen(
             contentAlignment = Alignment.Center,
             modifier = Modifier.fillMaxSize()
         ) {
-            if (state.isLoading) {
-                CircularProgressIndicator()
-            } else {
-                when {
-                    state.errorMessage != null -> {
-                        Text(
-                            text = state.errorMessage,
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    }
+            when {
+                state.isLoading -> CircularProgressIndicator()
+                state.errorMessage != null -> {
+                    Text(
+                        text = state.errorMessage,
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
 
-                    state.searchResults.isEmpty() -> {
-                        Text(
-                            text = "No drivers found...",
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    }
+                state.searchResults.isEmpty() -> {
+                    Text(
+                        text = "No drivers found...",
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
 
-                    else -> {
-                        DriverList(
-                            drivers = state.searchResults,
-                            onDriverClick = {
-                                onAction(DriverListAction.OnDriverClick(it))
-                            },
-                            modifier = Modifier.fillMaxSize(),
-                            scrollState = searchResultsListState,
-                        )
-                    }
+                else -> {
+                    DriverList(
+                        drivers = state.searchResults,
+                        onDriverClick = {
+                            onAction(DriverListAction.OnDriverClick(it))
+                        },
+                        modifier = Modifier.fillMaxSize(),
+                        scrollState = searchResultsListState,
+                    )
                 }
             }
         }
