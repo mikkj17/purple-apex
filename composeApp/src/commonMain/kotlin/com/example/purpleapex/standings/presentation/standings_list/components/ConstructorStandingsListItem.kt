@@ -25,8 +25,7 @@ fun ConstructorStandingListItem(
 ) {
     Surface(
         shape = RoundedCornerShape(8.dp),
-        color = MaterialTheme.colorScheme.primaryContainer,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -38,7 +37,8 @@ fun ConstructorStandingListItem(
             Text(
                 text = constructorStanding.positionText,
                 style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                color = MaterialTheme.colorScheme.onSurface,
             )
             VerticalDivider(
                 thickness = 1.dp,
@@ -53,20 +53,22 @@ fun ConstructorStandingListItem(
                 Text(
                     constructorStanding.constructor.name,
                     style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
                     constructorStanding.constructor.nationality,
                     style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
             }
             Surface(
                 shape = RoundedCornerShape(32.dp),
-                color = MaterialTheme.colorScheme.secondaryContainer,
+                color = MaterialTheme.colorScheme.surfaceDim,
             ) {
                 Text(
                     "${constructorStanding.points.formatAsPoints()} PTS",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                 )
             }

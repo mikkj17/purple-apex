@@ -1,8 +1,6 @@
 package com.example.purpleapex.standings.presentation.standings_list.components
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -16,7 +14,7 @@ import androidx.compose.ui.unit.dp
 fun <T> StandingsList(
     standings: List<T>,
     key: (T) -> String,
-    content: @Composable (T, Modifier) -> Unit,
+    content: @Composable (T) -> Unit,
     modifier: Modifier = Modifier,
     scrollState: LazyListState = rememberLazyListState(),
 ) {
@@ -30,12 +28,7 @@ fun <T> StandingsList(
             standings,
             key = key,
         ) { standing ->
-            content(
-                standing,
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            )
+            content(standing)
         }
     }
 }

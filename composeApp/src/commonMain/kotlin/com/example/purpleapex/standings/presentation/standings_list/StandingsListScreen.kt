@@ -1,16 +1,14 @@
 package com.example.purpleapex.standings.presentation.standings_list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -22,7 +20,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -43,7 +40,6 @@ fun StandingsListScreenRoot(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun StandingsListScreen(
     state: StandingsListState,
@@ -60,24 +56,38 @@ private fun StandingsListScreen(
     }
 
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.background(MaterialTheme.colorScheme.tertiary)
     ) {
-        SeasonDropdown(
-            selectedYear = state.selectedYear,
-            onSelectedYearChanged = {
-                onAction(StandingsListAction.SelectedYearChanged(it))
-            }
-        )
-        Spacer(modifier = Modifier.height(4.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colorScheme.primary)
+                .padding(top = 16.dp)
+        ) {
+            Text(
+                text = "STANDINGS",
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.align(Alignment.Center),
+                color = MaterialTheme.colorScheme.onPrimary,
+            )
+            SeasonDropdown(
+                selectedYear = state.selectedYear,
+                onSelectedYearChanged = {
+                    onAction(StandingsListAction.SelectedYearChanged(it))
+                },
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .padding(horizontal = 16.dp)
+            )
+        }
         TabRow(
             selectedTabIndex = state.selectedTabIndex,
-            containerColor = MaterialTheme.colorScheme.tertiary,
-            modifier = Modifier
-                .padding(vertical = 12.dp)
-                .fillMaxWidth(),
+            containerColor = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.fillMaxWidth(),
             indicator = {
-                TabRowDefaults.PrimaryIndicator(
-                    color = MaterialTheme.colorScheme.onTertiary,
+                TabRowDefaults.SecondaryIndicator(
+                    color = MaterialTheme.colorScheme.onPrimary,
                     modifier = Modifier.tabIndicatorOffset(it[state.selectedTabIndex])
                 )
             }
@@ -89,8 +99,8 @@ private fun StandingsListScreen(
                         onAction(StandingsListAction.OnTabSelected(index))
                     },
                     modifier = Modifier.weight(1f),
-                    selectedContentColor = MaterialTheme.colorScheme.onTertiary,
-                    unselectedContentColor = Color.Black.copy(alpha = 0.5f)
+                    selectedContentColor = MaterialTheme.colorScheme.onPrimary,
+                    unselectedContentColor = MaterialTheme.colorScheme.onSecondary,
                 ) {
                     Text(
                         text = s,
@@ -99,7 +109,6 @@ private fun StandingsListScreen(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(4.dp))
         HorizontalPager(
             state = pagerState,
             modifier = Modifier
@@ -144,10 +153,9 @@ private fun StandingsListScreen(
                     pageIndex == 0 -> StandingsList(
                         standings = state.driverStandings.standings,
                         key = { it.driver.id },
-                        content = { driverStanding, modifier ->
+                        content = { driverStanding ->
                             DriverStandingListItem(
                                 driverStanding = driverStanding,
-                                modifier = modifier,
                             )
                         }
                     )
@@ -155,10 +163,9 @@ private fun StandingsListScreen(
                     else -> StandingsList(
                         standings = state.constructorStandings.standings,
                         key = { it.constructor.id },
-                        content = { constructorStanding, modifier ->
+                        content = { constructorStanding ->
                             ConstructorStandingListItem(
                                 constructorStanding = constructorStanding,
-                                modifier = modifier,
                             )
                         }
                     )
