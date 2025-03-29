@@ -119,7 +119,7 @@ private fun StandingsListScreen(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
             ) {
                 when {
                     state.isLoading -> CircularProgressIndicator()
