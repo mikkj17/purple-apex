@@ -29,9 +29,9 @@ fun App() {
             bottomBar = {
                 BottomNavigationBar(
                     currentDestination = currentDestination,
-                    onNavigate = { navController.navigate(it) }
+                    onNavigate = { navController.navigate(it) },
                 )
-            }
+            },
         ) { innerPadding ->
             NavHost(
                 navController = navController,

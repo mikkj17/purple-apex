@@ -27,7 +27,9 @@ fun BottomNavigationBar(
     currentDestination: NavDestination?,
     onNavigate: (Route) -> Unit
 ) {
-    BottomAppBar {
+    BottomAppBar(
+        containerColor = MaterialTheme.colorScheme.surface
+    ) {
         TopLevelRoutes.entries.forEach { topLevelRoute ->
             NavigationBarItem(
                 icon = { Icon(topLevelRoute.icon, contentDescription = topLevelRoute.title) },
@@ -35,10 +37,11 @@ fun BottomNavigationBar(
                     Text(
                         topLevelRoute.title,
                         style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 },
                 selected = currentDestination?.hierarchy?.any { it.route == topLevelRoute.route.toString() } == true,
-                onClick = { onNavigate(topLevelRoute.route) }
+                onClick = { onNavigate(topLevelRoute.route) },
             )
         }
     }

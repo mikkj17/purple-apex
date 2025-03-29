@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -50,7 +50,7 @@ fun DriverListScreen(
     onAction: (DriverListAction) -> Unit,
 ) {
     val keyBoardController = LocalSoftwareKeyboardController.current
-    val searchResultsListState = rememberLazyListState()
+    val searchResultsListState = rememberLazyGridState()
 
     LaunchedEffect(state.searchResults) {
         searchResultsListState.animateScrollToItem(0)
@@ -72,9 +72,9 @@ fun DriverListScreen(
                 keyBoardController?.hide()
             },
             modifier = Modifier
-                .widthIn(max = 400.dp)
+                .widthIn(max = 512.dp)
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(8.dp)
         )
 
         Box(

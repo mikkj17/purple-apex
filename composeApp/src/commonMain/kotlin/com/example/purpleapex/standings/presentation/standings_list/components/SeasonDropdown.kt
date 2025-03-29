@@ -1,18 +1,21 @@
 package com.example.purpleapex.standings.presentation.standings_list.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.core.util.Constants
@@ -34,21 +37,29 @@ fun SeasonDropdown(
     ExposedDropdownMenuBox(
         expanded = expanded.value,
         onExpandedChange = { expanded.value = !expanded.value },
-        modifier = modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .fillMaxWidth()
+        modifier = modifier,
     ) {
-        OutlinedTextField(
-            readOnly = true,
-            value = selectedYear.toString(),
-            onValueChange = {},
-            label = { Text("Select season") },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value) },
-            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryEditable).fillMaxWidth()
-        )
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .menuAnchor(MenuAnchorType.PrimaryEditable)
+                .width(80.dp)
+                .border(
+                    width = 1.5.dp,
+                    shape = RoundedCornerShape(4.dp),
+                    color = MaterialTheme.colorScheme.onPrimary,
+                )
+                .padding(vertical = 4.dp, horizontal = 12.dp)
+        ) {
+            Text(
+                selectedYear.toString(),
+                color = MaterialTheme.colorScheme.onPrimary,
+            )
+        }
         DropdownMenu(
             expanded = expanded.value,
-            onDismissRequest = { expanded.value = false }
+            onDismissRequest = { expanded.value = false },
+            modifier = Modifier.exposedDropdownSize()
         ) {
             years.forEach { year ->
                 DropdownMenuItem(
