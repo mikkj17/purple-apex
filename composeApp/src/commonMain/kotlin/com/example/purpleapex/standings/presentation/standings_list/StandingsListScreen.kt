@@ -1,8 +1,10 @@
 package com.example.purpleapex.standings.presentation.standings_list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -59,16 +61,17 @@ private fun StandingsListScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.background(MaterialTheme.colorScheme.tertiary)
     ) {
-        Box(
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = MaterialTheme.colorScheme.primary)
                 .padding(top = 16.dp)
+                .padding(horizontal = 8.dp)
         ) {
             Text(
                 text = "STANDINGS",
                 style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.align(Alignment.Center),
                 color = MaterialTheme.colorScheme.onPrimary,
             )
             SeasonDropdown(
@@ -76,9 +79,6 @@ private fun StandingsListScreen(
                 onSelectedYearChanged = {
                     onAction(StandingsListAction.SelectedYearChanged(it))
                 },
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .padding(horizontal = 16.dp)
             )
         }
         TabRow(
@@ -119,7 +119,7 @@ private fun StandingsListScreen(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 8.dp)
             ) {
                 when {
                     state.isLoading -> CircularProgressIndicator()

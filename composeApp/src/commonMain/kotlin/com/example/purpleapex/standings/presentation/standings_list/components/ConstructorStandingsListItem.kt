@@ -10,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,24 +30,20 @@ fun ConstructorStandingListItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
-                .padding(16.dp)
+                .padding(8.dp)
                 .fillMaxWidth()
         ) {
             Text(
                 text = constructorStanding.positionText,
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.headlineSmall,
                 modifier = Modifier.weight(1f),
                 color = MaterialTheme.colorScheme.onSurface,
-            )
-            VerticalDivider(
-                thickness = 1.dp,
-                modifier = modifier.weight(1f),
             )
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(10f)
+                    .weight(5f)
             ) {
                 Text(
                     constructorStanding.constructor.name,
@@ -63,12 +58,12 @@ fun ConstructorStandingListItem(
             }
             Surface(
                 shape = RoundedCornerShape(32.dp),
-                color = MaterialTheme.colorScheme.surfaceDim,
+                color = MaterialTheme.colorScheme.primaryContainer,
             ) {
                 Text(
                     "${constructorStanding.points.formatAsPoints()} PTS",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                 )
             }
