@@ -1,7 +1,6 @@
 package com.example.purpleapex.driver.presentation.driver_list.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -39,7 +38,7 @@ fun DriverSearchBar(
         OutlinedTextField(
             value = searchQuery,
             onValueChange = onSearchQueryChange,
-            shape = RoundedCornerShape(100),
+            shape = RoundedCornerShape(32),
             colors = OutlinedTextFieldDefaults.colors(
                 cursorColor = MaterialTheme.colorScheme.onSurface,
                 focusedBorderColor = MaterialTheme.colorScheme.onSurface,
@@ -81,12 +80,7 @@ fun DriverSearchBar(
                     }
                 }
             },
-            modifier = modifier
-                .background(
-                    shape = RoundedCornerShape(100),
-                    color = MaterialTheme.colorScheme.surface
-                )
-                .minimumInteractiveComponentSize()
+            modifier = modifier.minimumInteractiveComponentSize(),
         )
     }
 }

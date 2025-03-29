@@ -30,27 +30,20 @@ fun DriverListItem(
     modifier: Modifier = Modifier
 ) {
     Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.secondaryContainer,
+        shape = RoundedCornerShape(8.dp),
+        color = MaterialTheme.colorScheme.primaryContainer,
         modifier = modifier.clickable(onClick = onClick)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
-                .padding(16.dp)
                 .fillMaxWidth()
+                .padding(8.dp)
         ) {
-            Text(
-                text = (driver.number ?: "").toString(),
-                style = MaterialTheme.typography.displayLarge,
-                modifier = Modifier.weight(2f)
-            )
             Column(
                 verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(4f)
+                modifier = Modifier.fillMaxHeight()
             ) {
                 Text(
                     text = driver.givenName.uppercase(),
@@ -62,13 +55,10 @@ fun DriverListItem(
                     fontWeight = FontWeight.Bold,
                 )
             }
-
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
                 contentDescription = null,
-                modifier = Modifier
-                    .size(36.dp)
-                    .weight(1f)
+                modifier = Modifier.size(24.dp)
             )
         }
     }
