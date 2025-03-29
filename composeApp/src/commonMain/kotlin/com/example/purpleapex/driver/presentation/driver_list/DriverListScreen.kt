@@ -45,7 +45,7 @@ fun DriverListScreenRoot(
 }
 
 @Composable
-fun DriverListScreen(
+private fun DriverListScreen(
     state: DriverListState,
     onAction: (DriverListAction) -> Unit,
 ) {

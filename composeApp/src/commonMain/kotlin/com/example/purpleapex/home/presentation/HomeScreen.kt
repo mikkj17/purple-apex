@@ -15,7 +15,7 @@ fun HomeScreenRoot() {
 }
 
 @Composable
-fun HomeScreen() {
+private fun HomeScreen() {
     Image(
         painter = painterResource(Res.drawable.purple_apex_logo),
         contentDescription = "Purple Apex Logo",

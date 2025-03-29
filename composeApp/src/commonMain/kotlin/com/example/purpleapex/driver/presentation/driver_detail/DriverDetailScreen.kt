@@ -11,7 +11,7 @@ fun DriverDetailScreenRoot() {
 }
 
 @Composable
-fun DriverDetailScreen() {
+private fun DriverDetailScreen() {
     Surface(
         color = MaterialTheme.colorScheme.surface
     ) {
