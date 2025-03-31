@@ -1,4 +1,4 @@
-package com.example.purpleapex.standings.presentation.standings_list.components
+package com.example.purpleapex.core.presentation.components
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
