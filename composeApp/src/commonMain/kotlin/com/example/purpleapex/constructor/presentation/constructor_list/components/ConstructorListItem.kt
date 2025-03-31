@@ -1,4 +1,4 @@
-package com.example.purpleapex.driver.presentation.driver_list.components
+package com.example.purpleapex.constructor.presentation.constructor_list.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,12 +20,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.purpleapex.driver.domain.Driver
-
+import com.example.purpleapex.constructor.domain.Constructor
 
 @Composable
-fun DriverListItem(
-    driver: Driver,
+fun ConstructorListItem(
+    constructor: Constructor,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -45,12 +44,12 @@ fun DriverListItem(
                 modifier = Modifier.fillMaxHeight()
             ) {
                 Text(
-                    text = driver.givenName.uppercase(),
-                    style = MaterialTheme.typography.bodySmall,
+                    text = constructor.name,
+                    style = MaterialTheme.typography.bodyLarge,
                 )
                 Text(
-                    text = driver.familyName.uppercase(),
-                    style = MaterialTheme.typography.bodyLarge,
+                    text = constructor.nationality,
+                    style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Bold,
                 )
             }

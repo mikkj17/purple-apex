@@ -7,6 +7,5 @@ query DriversQuery($year: Int, $round: Int) {
         id
         nationality
         number
-        url
     }
 }

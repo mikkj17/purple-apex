@@ -1,4 +1,4 @@
-package com.example.purpleapex.result.presentation.result_list
+package com.example.purpleapex.constructor.presentation.constructor_detail
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -6,17 +6,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun ResultListScreenRoot() {
-    ResultListScreen()
+fun ConstructorDetailScreenRoot() {
+    ConstructorDetailScreen()
 }
 
 @Composable
-private fun ResultListScreen() {
+private fun ConstructorDetailScreen() {
     Surface(
         color = MaterialTheme.colorScheme.surface
     ) {
         Text(
-            "On data screen",
+            "On constructor detail",
             style = MaterialTheme.typography.headlineLarge
         )
     }

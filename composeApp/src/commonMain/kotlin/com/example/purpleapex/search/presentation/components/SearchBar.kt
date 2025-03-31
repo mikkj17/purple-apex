@@ -1,4 +1,4 @@
-package com.example.purpleapex.driver.presentation.driver_list.components
+package com.example.purpleapex.search.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,7 +23,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
-fun DriverSearchBar(
+fun SearchBar(
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onImeSearch: () -> Unit,
@@ -40,11 +40,17 @@ fun DriverSearchBar(
             onValueChange = onSearchQueryChange,
             shape = RoundedCornerShape(32),
             colors = OutlinedTextFieldDefaults.colors(
-                cursorColor = MaterialTheme.colorScheme.onSurface,
-                focusedBorderColor = MaterialTheme.colorScheme.onSurface,
+                cursorColor = MaterialTheme.colorScheme.onPrimary,
+                focusedBorderColor = MaterialTheme.colorScheme.onPrimary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.onPrimary,
+                focusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
             ),
             placeholder = {
-                Text(text = "Search...")
+                Text(
+                    text = "Search...",
+                    color = MaterialTheme.colorScheme.onPrimary,
+                )
             },
             singleLine = true,
             keyboardActions = KeyboardActions(
@@ -60,7 +66,7 @@ fun DriverSearchBar(
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.66f)
+                    tint = MaterialTheme.colorScheme.onPrimary
                 )
             },
             trailingIcon = {
@@ -75,7 +81,7 @@ fun DriverSearchBar(
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 }

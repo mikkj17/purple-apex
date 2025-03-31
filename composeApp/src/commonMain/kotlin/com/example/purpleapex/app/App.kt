@@ -10,14 +10,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorDetailScreenRoot
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScreenRoot
-import com.example.purpleapex.driver.presentation.driver_list.DriverListScreenRoot
-import com.example.purpleapex.driver.presentation.driver_list.DriverListViewModel
 import com.example.purpleapex.home.presentation.HomeScreenRoot
 import com.example.purpleapex.result.presentation.result_list.ResultListScreenRoot
+import com.example.purpleapex.search.presentation.SearchScreenRoot
 import com.example.purpleapex.standings.presentation.standings_list.StandingsListScreenRoot
 import com.example.purpleapex.ui.theme.AppTheme
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun App() {
@@ -41,30 +40,38 @@ fun App() {
                 navigation<Route.Graph>(
                     startDestination = Route.Home
                 ) {
+                    composable<Route.Home> {
+                        HomeScreenRoot()
+                    }
                     composable<Route.Standings> {
                         StandingsListScreenRoot()
                     }
                     composable<Route.Results> {
                         ResultListScreenRoot()
                     }
-                    composable<Route.Home> {
-                        HomeScreenRoot()
-                    }
-                    composable<Route.DriverList> {
-                        val viewModel = koinViewModel<DriverListViewModel>()
-                        DriverListScreenRoot(
-                            viewModel = viewModel,
+                    composable<Route.Search> {
+                        SearchScreenRoot(
                             onDriverClick = { driver ->
                                 navController.navigate(
                                     Route.DriverDetail(
                                         driverId = driver.id
                                     )
                                 )
-                            }
+                            },
+                            onConstructorClick = { constructor ->
+                                navController.navigate(
+                                    Route.ConstructorDetail(
+                                        constructorId = constructor.id
+                                    )
+                                )
+                            },
                         )
                     }
                     composable<Route.DriverDetail> {
                         DriverDetailScreenRoot()
+                    }
+                    composable<Route.ConstructorDetail> {
+                        ConstructorDetailScreenRoot()
                     }
                 }
             }

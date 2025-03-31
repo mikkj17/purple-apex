@@ -8,5 +8,4 @@ data class Driver(
     val id: String,
     val nationality: String,
     val number: Int?,
-    val url: String,
 )

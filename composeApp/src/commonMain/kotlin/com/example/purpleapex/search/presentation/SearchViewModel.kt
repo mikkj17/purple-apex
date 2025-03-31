@@ -1,7 +1,9 @@
-package com.example.purpleapex.driver.presentation.driver_list
+package com.example.purpleapex.search.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.purpleapex.constructor.domain.Constructor
+import com.example.purpleapex.constructor.domain.ConstructorRepository
 import com.example.purpleapex.core.fuzzysearch.FuzzySearch
 import com.example.purpleapex.driver.domain.Driver
 import com.example.purpleapex.driver.domain.DriverRepository
@@ -10,10 +12,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DriverListViewModel(
-    private val driverRepository: DriverRepository
+class SearchViewModel(
+    private val driverRepository: DriverRepository,
+    private val constructorRepository: ConstructorRepository,
 ) : ViewModel() {
-    private val _state = MutableStateFlow(DriverListState())
+    private val _state = MutableStateFlow(SearchState())
     val state = _state.asStateFlow()
 
     init {
@@ -24,6 +27,7 @@ class DriverListViewModel(
             _state.update {
                 it.copy(
                     drivers = driverRepository.getDrivers(),
+                    constructors = constructorRepository.getConstructors(),
                     isLoading = false,
                 )
             }
@@ -31,28 +35,36 @@ class DriverListViewModel(
         }
     }
 
-    fun onAction(action: DriverListAction) {
+    fun onAction(action: SearchAction) {
         when (action) {
-            is DriverListAction.OnSearchQueryChange -> {
+            is SearchAction.OnSearchQueryChange -> {
                 _state.update {
                     it.copy(searchQuery = action.query)
                 }
                 updateSearchResults()
             }
 
-            is DriverListAction.OnDriverClick -> {
-
+            is SearchAction.OnTabSelected -> {
+                _state.update {
+                    it.copy(selectedTabIndex = action.index)
+                }
             }
+
+            is SearchAction.OnDriverClick -> {}
+            is SearchAction.OnConstructorClick -> {}
         }
     }
 
     private fun updateSearchResults() {
         _state.update {
-            it.copy(searchResults = computeSearchResults())
+            it.copy(
+                searchedDrivers = updateDrivers(),
+                searchedConstructors = updateConstructors(),
+            )
         }
     }
 
-    private fun computeSearchResults(): List<Driver> {
+    private fun updateDrivers(): List<Driver> {
         val drivers = _state.value.drivers
         val query = _state.value.searchQuery
 
@@ -81,6 +93,26 @@ class DriverListViewModel(
                 familyName,
                 nationality,
                 dateOfBirth,
+            )
+        }
+    }
+
+    private fun updateConstructors(): List<Constructor> {
+        val constructors = _state.value.constructors
+        val query = _state.value.searchQuery
+
+        if (query.length < 3) {
+            return constructors
+        }
+
+        return FuzzySearch.extract(
+            query = query,
+            candidates = constructors
+        ) {
+            listOf(
+                id,
+                name,
+                nationality,
             )
         }
     }
