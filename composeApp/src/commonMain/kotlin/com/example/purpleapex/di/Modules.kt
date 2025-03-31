@@ -10,6 +10,10 @@ import com.example.purpleapex.driver.data.network.ApolloDriverClient
 import com.example.purpleapex.driver.data.repository.DefaultDriverRepository
 import com.example.purpleapex.driver.domain.DriverClient
 import com.example.purpleapex.driver.domain.DriverRepository
+import com.example.purpleapex.race.data.network.ApolloRaceClient
+import com.example.purpleapex.race.data.repository.DefaultRaceRepository
+import com.example.purpleapex.race.domain.RaceClient
+import com.example.purpleapex.race.domain.RaceRepository
 import com.example.purpleapex.search.presentation.SearchViewModel
 import com.example.purpleapex.standings.data.network.ApolloStandingsClient
 import com.example.purpleapex.standings.data.repository.DefaultStandingsRepository
@@ -27,6 +31,7 @@ val sharedModule = module {
             .serverUrl(Constants.BASE_URL)
             .build()
     }
+
     singleOf(::ApolloDriverClient).bind<DriverClient>()
     singleOf(::DefaultDriverRepository).bind<DriverRepository>()
 
@@ -35,6 +40,10 @@ val sharedModule = module {
 
     singleOf(::ApolloStandingsClient).bind<StandingsClient>()
     singleOf(::DefaultStandingsRepository).bind<StandingsRepository>()
+
+    singleOf(::ApolloRaceClient).bind<RaceClient>()
+    singleOf(::DefaultRaceRepository).bind<RaceRepository>()
+
     viewModelOf(::StandingsListViewModel)
     viewModelOf(::SearchViewModel)
 }

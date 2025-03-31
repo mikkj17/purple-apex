@@ -7,13 +7,13 @@ sealed interface Route {
     data object Graph : Route
 
     @Serializable
+    data object Home : Route
+
+    @Serializable
     data object Standings : Route
 
     @Serializable
-    data object Results : Route
-
-    @Serializable
-    data object Home : Route
+    data object Racing : Route
 
     @Serializable
     data object Search : Route

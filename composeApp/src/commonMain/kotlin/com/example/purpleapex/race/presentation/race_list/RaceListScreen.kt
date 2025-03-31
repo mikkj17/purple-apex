@@ -1,4 +1,4 @@
-package com.example.purpleapex.result.presentation.result_list
+package com.example.purpleapex.race.presentation.race_list
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -6,17 +6,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun ResultListScreenRoot() {
-    ResultListScreen()
+fun RaceListScreenRoot() {
+    RaceListScreen()
 }
 
 @Composable
-private fun ResultListScreen() {
+private fun RaceListScreen() {
     Surface(
         color = MaterialTheme.colorScheme.surface
     ) {
         Text(
-            "On data screen",
+            "On race screen",
             style = MaterialTheme.typography.headlineLarge
         )
     }

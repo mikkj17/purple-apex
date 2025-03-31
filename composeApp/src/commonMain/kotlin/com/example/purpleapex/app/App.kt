@@ -13,7 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorDetailScreenRoot
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScreenRoot
 import com.example.purpleapex.home.presentation.HomeScreenRoot
-import com.example.purpleapex.result.presentation.result_list.ResultListScreenRoot
+import com.example.purpleapex.race.presentation.race_list.RaceListScreenRoot
 import com.example.purpleapex.search.presentation.SearchScreenRoot
 import com.example.purpleapex.standings.presentation.standings_list.StandingsListScreenRoot
 import com.example.purpleapex.ui.theme.AppTheme
@@ -46,8 +46,8 @@ fun App() {
                     composable<Route.Standings> {
                         StandingsListScreenRoot()
                     }
-                    composable<Route.Results> {
-                        ResultListScreenRoot()
+                    composable<Route.Racing> {
+                        RaceListScreenRoot()
                     }
                     composable<Route.Search> {
                         SearchScreenRoot(

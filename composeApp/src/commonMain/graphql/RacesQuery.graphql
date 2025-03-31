@@ -1,0 +1,14 @@
+query RacesQuery($year: Int!) {
+    races(year: $year) {
+        name
+        round
+        circuit {
+            id
+            name
+            location {
+                country
+                locality
+            }
+        }
+    }
+}
