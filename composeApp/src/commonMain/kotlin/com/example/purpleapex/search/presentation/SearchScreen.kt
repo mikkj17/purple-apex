@@ -1,13 +1,12 @@
-package com.example.purpleapex.standings.presentation.standings_list
+package com.example.purpleapex.search.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.CircularProgressIndicator
@@ -22,65 +21,75 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.purpleapex.standings.presentation.standings_list.components.ConstructorStandingListItem
-import com.example.purpleapex.standings.presentation.standings_list.components.DriverStandingListItem
-import com.example.purpleapex.standings.presentation.standings_list.components.SeasonDropdown
-import com.example.purpleapex.standings.presentation.standings_list.components.StandingsList
+import com.example.purpleapex.constructor.domain.Constructor
+import com.example.purpleapex.constructor.presentation.constructor_list.components.ConstructorList
+import com.example.purpleapex.driver.domain.Driver
+import com.example.purpleapex.driver.presentation.driver_list.components.DriverList
+import com.example.purpleapex.search.presentation.components.SearchBar
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun StandingsListScreenRoot(
-    viewModel: StandingsListViewModel = koinViewModel()
+fun SearchScreenRoot(
+    viewModel: SearchViewModel = koinViewModel(),
+    onDriverClick: (Driver) -> Unit,
+    onConstructorClick: (Constructor) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    StandingsListScreen(
+    SearchScreen(
         state = state,
-        onAction = { viewModel.onAction(it) }
+        onAction = { action ->
+            when (action) {
+                is SearchAction.OnDriverClick -> onDriverClick(action.driver)
+                is SearchAction.OnConstructorClick -> onConstructorClick(action.constructor)
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        },
     )
 }
 
 @Composable
-private fun StandingsListScreen(
-    state: StandingsListState,
-    onAction: (StandingsListAction) -> Unit,
+private fun SearchScreen(
+    state: SearchState,
+    onAction: (SearchAction) -> Unit,
 ) {
+    val keyBoardController = LocalSoftwareKeyboardController.current
+    val searchResultsListState = rememberLazyGridState()
     val pagerState = rememberPagerState { 2 }
+
+    LaunchedEffect(state.searchedDrivers) {
+        searchResultsListState.animateScrollToItem(0)
+    }
 
     LaunchedEffect(state.selectedTabIndex) {
         pagerState.animateScrollToPage(state.selectedTabIndex)
     }
 
     LaunchedEffect(pagerState.currentPage) {
-        onAction(StandingsListAction.OnTabSelected(pagerState.currentPage))
+        onAction(SearchAction.OnTabSelected(pagerState.currentPage))
     }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.background(MaterialTheme.colorScheme.tertiary),
     ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
+        SearchBar(
+            searchQuery = state.searchQuery,
+            onSearchQueryChange = {
+                onAction(SearchAction.OnSearchQueryChange(it))
+            },
+            onImeSearch = {
+                keyBoardController?.hide()
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = MaterialTheme.colorScheme.primary)
-                .padding(top = 16.dp)
-                .padding(horizontal = 8.dp)
-        ) {
-            Text(
-                text = "STANDINGS",
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onPrimary,
-            )
-            SeasonDropdown(
-                selectedYear = state.selectedYear,
-                onSelectedYearChanged = {
-                    onAction(StandingsListAction.SelectedYearChanged(it))
-                },
-            )
-        }
+                .padding(8.dp)
+        )
         TabRow(
             selectedTabIndex = state.selectedTabIndex,
             containerColor = MaterialTheme.colorScheme.primary,
@@ -96,7 +105,7 @@ private fun StandingsListScreen(
                 Tab(
                     selected = state.selectedTabIndex == index,
                     onClick = {
-                        onAction(StandingsListAction.OnTabSelected(index))
+                        onAction(SearchAction.OnTabSelected(index))
                     },
                     modifier = Modifier.weight(1f),
                     selectedContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -132,43 +141,43 @@ private fun StandingsListScreen(
                         )
                     }
 
-                    state.driverStandings == null -> {
-                        Text(
-                            text = "No driver standings found...",
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = MaterialTheme.colorScheme.error,
-                        )
+                    pageIndex == 0 -> {
+                        if (state.searchedDrivers.isEmpty())
+                            Text(
+                                text = "No drivers found...",
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.headlineSmall,
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        else
+                            DriverList(
+                                drivers = state.searchedDrivers,
+                                onDriverClick = {
+                                    onAction(SearchAction.OnDriverClick(it))
+                                },
+                                modifier = Modifier.fillMaxSize(),
+                                scrollState = searchResultsListState,
+                            )
                     }
 
-                    state.constructorStandings == null -> {
-                        Text(
-                            text = "No constructor standings found...",
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = MaterialTheme.colorScheme.error,
-                        )
+                    else -> {
+                        if (state.searchedConstructors.isEmpty())
+                            Text(
+                                text = "No constructors found...",
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.headlineSmall,
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        else
+                            ConstructorList(
+                                constructors = state.searchedConstructors,
+                                onConstructorClick = {
+                                    onAction(SearchAction.OnConstructorClick(it))
+                                },
+                                modifier = Modifier.fillMaxSize(),
+                                scrollState = searchResultsListState,
+                            )
                     }
-
-                    pageIndex == 0 -> StandingsList(
-                        standings = state.driverStandings.standings,
-                        key = { it.driver.id },
-                        content = { driverStanding ->
-                            DriverStandingListItem(
-                                driverStanding = driverStanding,
-                            )
-                        }
-                    )
-
-                    else -> StandingsList(
-                        standings = state.constructorStandings.standings,
-                        key = { it.constructor.id },
-                        content = { constructorStanding ->
-                            ConstructorStandingListItem(
-                                constructorStanding = constructorStanding,
-                            )
-                        }
-                    )
                 }
             }
         }

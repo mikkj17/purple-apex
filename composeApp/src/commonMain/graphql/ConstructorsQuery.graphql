@@ -1,0 +1,7 @@
+query ConstructorsQuery($year: Int, $round: Int) {
+    constructors(year: $year, round: $round) {
+        id
+        name
+        nationality
+    }
+}

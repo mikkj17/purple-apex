@@ -1,25 +1,27 @@
 package com.example.purpleapex.app
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.EmojiEvents
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Leaderboard
-import androidx.compose.material.icons.rounded.Person
+import androidx.compose.material.icons.rounded.QueryStats
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
 
 enum class TopLevelRoutes(val title: String, val route: Route, val icon: ImageVector) {
-    STANDINGS("Standings", Route.Standings, Icons.Rounded.Leaderboard),
-    RESULTS("Results", Route.Results, Icons.Rounded.EmojiEvents),
     HOME("Home", Route.Home, Icons.Rounded.Home),
-    DRIVERS("Drivers", Route.DriverList, Icons.Rounded.Person)
+    STANDINGS("Standings", Route.Standings, Icons.Rounded.Leaderboard),
+    RESULTS("Data", Route.Results, Icons.Rounded.QueryStats),
+    DRIVERS("Search", Route.Search, Icons.Rounded.Search),
 }
 
 @Composable
@@ -32,7 +34,13 @@ fun BottomNavigationBar(
     ) {
         TopLevelRoutes.entries.forEach { topLevelRoute ->
             NavigationBarItem(
-                icon = { Icon(topLevelRoute.icon, contentDescription = topLevelRoute.title) },
+                icon = {
+                    Icon(
+                        topLevelRoute.icon,
+                        contentDescription = topLevelRoute.title,
+                        modifier = Modifier.size(32.dp)
+                    )
+                },
                 label = {
                     Text(
                         topLevelRoute.title,
@@ -40,8 +48,11 @@ fun BottomNavigationBar(
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                 },
-                selected = currentDestination?.hierarchy?.any { it.route == topLevelRoute.route.toString() } == true,
                 onClick = { onNavigate(topLevelRoute.route) },
+                selected = currentDestination
+                    ?.route
+                    ?.substringAfterLast(".")
+                    ?.equals(topLevelRoute.route.toString()) == true,
             )
         }
     }

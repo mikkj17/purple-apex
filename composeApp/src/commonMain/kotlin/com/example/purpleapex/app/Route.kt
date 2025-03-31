@@ -16,8 +16,11 @@ sealed interface Route {
     data object Home : Route
 
     @Serializable
-    data object DriverList : Route
+    data object Search : Route
 
     @Serializable
     data class DriverDetail(val driverId: String) : Route
+
+    @Serializable
+    data class ConstructorDetail(val constructorId: String) : Route
 }

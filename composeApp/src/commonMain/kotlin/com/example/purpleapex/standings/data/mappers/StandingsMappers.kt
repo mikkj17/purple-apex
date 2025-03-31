@@ -1,10 +1,10 @@
 package com.example.purpleapex.standings.data.mappers
 
 import com.example.StandingsQuery
-import com.example.purpleapex.standings.domain.Constructor
+import com.example.purpleapex.constructor.domain.Constructor
+import com.example.purpleapex.driver.domain.Driver
 import com.example.purpleapex.standings.domain.ConstructorStanding
 import com.example.purpleapex.standings.domain.ConstructorStandingsList
-import com.example.purpleapex.standings.domain.Driver
 import com.example.purpleapex.standings.domain.DriverStanding
 import com.example.purpleapex.standings.domain.DriverStandingsList
 

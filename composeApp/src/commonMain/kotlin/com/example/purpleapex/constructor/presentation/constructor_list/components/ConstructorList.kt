@@ -1,8 +1,9 @@
-package com.example.purpleapex.driver.presentation.driver_list.components
+package com.example.purpleapex.constructor.presentation.constructor_list.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -11,12 +12,12 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.purpleapex.driver.domain.Driver
+import com.example.purpleapex.constructor.domain.Constructor
 
 @Composable
-fun DriverList(
-    drivers: List<Driver>,
-    onDriverClick: (Driver) -> Unit,
+fun ConstructorList(
+    constructors: List<Constructor>,
+    onConstructorClick: (Constructor) -> Unit,
     modifier: Modifier = Modifier,
     scrollState: LazyGridState = rememberLazyGridState(),
 ) {
@@ -28,13 +29,15 @@ fun DriverList(
         modifier = modifier.padding(vertical = 8.dp)
     ) {
         items(
-            drivers,
+            constructors,
             key = { it.id }
-        ) { driver ->
-            DriverListItem(
-                driver = driver,
-                onClick = { onDriverClick(driver) },
-                modifier = Modifier.fillMaxWidth()
+        ) { constructor ->
+            ConstructorListItem(
+                constructor = constructor,
+                onClick = { onConstructorClick(constructor) },
+                modifier = Modifier
+                    .widthIn(max = 512.dp)
+                    .fillMaxWidth()
             )
         }
     }
