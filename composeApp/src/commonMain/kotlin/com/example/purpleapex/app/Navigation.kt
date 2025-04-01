@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Leaderboard
-import androidx.compose.material.icons.rounded.QueryStats
+import androidx.compose.material.icons.rounded.RocketLaunch
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -20,7 +20,7 @@ import androidx.navigation.NavDestination
 enum class TopLevelRoutes(val title: String, val route: Route, val icon: ImageVector) {
     HOME("Home", Route.Home, Icons.Rounded.Home),
     STANDINGS("Standings", Route.Standings, Icons.Rounded.Leaderboard),
-    RESULTS("Data", Route.Results, Icons.Rounded.QueryStats),
+    RESULTS("Racing", Route.Racing, Icons.Rounded.RocketLaunch),
     DRIVERS("Search", Route.Search, Icons.Rounded.Search),
 }
 

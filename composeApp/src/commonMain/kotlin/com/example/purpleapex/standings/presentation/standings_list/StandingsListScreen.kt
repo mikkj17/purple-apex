@@ -25,9 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.core.presentation.components.SeasonDropdown
 import com.example.purpleapex.standings.presentation.standings_list.components.ConstructorStandingListItem
 import com.example.purpleapex.standings.presentation.standings_list.components.DriverStandingListItem
-import com.example.purpleapex.standings.presentation.standings_list.components.SeasonDropdown
 import com.example.purpleapex.standings.presentation.standings_list.components.StandingsList
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -38,7 +38,7 @@ fun StandingsListScreenRoot(
     val state by viewModel.state.collectAsStateWithLifecycle()
     StandingsListScreen(
         state = state,
-        onAction = { viewModel.onAction(it) }
+        onAction = viewModel::onAction
     )
 }
 
@@ -123,32 +123,26 @@ private fun StandingsListScreen(
             ) {
                 when {
                     state.isLoading -> CircularProgressIndicator()
-                    state.errorMessage != null -> {
-                        Text(
-                            text = state.errorMessage,
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    }
+                    state.errorMessage != null -> Text(
+                        text = state.errorMessage,
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
 
-                    state.driverStandings == null -> {
-                        Text(
-                            text = "No driver standings found...",
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    }
+                    state.driverStandings == null -> Text(
+                        text = "No driver standings found...",
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
 
-                    state.constructorStandings == null -> {
-                        Text(
-                            text = "No constructor standings found...",
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    }
+                    state.constructorStandings == null -> Text(
+                        text = "No constructor standings found...",
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
 
                     pageIndex == 0 -> StandingsList(
                         standings = state.driverStandings.standings,

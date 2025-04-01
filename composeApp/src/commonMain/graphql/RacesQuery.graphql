@@ -1,0 +1,24 @@
+query RacesQuery($year: Int!) {
+    races(year: $year) {
+        season
+        round
+        name
+        circuit {
+            id
+            name
+            location {
+                country
+                locality
+            }
+        }
+        results {
+            driver {
+                id
+                givenName
+                familyName
+                nationality
+                number
+            }
+        }
+    }
+}

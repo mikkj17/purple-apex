@@ -92,7 +92,6 @@ class SearchViewModel(
                 givenName,
                 familyName,
                 nationality,
-                dateOfBirth,
             )
         }
     }

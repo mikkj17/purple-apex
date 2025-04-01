@@ -1,10 +1,8 @@
 query DriversQuery($year: Int, $round: Int) {
     drivers(year: $year, round: $round) {
-        code
-        dateOfBirth
-        familyName
-        givenName
         id
+        givenName
+        familyName
         nationality
         number
     }

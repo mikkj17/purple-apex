@@ -7,7 +7,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
 
 data class StandingsListState(
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val errorMessage: String? = null,
     val selectedYear: Int = Clock.System.todayIn(TimeZone.UTC).year,
     val selectedTabIndex: Int = 0,
