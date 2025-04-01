@@ -46,7 +46,7 @@ private fun RaceListScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = MaterialTheme.colorScheme.primary)
-                .padding(top = 16.dp)
+                .padding(top = 8.dp)
                 .padding(8.dp)
         ) {
             Text(

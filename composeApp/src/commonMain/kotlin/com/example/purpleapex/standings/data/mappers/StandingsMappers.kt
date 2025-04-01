@@ -24,11 +24,9 @@ fun StandingsQuery.DriverStanding.toDriverStanding() = DriverStanding(
 )
 
 fun StandingsQuery.Driver.toDriver() = Driver(
-    code = code,
-    dateOfBirth = dateOfBirth,
-    familyName = familyName,
-    givenName = givenName,
     id = id,
+    givenName = givenName,
+    familyName = familyName,
     nationality = nationality,
     number = number,
 )
