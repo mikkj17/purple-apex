@@ -114,10 +114,6 @@ tasks.register<ComposeHotRun>("runHot") {
     mainClass.set("com.example.purpleapex.DevMainKt")
 }
 
-tasks.withType<Test>().configureEach {
-    reports.html.required.set(true)
-}
-
 apollo {
     service("purple-apex") {
         packageName.set("com.example")
