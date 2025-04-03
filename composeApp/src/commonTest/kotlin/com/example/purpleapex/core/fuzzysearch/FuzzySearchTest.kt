@@ -1,8 +1,11 @@
 package com.example.purpleapex.core.fuzzysearch
 
+import assertk.assertThat
+import assertk.assertions.contains
+import assertk.assertions.first
+import assertk.assertions.isEmpty
+import assertk.assertions.isEqualTo
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 class FuzzySearchTest {
     private val items = listOf(
@@ -16,20 +19,20 @@ class FuzzySearchTest {
     @Test
     fun testExactMatch() {
         val result = FuzzySearch.extract("apple", items) { listOf(this) }
-        assertTrue(result.first() == "apple")
+        assertThat(result).first().isEqualTo("apple")
     }
 
     @Test
     fun testPartialMatch() {
         val result = FuzzySearch.extract("appl", items, threshold = 0.80) { listOf(this) }
-        assertTrue("apple" in result)
-        assertTrue("application" in result)
+        assertThat(result).contains("apple")
+        assertThat(result).contains("application")
     }
 
     @Test
     fun testNoMatch() {
         val result = FuzzySearch.extract("orange", items) { listOf(this) }
-        assertTrue(result.isEmpty())
+        assertThat(result).isEmpty()
     }
 
     @Test
@@ -40,6 +43,6 @@ class FuzzySearchTest {
             "grape vine",
         )
         val result = FuzzySearch.extract("fruit", complexItems, threshold = 0.85) { split(" ") }
-        assertEquals(listOf("apple fruit"), result)
+        assertThat(result).isEqualTo(listOf("apple fruit"))
     }
 }
