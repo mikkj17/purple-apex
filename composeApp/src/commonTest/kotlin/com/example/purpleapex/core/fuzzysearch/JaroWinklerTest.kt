@@ -7,7 +7,6 @@ import assertk.assertions.isGreaterThan
 import kotlin.test.Test
 
 class JaroWinklerTest {
-
     @Test
     fun testIdenticalStrings() {
         val similarity = JaroWinkler.similarity("test", "test")
