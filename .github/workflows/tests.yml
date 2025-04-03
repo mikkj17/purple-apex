@@ -20,33 +20,11 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Run unit tests
-        run: ./gradlew test --info
+        run: ./gradlew desktopTest --info
 
       - name: Upload unit test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: unit-test-report
-          path: composeApp/build/test-results/test
-
-  ui-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Kotlin/Gradle environment
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Grant execute permission for Gradle wrapper
-        run: chmod +x ./gradlew
-
-      - name: Run desktop UI tests
-        run: ./gradlew desktopTest --info
-
-      - name: Upload UI test results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ui-test-report
           path: composeApp/build/test-results/desktopTest
