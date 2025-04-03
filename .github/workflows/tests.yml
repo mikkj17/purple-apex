@@ -1,4 +1,4 @@
-name: Run Unit Tests
+name: Run tests
 
 on:
   push:
@@ -7,9 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
+  unit-tests:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -22,3 +21,18 @@ jobs:
 
       - name: Run unit tests
         run: ./gradlew test
+
+  ui-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Kotlin/Gradle environment
+        uses: gradle/gradle-build-action@v2
+
+      - name: Grant execute permission for Gradle wrapper
+        run: chmod +x ./gradlew
+
+      - name: Run desktop UI tests
+        run: ./gradlew desktopTest
