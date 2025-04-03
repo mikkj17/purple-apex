@@ -20,7 +20,14 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Run unit tests
-        run: ./gradlew test
+        run: ./gradlew test --info
+
+      - name: Upload unit test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: unit-test-report
+          path: composeApp/build/test-results/test
 
   ui-tests:
     runs-on: ubuntu-latest
@@ -35,4 +42,11 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Run desktop UI tests
-        run: ./gradlew desktopTest
+        run: ./gradlew desktopTest --info
+
+      - name: Upload UI test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ui-test-report
+          path: composeApp/build/test-results/desktopTest
