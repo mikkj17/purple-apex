@@ -73,8 +73,8 @@ private fun SearchScreen(
         pagerState.animateScrollToPage(state.selectedTabIndex)
     }
 
-    LaunchedEffect(pagerState.currentPage) {
-        onAction(SearchAction.OnTabSelected(pagerState.currentPage))
+    LaunchedEffect(pagerState.settledPage) {
+        onAction(SearchAction.OnTabSelected(pagerState.settledPage))
     }
 
     Column(
