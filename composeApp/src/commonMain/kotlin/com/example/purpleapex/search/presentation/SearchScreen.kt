@@ -68,6 +68,12 @@ private fun SearchScreen(
     LaunchedEffect(state.searchedDrivers) {
         searchResultsListState.animateScrollToItem(0)
     }
+    LaunchedEffect(state.searchedConstructors) {
+        searchResultsListState.animateScrollToItem(0)
+    }
+    LaunchedEffect(state.searchedCircuits) {
+        searchResultsListState.animateScrollToItem(0)
+    }
 
     LaunchedEffect(state.selectedTabIndex) {
         pagerState.animateScrollToPage(state.selectedTabIndex)
