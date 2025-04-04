@@ -1,6 +1,10 @@
 package com.example.purpleapex.di
 
 import com.apollographql.apollo.ApolloClient
+import com.example.purpleapex.circuit.data.network.ApolloCircuitClient
+import com.example.purpleapex.circuit.data.repository.DefaultCircuitRepository
+import com.example.purpleapex.circuit.domain.CircuitClient
+import com.example.purpleapex.circuit.domain.CircuitRepository
 import com.example.purpleapex.constructor.data.network.ApolloConstructorClient
 import com.example.purpleapex.constructor.data.repository.DefaultConstructorRepository
 import com.example.purpleapex.constructor.domain.ConstructorClient
@@ -38,6 +42,9 @@ val sharedModule = module {
 
     singleOf(::ApolloConstructorClient).bind<ConstructorClient>()
     singleOf(::DefaultConstructorRepository).bind<ConstructorRepository>()
+
+    singleOf(::ApolloCircuitClient).bind<CircuitClient>()
+    singleOf(::DefaultCircuitRepository).bind<CircuitRepository>()
 
     singleOf(::ApolloStandingsClient).bind<StandingsClient>()
     singleOf(::DefaultStandingsRepository).bind<StandingsRepository>()

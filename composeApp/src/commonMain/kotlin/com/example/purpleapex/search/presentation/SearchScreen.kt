@@ -25,6 +25,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.circuit.domain.Circuit
+import com.example.purpleapex.circuit.presentation.circuit_list.CircuitList
 import com.example.purpleapex.constructor.domain.Constructor
 import com.example.purpleapex.constructor.presentation.constructor_list.components.ConstructorList
 import com.example.purpleapex.driver.domain.Driver
@@ -37,6 +39,7 @@ fun SearchScreenRoot(
     viewModel: SearchViewModel = koinViewModel(),
     onDriverClick: (Driver) -> Unit,
     onConstructorClick: (Constructor) -> Unit,
+    onCircuitClick: (Circuit) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     SearchScreen(
@@ -45,6 +48,7 @@ fun SearchScreenRoot(
             when (action) {
                 is SearchAction.OnDriverClick -> onDriverClick(action.driver)
                 is SearchAction.OnConstructorClick -> onConstructorClick(action.constructor)
+                is SearchAction.OnCircuitClick -> onCircuitClick(action.circuit)
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -59,9 +63,15 @@ private fun SearchScreen(
 ) {
     val keyBoardController = LocalSoftwareKeyboardController.current
     val searchResultsListState = rememberLazyGridState()
-    val pagerState = rememberPagerState { 2 }
+    val pagerState = rememberPagerState { 3 }
 
     LaunchedEffect(state.searchedDrivers) {
+        searchResultsListState.animateScrollToItem(0)
+    }
+    LaunchedEffect(state.searchedConstructors) {
+        searchResultsListState.animateScrollToItem(0)
+    }
+    LaunchedEffect(state.searchedCircuits) {
         searchResultsListState.animateScrollToItem(0)
     }
 
@@ -69,8 +79,8 @@ private fun SearchScreen(
         pagerState.animateScrollToPage(state.selectedTabIndex)
     }
 
-    LaunchedEffect(pagerState.currentPage) {
-        onAction(SearchAction.OnTabSelected(pagerState.currentPage))
+    LaunchedEffect(pagerState.settledPage) {
+        onAction(SearchAction.OnTabSelected(pagerState.settledPage))
     }
 
     Column(
@@ -101,7 +111,7 @@ private fun SearchScreen(
                 )
             }
         ) {
-            listOf("Drivers", "Constructors").forEachIndexed { index, s ->
+            listOf("Drivers", "Constructors", "Circuits").forEachIndexed { index, s ->
                 Tab(
                     selected = state.selectedTabIndex == index,
                     onClick = {
@@ -160,7 +170,7 @@ private fun SearchScreen(
                             )
                     }
 
-                    else -> {
+                    pageIndex == 1 -> {
                         if (state.searchedConstructors.isEmpty())
                             Text(
                                 text = "No constructors found...",
@@ -173,6 +183,25 @@ private fun SearchScreen(
                                 constructors = state.searchedConstructors,
                                 onConstructorClick = {
                                     onAction(SearchAction.OnConstructorClick(it))
+                                },
+                                modifier = Modifier.fillMaxSize(),
+                                scrollState = searchResultsListState,
+                            )
+                    }
+
+                    else -> {
+                        if (state.searchedCircuits.isEmpty())
+                            Text(
+                                text = "No circuits found...",
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.headlineSmall,
+                                color = MaterialTheme.colorScheme.error,
+                            )
+                        else
+                            CircuitList(
+                                circuits = state.searchedCircuits,
+                                onCircuitClick = {
+                                    onAction(SearchAction.OnCircuitClick(it))
                                 },
                                 modifier = Modifier.fillMaxSize(),
                                 scrollState = searchResultsListState,

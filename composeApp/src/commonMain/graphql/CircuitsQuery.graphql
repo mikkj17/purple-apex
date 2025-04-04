@@ -1,0 +1,10 @@
+query CircuitsQuery($year: Int, $round: Int) {
+    circuits(year: $year, round: $round) {
+        id
+        name
+        location {
+            country
+            locality
+        }
+    }
+}
