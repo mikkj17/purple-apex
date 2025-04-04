@@ -2,6 +2,8 @@ package com.example.purpleapex.search.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.purpleapex.circuit.domain.Circuit
+import com.example.purpleapex.circuit.domain.CircuitRepository
 import com.example.purpleapex.constructor.domain.Constructor
 import com.example.purpleapex.constructor.domain.ConstructorRepository
 import com.example.purpleapex.core.fuzzysearch.FuzzySearch
@@ -15,6 +17,7 @@ import kotlinx.coroutines.launch
 class SearchViewModel(
     private val driverRepository: DriverRepository,
     private val constructorRepository: ConstructorRepository,
+    private val circuitRepository: CircuitRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(SearchState())
     val state = _state.asStateFlow()
@@ -28,6 +31,7 @@ class SearchViewModel(
                 it.copy(
                     drivers = driverRepository.getDrivers(),
                     constructors = constructorRepository.getConstructors(),
+                    circuits = circuitRepository.getCircuits(),
                     isLoading = false,
                 )
             }
@@ -52,6 +56,7 @@ class SearchViewModel(
 
             is SearchAction.OnDriverClick -> {}
             is SearchAction.OnConstructorClick -> {}
+            is SearchAction.OnCircuitClick -> {}
         }
     }
 
@@ -60,6 +65,7 @@ class SearchViewModel(
             it.copy(
                 searchedDrivers = updateDrivers(),
                 searchedConstructors = updateConstructors(),
+                searchedCircuits = updateCircuits(),
             )
         }
     }
@@ -112,6 +118,27 @@ class SearchViewModel(
                 id,
                 name,
                 nationality,
+            )
+        }
+    }
+
+    private fun updateCircuits(): List<Circuit> {
+        val circuits = _state.value.circuits
+        val query = _state.value.searchQuery
+
+        if (query.length < 3) {
+            return circuits
+        }
+
+        return FuzzySearch.extract(
+            query = query,
+            candidates = circuits
+        ) {
+            listOf(
+                id,
+                name,
+                location.country,
+                location.locality,
             )
         }
     }

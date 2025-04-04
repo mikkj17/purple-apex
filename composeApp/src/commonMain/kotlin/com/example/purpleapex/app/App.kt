@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import com.example.purpleapex.circuit.presentation.circuit_detail.CircuitDetailScreenRoot
 import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorDetailScreenRoot
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScreenRoot
 import com.example.purpleapex.home.presentation.HomeScreenRoot
@@ -65,6 +66,13 @@ fun App() {
                                     )
                                 )
                             },
+                            onCircuitClick = { circuit ->
+                                navController.navigate(
+                                    Route.CircuitDetail(
+                                        circuitId = circuit.id
+                                    )
+                                )
+                            }
                         )
                     }
                     composable<Route.DriverDetail> {
@@ -72,6 +80,9 @@ fun App() {
                     }
                     composable<Route.ConstructorDetail> {
                         ConstructorDetailScreenRoot()
+                    }
+                    composable<Route.CircuitDetail> {
+                        CircuitDetailScreenRoot()
                     }
                 }
             }
