@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import kotlin.test.Test
 
-class ExtensionsKtTest {
+class ExtensionsTest {
     @Test
     fun `formatAsPoints returns integer string when value is whole number`() {
         val value = 5.0f
