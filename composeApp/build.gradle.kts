@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.compose.reload.ComposeHotRun
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
@@ -89,6 +90,14 @@ kotlin {
             implementation(libs.bundles.coil)
 
             implementation(libs.apollo.runtime)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(kotlin("test-annotations-common"))
+            implementation(libs.assertk)
+
+            @OptIn(ExperimentalComposeLibrary::class)
+            implementation(compose.uiTest)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
