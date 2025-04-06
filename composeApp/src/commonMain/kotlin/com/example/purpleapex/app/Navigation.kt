@@ -20,14 +20,14 @@ import androidx.navigation.NavDestination
 enum class TopLevelRoutes(val title: String, val route: Route, val icon: ImageVector) {
     HOME("Home", Route.Home, Icons.Rounded.Home),
     STANDINGS("Standings", Route.Standings, Icons.Rounded.Leaderboard),
-    RESULTS("Racing", Route.Racing, Icons.Rounded.RocketLaunch),
+    RACING("Racing", Route.Racing, Icons.Rounded.RocketLaunch),
     DRIVERS("Search", Route.Search, Icons.Rounded.Search),
 }
 
 @Composable
 fun BottomNavigationBar(
     currentDestination: NavDestination?,
-    onNavigate: (Route) -> Unit
+    onNavigate: (Route) -> Unit,
 ) {
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.surface
