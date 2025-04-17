@@ -1,4 +1,4 @@
-package com.example.purpleapex.race.presentation.race_detail
+package com.example.purpleapex.core.presentation.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
