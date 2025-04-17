@@ -34,7 +34,7 @@ fun DriverList(
             DriverListItem(
                 driver = driver,
                 onClick = { onDriverClick(driver) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }

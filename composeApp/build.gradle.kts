@@ -66,6 +66,8 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -102,6 +104,16 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+
+            // Lets-Plot Kotlin API
+            implementation("org.jetbrains.lets-plot:lets-plot-kotlin-kernel:4.9.3")
+
+            // Lets-Plot Multiplatform
+            implementation("org.jetbrains.lets-plot:lets-plot-common:4.5.2")
+            implementation("org.jetbrains.lets-plot:platf-awt:4.5.2")
+
+            // Lets-Plot Skia Frontend
+            implementation("org.jetbrains.lets-plot:lets-plot-compose:2.1.1")
         }
     }
 }

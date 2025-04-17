@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class RaceListViewModel(
-    private val raceRepository: RaceRepository
+    private val raceRepository: RaceRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow(RaceListState())
     val state = _state.asStateFlow()
@@ -26,6 +26,8 @@ class RaceListViewModel(
                 }
                 loadRaces()
             }
+
+            is RaceListAction.OnRaceClick -> {}
         }
     }
 
