@@ -18,17 +18,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.core.presentation.components.SeasonDropdown
+import com.example.purpleapex.race.domain.Race
 import com.example.purpleapex.race.presentation.race_list.components.RaceList
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun RaceListScreenRoot(
-    viewModel: RaceListViewModel = koinViewModel()
+    viewModel: RaceListViewModel = koinViewModel(),
+    onRaceClick: (Race) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     RaceListScreen(
         state = state,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when (action) {
+                is RaceListAction.OnRaceClick -> onRaceClick(action.race)
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        },
     )
 }
 
@@ -83,6 +91,9 @@ private fun RaceListScreen(
 
                 else -> RaceList(
                     races = state.races,
+                    onRaceClick = {
+                        onAction(RaceListAction.OnRaceClick(it))
+                    },
                     modifier = Modifier.fillMaxSize()
                 )
             }

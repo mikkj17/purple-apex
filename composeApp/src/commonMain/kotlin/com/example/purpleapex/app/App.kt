@@ -14,6 +14,7 @@ import com.example.purpleapex.circuit.presentation.circuit_detail.CircuitDetailS
 import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorDetailScreenRoot
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScreenRoot
 import com.example.purpleapex.home.presentation.HomeScreenRoot
+import com.example.purpleapex.race.presentation.race_detail.RaceDetailScreenRoot
 import com.example.purpleapex.race.presentation.race_list.RaceListScreenRoot
 import com.example.purpleapex.search.presentation.SearchScreenRoot
 import com.example.purpleapex.standings.presentation.standings_list.StandingsListScreenRoot
@@ -48,7 +49,19 @@ fun App() {
                         StandingsListScreenRoot()
                     }
                     composable<Route.Racing> {
-                        RaceListScreenRoot()
+                        RaceListScreenRoot(
+                            onRaceClick = { race ->
+                                navController.navigate(
+                                    Route.RaceDetail(
+                                        season = race.season,
+                                        round = race.round,
+                                    )
+                                )
+                            }
+                        )
+                    }
+                    composable<Route.RaceDetail> {
+                        RaceDetailScreenRoot()
                     }
                     composable<Route.Search> {
                         SearchScreenRoot(
