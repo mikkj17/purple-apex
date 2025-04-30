@@ -2,6 +2,7 @@ package com.example.purpleapex.race.presentation.race_list.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
@@ -16,6 +17,7 @@ import com.example.purpleapex.race.domain.Race
 @Composable
 fun RaceList(
     races: List<Race>,
+    onRaceClick: (Race) -> Unit,
     modifier: Modifier = Modifier,
     scrollState: LazyListState = rememberLazyListState(),
 ) {
@@ -32,7 +34,11 @@ fun RaceList(
             races,
             key = { it.round },
         ) { race ->
-            RaceListItem(race = race)
+            RaceListItem(
+                race = race,
+                onClick = { onRaceClick(race) },
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
         item {
             Spacer(modifier.height(8.dp))

@@ -3,9 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.compose.reload.ComposeHotRun
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -38,26 +36,6 @@ kotlin {
 
     jvm("desktop")
 
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        outputModuleName = "composeApp"
-        browser {
-            val rootDirPath = project.rootDir.path
-            val projectDirPath = project.projectDir.path
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static = (static ?: mutableListOf()).apply {
-                        // Serve sources to debug inside browser
-                        add(rootDirPath)
-                        add(projectDirPath)
-                    }
-                }
-            }
-        }
-        binaries.executable()
-    }
-
     sourceSets {
         val desktopMain by getting
 
@@ -66,6 +44,8 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+
+            implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -102,6 +82,16 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+
+            // Lets-Plot Kotlin API
+            implementation("org.jetbrains.lets-plot:lets-plot-kotlin-kernel:4.9.3")
+
+            // Lets-Plot Multiplatform
+            implementation("org.jetbrains.lets-plot:lets-plot-common:4.5.2")
+            implementation("org.jetbrains.lets-plot:platf-awt:4.5.2")
+
+            // Lets-Plot Skia Frontend
+            implementation("org.jetbrains.lets-plot:lets-plot-compose:2.1.1")
         }
     }
 }

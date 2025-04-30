@@ -1,10 +1,10 @@
 package com.example.purpleapex.race.presentation.race_list.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -20,11 +20,12 @@ import com.example.purpleapex.race.domain.Race
 @Composable
 fun RaceListItem(
     race: Race,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Surface(
         shape = RoundedCornerShape(8.dp),
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.clickable(onClick = onClick),
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
