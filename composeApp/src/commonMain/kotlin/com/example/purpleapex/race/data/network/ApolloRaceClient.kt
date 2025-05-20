@@ -1,15 +1,21 @@
 package com.example.purpleapex.race.data.network
 
 import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo.api.Optional
 import com.example.RacesQuery
 import com.example.purpleapex.race.data.mappers.toRace
 import com.example.purpleapex.race.domain.RaceClient
 
 class ApolloRaceClient(
-    private val apolloClient: ApolloClient
+    private val apolloClient: ApolloClient,
 ) : RaceClient {
-    override suspend fun getRaces(year: Int) = apolloClient
-        .query(RacesQuery(year))
+    override suspend fun getRaces(year: Int?, driverId: String?) = apolloClient
+        .query(
+            RacesQuery(
+                Optional.presentIfNotNull(year),
+                Optional.presentIfNotNull(driverId),
+            )
+        )
         .execute()
         .dataAssertNoErrors
         .races

@@ -14,11 +14,16 @@ import com.example.purpleapex.driver.data.network.ApolloDriverClient
 import com.example.purpleapex.driver.data.repository.DefaultDriverRepository
 import com.example.purpleapex.driver.domain.DriverClient
 import com.example.purpleapex.driver.domain.DriverRepository
+import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailViewModel
 import com.example.purpleapex.news.data.network.KtorNewsClient
 import com.example.purpleapex.news.data.repository.DefaultNewsRepository
 import com.example.purpleapex.news.domain.NewsClient
 import com.example.purpleapex.news.domain.NewsRepository
 import com.example.purpleapex.news.presentation.NewsListViewModel
+import com.example.purpleapex.qualifying.data.network.ApolloQualifyingClient
+import com.example.purpleapex.qualifying.data.repository.DefaultQualifyingRepository
+import com.example.purpleapex.qualifying.domain.QualifyingClient
+import com.example.purpleapex.qualifying.domain.QualifyingRepository
 import com.example.purpleapex.race.data.network.ApolloRaceClient
 import com.example.purpleapex.race.data.repository.DefaultRaceRepository
 import com.example.purpleapex.race.domain.RaceClient
@@ -73,11 +78,15 @@ val sharedModule = module {
     singleOf(::ApolloRaceClient).bind<RaceClient>()
     singleOf(::DefaultRaceRepository).bind<RaceRepository>()
 
+    singleOf(::ApolloQualifyingClient).bind<QualifyingClient>()
+    singleOf(::DefaultQualifyingRepository).bind<QualifyingRepository>()
+
     singleOf(::KtorNewsClient).bind<NewsClient>()
     singleOf(::DefaultNewsRepository).bind<NewsRepository>()
 
     viewModelOf(::StandingsListViewModel)
     viewModelOf(::RaceListViewModel)
     viewModelOf(::SearchViewModel)
+    viewModelOf(::DriverDetailViewModel)
     viewModelOf(::NewsListViewModel)
 }
