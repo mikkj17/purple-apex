@@ -1,5 +1,5 @@
 package com.example.purpleapex.race.domain
 
 interface RaceRepository {
-    suspend fun getRaces(year: Int): List<Race>
+    suspend fun getRaces(year: Int? = null, driverId: String? = null): List<Race>
 }

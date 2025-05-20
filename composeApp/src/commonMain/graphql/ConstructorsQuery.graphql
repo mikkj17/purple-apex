@@ -1,5 +1,5 @@
-query ConstructorsQuery($year: Int, $round: Int) {
-    constructors(year: $year, round: $round) {
+query ConstructorsQuery($year: Int, $round: Int, $driverId: String) {
+    constructors(year: $year, round: $round, driverId: $driverId) {
         id
         name
         nationality

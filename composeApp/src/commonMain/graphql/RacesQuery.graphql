@@ -1,5 +1,5 @@
-query RacesQuery($year: Int!) {
-    races(year: $year) {
+query RacesQuery($year: Int, $driverId: String) {
+    races(year: $year, driverId: $driverId) {
         season
         round
         name
@@ -12,6 +12,7 @@ query RacesQuery($year: Int!) {
             }
         }
         results {
+            position
             driver {
                 id
                 givenName
