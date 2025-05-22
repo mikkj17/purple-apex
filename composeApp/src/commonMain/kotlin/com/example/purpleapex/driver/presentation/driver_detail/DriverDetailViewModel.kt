@@ -32,6 +32,9 @@ class DriverDetailViewModel(
             }
             _state.update {
                 it.copy(
+                    driver = driverRepository.getDriver(driverId),
+                    constructors = constructorRepository.getConstructors(driverId = driverId),
+                    races = raceRepository.getRaces(driverId = driverId),
                     qualifyings = qualifyingRepository.getQualifyings(driverId),
                     isLoading = false,
                 )
