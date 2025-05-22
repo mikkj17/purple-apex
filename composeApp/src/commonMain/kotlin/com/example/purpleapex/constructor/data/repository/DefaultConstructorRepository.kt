@@ -5,9 +5,13 @@ import com.example.purpleapex.constructor.domain.ConstructorClient
 import com.example.purpleapex.constructor.domain.ConstructorRepository
 
 class DefaultConstructorRepository(
-    private val constructorClient: ConstructorClient
+    private val constructorClient: ConstructorClient,
 ) : ConstructorRepository {
-    override suspend fun getConstructors(year: Int?, round: Int?): List<Constructor> {
-        return constructorClient.getConstructors(year, round)
+    override suspend fun getConstructors(
+        year: Int?,
+        round: Int?,
+        driverId: String?,
+    ): List<Constructor> {
+        return constructorClient.getConstructors(year, round, driverId)
     }
 }
