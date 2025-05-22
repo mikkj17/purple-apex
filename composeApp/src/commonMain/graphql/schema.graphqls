@@ -4,6 +4,11 @@ type AverageSpeed {
   unit: String!
 }
 
+"""
+Built-in Boolean
+"""
+scalar Boolean
+
 type Circuit {
   id: String!
 
@@ -85,7 +90,7 @@ type DriverDetail {
 type DriverDetails {
   broadCastName: String!
 
-  countryCode: String!
+  countryCode: String
 
   driverNumber: Int!
 
@@ -131,6 +136,16 @@ type FastestLap {
 
   time: SimpleTime!
 }
+
+"""
+Built-in Float
+"""
+scalar Float
+
+"""
+Built-in Int
+"""
+scalar Int
 
 type Lap {
   number: Int!
@@ -209,13 +224,13 @@ type Query {
 
   qualifying(year: Int!, round: Int!): Qualifying!
 
-  qualifyings(year: Int, driverId: String, constructorId: String): [Qualifying!]!
+  qualifyings(year: Int, driverId: String, constructorId: String, circuitId: String): [Qualifying!]!
 
   mostRecentRace: Race
 
   race(year: Int!, round: Int!): Race
 
-  races(year: Int, driverId: String, constructorId: String): [Race!]!
+  races(year: Int, driverId: String, constructorId: String, circuitId: String): [Race!]!
 
   schedules(year: Int, driverId: String, constructorId: String): [Schedule!]!
 
@@ -239,7 +254,7 @@ type Race {
 
   season: Int!
 
-  time: String!
+  time: String
 
   url: String!
 }
@@ -347,6 +362,11 @@ type Session {
 type SimpleTime {
   time: String!
 }
+
+"""
+Built-in String
+"""
+scalar String
 
 type Time {
   milliseconds: Int!
