@@ -11,4 +11,10 @@ data class DriverDetail(
     val nationality: String,
     val number: Int?,
     val url: String,
-)
+) {
+    val fullName: String
+        get() = "$givenName $familyName"
+
+    val formattedDateOfBirth: String
+        get() = dateOfBirth.toString()
+}
