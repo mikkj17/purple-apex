@@ -1,16 +1,9 @@
 package com.example.purpleapex.driver.presentation.driver_detail
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBackIosNew
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,8 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.driver.presentation.driver_detail.components.Header
 import org.koin.compose.viewmodel.koinViewModel
 
 
@@ -45,48 +38,28 @@ private fun DriverDetailScreen(
     state: DriverDetailState,
     onAction: (DriverDetailAction) -> Unit,
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.background(MaterialTheme.colorScheme.tertiary),
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primary)
-        ) {
-            IconButton(
-                onClick = {
-                    onAction(DriverDetailAction.OnBackClick)
-                },
+        when {
+            state.isLoading -> CircularProgressIndicator()
+            state.errorMessage != null -> Text(
+                text = state.errorMessage,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.error,
+            )
+
+            else -> Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                Icon(
-                    Icons.Rounded.ArrowBackIosNew,
-                    contentDescription = "Go back",
+                Header(
+                    headerText = state.driver!!.fullName,
+                    onBackClick = {
+                        onAction(DriverDetailAction.OnBackClick)
+                    }
                 )
-            }
-        }
-
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 8.dp)
-
-        ) {
-            when {
-                state.isLoading -> CircularProgressIndicator()
-                state.errorMessage != null -> Text(
-                    text = state.errorMessage,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.error,
-                )
-
-                else -> Column(
-
-                ) {
-                    Text(text = state.driver?.familyName ?: "")
-                }
             }
         }
     }
