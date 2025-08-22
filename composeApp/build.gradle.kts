@@ -1,6 +1,5 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.compose.reload.ComposeHotRun
 import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -12,7 +11,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.apollo.graphql)
-    alias(libs.plugins.compose.hot.reload)
+    alias(libs.plugins.composeHotReload)
 }
 
 kotlin {
@@ -98,10 +97,6 @@ kotlin {
 
 composeCompiler {
     featureFlags.add(ComposeFeatureFlag.OptimizeNonSkippingGroups)
-}
-
-tasks.register<ComposeHotRun>("runHot") {
-    mainClass.set("com.example.purpleapex.DevMainKt")
 }
 
 apollo {
