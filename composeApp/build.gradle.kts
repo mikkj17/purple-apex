@@ -81,6 +81,11 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            // Use CIO engine on JVM Desktop
+            implementation("io.ktor:ktor-client-cio:${libs.versions.ktor.get()}")
 
             // Lets-Plot Kotlin API
             implementation("org.jetbrains.lets-plot:lets-plot-kotlin-kernel:4.9.3")
