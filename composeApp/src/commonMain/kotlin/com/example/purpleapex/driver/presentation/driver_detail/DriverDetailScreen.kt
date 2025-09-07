@@ -1,5 +1,6 @@
 package com.example.purpleapex.driver.presentation.driver_detail
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -90,7 +91,6 @@ private fun DriverDetailScreen(
                 Column(modifier = Modifier.padding(8.dp).verticalScroll(rememberScrollState())) {
                     DriverInfoCard(driver = state.driver!!, constructors = state.constructors)
 
-                    // Races with best results default
                     Column(modifier = Modifier.padding(top = 12.dp)) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
@@ -104,8 +104,11 @@ private fun DriverDetailScreen(
                             )
                             val showAllRacesText =
                                 if (state.showAllRaces || state.query.isNotBlank()) "Show top ${state.resultsLimit}" else "Show all"
-                            TextButton(onClick = onToggleShowAllRaces) {
-                                Text(showAllRacesText)
+                            TextButton(
+                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onTertiary),
+                                onClick = onToggleShowAllRaces
+                            ) {
+                                Text(showAllRacesText, color = MaterialTheme.colorScheme.onTertiary)
                             }
                         }
                         RaceList(
@@ -115,7 +118,6 @@ private fun DriverDetailScreen(
                         )
                     }
 
-                    // Qualifying with best results default
                     Column(modifier = Modifier.padding(top = 12.dp)) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,
@@ -129,8 +131,11 @@ private fun DriverDetailScreen(
                             )
                             val showAllQualText =
                                 if (state.showAllQualifyings || state.query.isNotBlank()) "Show top ${state.resultsLimit}" else "Show all"
-                            TextButton(onClick = onToggleShowAllQualifyings) {
-                                Text(showAllQualText)
+                            TextButton(
+                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onTertiary),
+                                onClick = onToggleShowAllQualifyings
+                            ) {
+                                Text(showAllQualText, color = MaterialTheme.colorScheme.onTertiary)
                             }
                         }
                         QualifyingList(

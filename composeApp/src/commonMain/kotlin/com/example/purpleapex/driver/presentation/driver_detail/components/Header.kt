@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Header(
     onBackClick: () -> Unit,
-    trailingContent: (@Composable () -> Unit),
+    trailingContent: @Composable () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

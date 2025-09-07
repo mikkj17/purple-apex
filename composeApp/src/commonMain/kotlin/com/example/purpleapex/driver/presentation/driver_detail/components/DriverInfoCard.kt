@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -37,17 +38,17 @@ fun DriverInfoCard(
                     label = "Constructors",
                     value = constructors.joinToString(
                         separator = ", ",
-                        truncated = "…"
+                        truncated = "…",
                     ) { it.name }
                 )
                 Spacer(Modifier.height(8.dp))
             }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Column(Modifier.weight(1f)) {
+                Column {
                     LabeledValue(label = "Nationality", value = driver.nationality)
                     LabeledValue(label = "Number", value = driver.number?.toString() ?: "—")
                 }
-                Column(Modifier.weight(1f)) {
+                Column(horizontalAlignment = Alignment.End) {
                     LabeledValue(label = "Code", value = driver.code ?: "—")
                     LabeledValue(label = "Date of birth", value = driver.formattedDateOfBirth)
                 }
