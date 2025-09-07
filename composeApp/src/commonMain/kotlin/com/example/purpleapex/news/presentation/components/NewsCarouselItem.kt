@@ -1,12 +1,8 @@
 package com.example.purpleapex.news.presentation.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -30,7 +26,7 @@ fun NewsCarouselItem(
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         tonalElevation = 0.dp,
         shadowElevation = 0.dp,
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.08f)),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.08f)),
         modifier = modifier
             .width(260.dp)
             .clickable { onClick() }
@@ -46,7 +42,7 @@ fun NewsCarouselItem(
                         .height(120.dp)
                         .clip(RoundedCornerShape(10.dp))
                 )
-                androidx.compose.foundation.layout.Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(8.dp))
             }
             Text(
                 text = article.headline,

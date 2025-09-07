@@ -3,12 +3,14 @@ package com.example.purpleapex.home.presentation
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.news.presentation.NewsViewModel
@@ -25,7 +27,6 @@ fun HomeScreenRoot(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // Background image (as before)
         Image(
             painter = painterResource(Res.drawable.purple_apex_logo),
             contentDescription = "Purple Apex Logo",
@@ -33,8 +34,7 @@ fun HomeScreenRoot(
             contentScale = ContentScale.Crop
         )
 
-        // Bottom-aligned header and news list overlay inside a surface
-        androidx.compose.material3.Surface(
+        Surface(
             color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
             shadowElevation = 6.dp,
             tonalElevation = 2.dp,
@@ -60,7 +60,7 @@ fun HomeScreenRoot(
                         .padding(horizontal = 16.dp, vertical = 8.dp)
                 )
                 run {
-                    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+                    val uriHandler = LocalUriHandler.current
                     NewsList(
                         state = state,
                         onArticleClick = { url ->

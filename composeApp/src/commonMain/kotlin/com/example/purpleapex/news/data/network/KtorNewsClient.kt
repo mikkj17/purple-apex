@@ -1,5 +1,6 @@
 package com.example.purpleapex.news.data.network
 
+import com.example.purpleapex.core.util.Constants
 import com.example.purpleapex.news.domain.NewsArticle
 import com.example.purpleapex.news.domain.NewsClient
 import io.ktor.client.*
@@ -12,8 +13,7 @@ class KtorNewsClient(
 ) : NewsClient {
 
     override suspend fun getLatest(): List<NewsArticle> {
-        val url = "https://site.api.espn.com/apis/site/v2/sports/racing/f1/news"
-        val root: JsonObject = client.get(url).body()
+        val root: JsonObject = client.get(Constants.NEWS_URL).body()
         val articles = (root["articles"] as? JsonArray) ?: return emptyList()
         return articles.mapNotNull { it.asArticleOrNull() }
     }
@@ -22,18 +22,14 @@ class KtorNewsClient(
         val obj = this as? JsonObject ?: return null
         val id = obj["dataSourceIdentifier"]?.asString() ?: obj["id"]?.asString() ?: return null
         val headline = obj["headline"]?.asString() ?: return null
-        val description = obj["description"]?.asString()
-        val published = obj["published"]?.asString() ?: obj["lastModified"]?.asString()
-        val linkUrl = obj["links"]?.jsonObject?.get("web")?.jsonObject?.get("href")?.asString()
-            ?: obj["link"]?.asString()
-        val imageUrl = chooseImageUrl(obj)
         return NewsArticle(
             id = id,
             headline = headline,
-            description = description,
-            published = published,
-            imageUrl = imageUrl,
-            linkUrl = linkUrl
+            description = obj["description"]?.asString(),
+            published = obj["published"]?.asString() ?: obj["lastModified"]?.asString(),
+            imageUrl = chooseImageUrl(obj),
+            linkUrl = obj["links"]?.jsonObject?.get("web")?.jsonObject?.get("href")?.asString()
+                ?: obj["link"]?.asString()
         )
     }
 
@@ -58,13 +54,13 @@ class KtorNewsClient(
 
     private fun JsonElement.asString(): String? = when (this) {
         is JsonNull -> null
-        is JsonObject -> this["text"]?.let { it.safeContent() } ?: this["href"]?.let { it.safeContent() }
+        is JsonObject -> this["text"]?.safeContent() ?: this["href"]?.safeContent()
         else -> safeContent()
     }
 
     private fun JsonElement.safeContent(): String? = try {
         this.jsonPrimitive.content
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         null
     }
 }
