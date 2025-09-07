@@ -10,7 +10,6 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,8 +17,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Header(
-    headerText: String,
     onBackClick: () -> Unit,
+    trailingContent: (@Composable () -> Unit),
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -39,11 +38,6 @@ fun Header(
             )
         }
 
-        Text(
-            headerText,
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onPrimary,
-            modifier = Modifier.padding(horizontal = 16.dp),
-        )
+        trailingContent()
     }
 }

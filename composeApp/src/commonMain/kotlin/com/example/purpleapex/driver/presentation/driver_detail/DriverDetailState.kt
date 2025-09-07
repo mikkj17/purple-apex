@@ -12,4 +12,8 @@ data class DriverDetailState(
     val constructors: List<Constructor> = emptyList(),
     val qualifyings: List<Qualifying> = emptyList(),
     val races: List<Race> = emptyList(),
+    val query: String = "",
+    val showAllRaces: Boolean = false,
+    val showAllQualifyings: Boolean = false,
+    val resultsLimit: Int = 5,
 )
