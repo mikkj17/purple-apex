@@ -20,9 +20,8 @@ fun NewsCarouselItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val shape = RoundedCornerShape(14.dp)
     Surface(
-        shape = shape,
+        shape = RoundedCornerShape(14.dp),
         color = MaterialTheme.colorScheme.surfaceContainerLowest,
         tonalElevation = 0.dp,
         shadowElevation = 0.dp,
