@@ -82,7 +82,10 @@ fun NewsList(
                             model = state.selectedArticle.imageUrl,
                             contentDescription = state.selectedArticle.headline,
                             contentScale = ContentScale.Crop,
-                            modifier = Modifier.clip(RoundedCornerShape(12.dp))
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(16f / 9f)
+                                .clip(RoundedCornerShape(12.dp))
                         )
                         Spacer(Modifier.height(8.dp))
                     }
