@@ -18,7 +18,7 @@ import com.example.purpleapex.news.data.network.KtorNewsClient
 import com.example.purpleapex.news.data.repository.DefaultNewsRepository
 import com.example.purpleapex.news.domain.NewsClient
 import com.example.purpleapex.news.domain.NewsRepository
-import com.example.purpleapex.news.presentation.NewsViewModel
+import com.example.purpleapex.news.presentation.NewsListViewModel
 import com.example.purpleapex.race.data.network.ApolloRaceClient
 import com.example.purpleapex.race.data.repository.DefaultRaceRepository
 import com.example.purpleapex.race.domain.RaceClient
@@ -79,5 +79,5 @@ val sharedModule = module {
     viewModelOf(::StandingsListViewModel)
     viewModelOf(::RaceListViewModel)
     viewModelOf(::SearchViewModel)
-    viewModelOf(::NewsViewModel)
+    viewModelOf(::NewsListViewModel)
 }
