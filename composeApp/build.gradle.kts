@@ -43,6 +43,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
+            implementation(libs.ktor.client.okhttp)
 
             implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
         }
@@ -81,11 +82,7 @@ kotlin {
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            // Use CIO engine on JVM Desktop
-            implementation("io.ktor:ktor-client-cio:${libs.versions.ktor.get()}")
+            implementation(libs.ktor.client.okhttp)
 
             // Lets-Plot Kotlin API
             implementation("org.jetbrains.lets-plot:lets-plot-kotlin-kernel:4.9.3")
@@ -96,6 +93,10 @@ kotlin {
 
             // Lets-Plot Skia Frontend
             implementation("org.jetbrains.lets-plot:lets-plot-compose:2.1.1")
+        }
+
+        nativeMain.dependencies {
+            implementation(libs.ktor.client.darwin)
         }
     }
 }

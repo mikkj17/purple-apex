@@ -14,32 +14,48 @@ import com.example.purpleapex.driver.data.network.ApolloDriverClient
 import com.example.purpleapex.driver.data.repository.DefaultDriverRepository
 import com.example.purpleapex.driver.domain.DriverClient
 import com.example.purpleapex.driver.domain.DriverRepository
-import com.example.purpleapex.race.data.network.ApolloRaceClient
-import com.example.purpleapex.race.data.repository.DefaultRaceRepository
-import com.example.purpleapex.race.domain.RaceClient
-import com.example.purpleapex.race.domain.RaceRepository
-import com.example.purpleapex.race.presentation.race_list.RaceListViewModel
 import com.example.purpleapex.news.data.network.KtorNewsClient
 import com.example.purpleapex.news.data.repository.DefaultNewsRepository
 import com.example.purpleapex.news.domain.NewsClient
 import com.example.purpleapex.news.domain.NewsRepository
 import com.example.purpleapex.news.presentation.NewsViewModel
+import com.example.purpleapex.race.data.network.ApolloRaceClient
+import com.example.purpleapex.race.data.repository.DefaultRaceRepository
+import com.example.purpleapex.race.domain.RaceClient
+import com.example.purpleapex.race.domain.RaceRepository
+import com.example.purpleapex.race.presentation.race_list.RaceListViewModel
 import com.example.purpleapex.search.presentation.SearchViewModel
 import com.example.purpleapex.standings.data.network.ApolloStandingsClient
 import com.example.purpleapex.standings.data.repository.DefaultStandingsRepository
 import com.example.purpleapex.standings.domain.StandingsClient
 import com.example.purpleapex.standings.domain.StandingsRepository
 import com.example.purpleapex.standings.presentation.standings_list.StandingsListViewModel
+import io.ktor.client.*
+import io.ktor.client.engine.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
+import kotlinx.serialization.json.Json
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
+
+expect val platformModule: Module
 
 val sharedModule = module {
     single {
         ApolloClient.Builder()
             .serverUrl(Constants.BASE_URL)
             .build()
+    }
+
+    single {
+        HttpClient(get<HttpClientEngine>()) {
+            install(ContentNegotiation) {
+                json(Json { ignoreUnknownKeys = true })
+            }
+        }
     }
 
     singleOf(::ApolloDriverClient).bind<DriverClient>()
@@ -57,12 +73,11 @@ val sharedModule = module {
     singleOf(::ApolloRaceClient).bind<RaceClient>()
     singleOf(::DefaultRaceRepository).bind<RaceRepository>()
 
-    // News
     singleOf(::KtorNewsClient).bind<NewsClient>()
     singleOf(::DefaultNewsRepository).bind<NewsRepository>()
-    viewModelOf(::NewsViewModel)
 
     viewModelOf(::StandingsListViewModel)
     viewModelOf(::RaceListViewModel)
     viewModelOf(::SearchViewModel)
+    viewModelOf(::NewsViewModel)
 }

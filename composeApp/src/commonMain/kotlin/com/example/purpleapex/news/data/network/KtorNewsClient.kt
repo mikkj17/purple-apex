@@ -2,27 +2,14 @@ package com.example.purpleapex.news.data.network
 
 import com.example.purpleapex.news.domain.NewsArticle
 import com.example.purpleapex.news.domain.NewsClient
-import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.request.get
-import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonNull
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.request.*
+import kotlinx.serialization.json.*
 
-class KtorNewsClient : NewsClient {
-
-    private val client = HttpClient {
-        install(ContentNegotiation) {
-            json(Json { ignoreUnknownKeys = true })
-        }
-    }
+class KtorNewsClient(
+    private val client: HttpClient
+) : NewsClient {
 
     override suspend fun getLatest(): List<NewsArticle> {
         val url = "https://site.api.espn.com/apis/site/v2/sports/racing/f1/news"
