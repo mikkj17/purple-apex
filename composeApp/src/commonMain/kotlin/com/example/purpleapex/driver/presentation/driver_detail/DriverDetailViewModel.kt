@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.purpleapex.app.Route
 import com.example.purpleapex.constructor.domain.ConstructorRepository
+import com.example.purpleapex.core.fuzzysearch.FuzzySearch
 import com.example.purpleapex.driver.domain.DriverRepository
 import com.example.purpleapex.qualifying.domain.Qualifying
 import com.example.purpleapex.qualifying.domain.QualifyingRepository
@@ -29,66 +30,116 @@ class DriverDetailViewModel(
 
     init {
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-            val driver = driverRepository.getDriver(driverId)
-            val constructors = constructorRepository.getConstructors(driverId = driverId)
-            val races = raceRepository.getRaces(driverId = driverId)
-            val qualifyings = qualifyingRepository.getQualifyings(driverId = driverId)
+            _state.update {
+                it.copy(isLoading = true)
+            }
             _state.update {
                 it.copy(
-                    driver = driver,
-                    constructors = constructors,
-                    races = races,
-                    qualifyings = qualifyings,
+                    driver = driverRepository.getDriver(driverId),
+                    constructors = constructorRepository.getConstructors(driverId = driverId),
+                    races = raceRepository.getRaces(driverId = driverId),
+                    qualifyings = qualifyingRepository.getQualifyings(driverId = driverId),
                     isLoading = false,
                 )
             }
+            updateSearchResults()
         }
     }
 
-    fun onQueryChange(query: String) {
-        _state.update { it.copy(query = query) }
-    }
+    fun onAction(action: DriverDetailAction) {
+        when (action) {
+            is DriverDetailAction.OnSearchQueryChange -> {
+                _state.update {
+                    it.copy(searchQuery = action.query)
+                }
+                updateSearchResults()
+            }
 
-    fun toggleShowAllRaces() {
-        _state.update { it.copy(showAllRaces = !it.showAllRaces) }
-    }
-
-    fun toggleShowAllQualifyings() {
-        _state.update { it.copy(showAllQualifyings = !it.showAllQualifyings) }
-    }
-
-    fun visibleRaces(): List<Race> {
-        val s = _state.value
-        val query = s.query.trim().lowercase()
-        val filtered = s.races.filter { race ->
-            if (query.isEmpty()) return@filter true
-            val circuit =
-                "${race.circuit.name} ${race.circuit.location.locality} ${race.circuit.location.country}".lowercase()
-            val name = race.name.lowercase()
-            val seasonRound = "${race.season} ${race.round}".lowercase()
-            circuit.contains(query) || name.contains(query) || seasonRound.contains(query)
+            is DriverDetailAction.OnBackClick -> {}
         }
-        val sortedByBest = filtered.sortedBy { race ->
-            // pick this driver's position; if not found, put at end
-            val driverId = s.driver?.id
-            val pos = race.results.firstOrNull { it.driver.id == driverId }?.position
-            pos ?: Int.MAX_VALUE
-        }
-        return if (s.showAllRaces || query.isNotEmpty()) sortedByBest else sortedByBest.take(s.resultsLimit)
     }
 
-    fun visibleQualifyings(): List<Qualifying> {
-        val s = _state.value
-        val query = s.query.trim().lowercase()
-        val filtered = s.qualifyings.filter { q ->
-            if (query.isEmpty()) return@filter true
-            val circuit = "${q.circuit.name} ${q.circuit.location.locality} ${q.circuit.location.country}".lowercase()
-            val name = q.name.lowercase()
-            val seasonRound = "${q.season} ${q.round}".lowercase()
-            circuit.contains(query) || name.contains(query) || seasonRound.contains(query)
+    private fun updateSearchResults() {
+        _state.update {
+            it.copy(
+                searchedRaces = updateRaces(),
+                searchedQualifyings = updateQualifyings(),
+            )
         }
-        val sortedByBest = filtered.sortedBy { it.results.firstOrNull()?.position ?: Int.MAX_VALUE }
-        return if (s.showAllQualifyings || query.isNotEmpty()) sortedByBest else sortedByBest.take(s.resultsLimit)
+    }
+
+    private fun <T> updateSearchResultsFor(
+        candidates: List<T>,
+        getPosition: T.() -> Int,
+        getSeason: T.() -> Int,
+        searchKeys: T.() -> List<String>
+    ): List<T> {
+        val query = _state.value.searchQuery.trim()
+
+        if ("""[Pp]\d{1,2}""".toRegex().matches(query)) {
+            return FuzzySearch.extract(
+                query = query.drop(1),
+                candidates = candidates,
+                threshold = 1.0,
+            ) {
+                listOf(getPosition().toString())
+            }
+        }
+
+        if ("""\d{4}""".toRegex().matches(query)) {
+            return FuzzySearch.extract(
+                query = query,
+                candidates = candidates,
+                threshold = 1.0,
+            ) {
+                listOf(getSeason().toString())
+            }
+        }
+
+        if (query.length < 3) {
+            return candidates
+        }
+
+        return FuzzySearch.extract(
+            query = query,
+            candidates = candidates,
+            threshold = 0.9,
+        ) {
+            searchKeys()
+        }
+    }
+
+    private fun updateRaces(): List<Race> {
+        return updateSearchResultsFor(
+            candidates = _state.value.races,
+            getPosition = { results.first().position },
+            getSeason = { season },
+            searchKeys = {
+                listOf(
+                    name,
+                    circuit.name,
+                    circuit.location.country,
+                    circuit.location.locality,
+                    "$season $round",
+                )
+            }
+        )
+    }
+
+    private fun updateQualifyings(): List<Qualifying> {
+        return updateSearchResultsFor(
+            candidates = _state.value.qualifyings,
+            getPosition = { results.first().position },
+            getSeason = { season },
+            searchKeys = {
+                listOf(
+                    name,
+                    circuit.name,
+                    circuit.location.country,
+                    circuit.location.locality,
+                    "$season $round",
+                )
+            }
+        )
     }
 }

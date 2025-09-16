@@ -36,10 +36,7 @@ fun DriverInfoCard(
             if (constructors.isNotEmpty()) {
                 LabeledValue(
                     label = "Constructors",
-                    value = constructors.joinToString(
-                        separator = ", ",
-                        truncated = "…",
-                    ) { it.name }
+                    value = constructors.joinToString(separator = ", ") { it.name }
                 )
                 Spacer(Modifier.height(8.dp))
             }

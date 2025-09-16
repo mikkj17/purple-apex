@@ -8,12 +8,11 @@ import com.example.purpleapex.race.domain.Race
 data class DriverDetailState(
     val isLoading: Boolean = true,
     val errorMessage: String? = null,
+    val searchQuery: String = "",
     val driver: DriverDetail? = null,
     val constructors: List<Constructor> = emptyList(),
-    val qualifyings: List<Qualifying> = emptyList(),
     val races: List<Race> = emptyList(),
-    val query: String = "",
-    val showAllRaces: Boolean = false,
-    val showAllQualifyings: Boolean = false,
-    val resultsLimit: Int = 5,
+    val searchedRaces: List<Race> = emptyList(),
+    val qualifyings: List<Qualifying> = emptyList(),
+    val searchedQualifyings: List<Qualifying> = emptyList(),
 )

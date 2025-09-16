@@ -1,6 +1,5 @@
 package com.example.purpleapex.driver.presentation.driver_detail
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -8,11 +7,11 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -20,6 +19,7 @@ import com.example.purpleapex.driver.presentation.driver_detail.components.Drive
 import com.example.purpleapex.driver.presentation.driver_detail.components.Header
 import com.example.purpleapex.driver.presentation.driver_detail.components.QualifyingList
 import com.example.purpleapex.driver.presentation.driver_detail.components.RaceList
+import com.example.purpleapex.search.presentation.components.SearchBar
 import org.koin.compose.viewmodel.koinViewModel
 
 
@@ -36,12 +36,8 @@ fun DriverDetailScreenRoot(
                 is DriverDetailAction.OnBackClick -> onBackClick()
                 else -> Unit
             }
+            viewModel.onAction(action)
         },
-        onQueryChange = viewModel::onQueryChange,
-        onToggleShowAllRaces = viewModel::toggleShowAllRaces,
-        onToggleShowAllQualifyings = viewModel::toggleShowAllQualifyings,
-        visibleRaces = viewModel::visibleRaces,
-        visibleQualifyings = viewModel::visibleQualifyings,
     )
 }
 
@@ -49,12 +45,8 @@ fun DriverDetailScreenRoot(
 private fun DriverDetailScreen(
     state: DriverDetailState,
     onAction: (DriverDetailAction) -> Unit,
-    onQueryChange: (String) -> Unit,
-    onToggleShowAllRaces: () -> Unit,
-    onToggleShowAllQualifyings: () -> Unit,
-    visibleRaces: () -> List<com.example.purpleapex.race.domain.Race>,
-    visibleQualifyings: () -> List<com.example.purpleapex.qualifying.domain.Qualifying>,
 ) {
+    val keyBoardController = LocalSoftwareKeyboardController.current
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
@@ -78,17 +70,25 @@ private fun DriverDetailScreen(
                         onAction(DriverDetailAction.OnBackClick)
                     },
                     trailingContent = {
-                        com.example.purpleapex.search.presentation.components.SearchBar(
-                            searchQuery = state.query,
-                            onSearchQueryChange = onQueryChange,
-                            onImeSearch = {},
-                            modifier = Modifier
-                                .padding(end = 8.dp)
+                        SearchBar(
+                            searchQuery = state.searchQuery,
+                            onSearchQueryChange = {
+                                onAction(DriverDetailAction.OnSearchQueryChange(it))
+                            },
+                            onImeSearch = {
+                                keyBoardController?.hide()
+                            },
+                            modifier = Modifier.padding(end = 8.dp)
                         )
                     }
                 )
 
-                Column(modifier = Modifier.padding(8.dp).verticalScroll(rememberScrollState())) {
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = 8.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Spacer(modifier = Modifier.height(16.dp))
                     DriverInfoCard(driver = state.driver!!, constructors = state.constructors)
 
                     Column(modifier = Modifier.padding(top = 12.dp)) {
@@ -102,19 +102,19 @@ private fun DriverDetailScreen(
                                 style = MaterialTheme.typography.headlineSmall,
                                 color = MaterialTheme.colorScheme.onTertiary,
                             )
-                            val showAllRacesText =
-                                if (state.showAllRaces || state.query.isNotBlank()) "Show top ${state.resultsLimit}" else "Show all"
-                            TextButton(
-                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onTertiary),
-                                onClick = onToggleShowAllRaces
-                            ) {
-                                Text(showAllRacesText, color = MaterialTheme.colorScheme.onTertiary)
-                            }
+                            Text(
+                                state.searchedRaces.size.toString(),
+                                color = MaterialTheme.colorScheme.onTertiary,
+                            )
                         }
-                        RaceList(
-                            races = visibleRaces(),
-                            driver = state.driver,
-                            modifier = Modifier
+
+                        if (state.searchedRaces.isEmpty()) Text(
+                            text = "No races found...",
+                            color = MaterialTheme.colorScheme.onTertiary,
+                        )
+                        else RaceList(
+                            races = state.searchedRaces,
+                            modifier = Modifier,
                         )
                     }
 
@@ -129,20 +129,22 @@ private fun DriverDetailScreen(
                                 style = MaterialTheme.typography.headlineSmall,
                                 color = MaterialTheme.colorScheme.onTertiary,
                             )
-                            val showAllQualText =
-                                if (state.showAllQualifyings || state.query.isNotBlank()) "Show top ${state.resultsLimit}" else "Show all"
-                            TextButton(
-                                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onTertiary),
-                                onClick = onToggleShowAllQualifyings
-                            ) {
-                                Text(showAllQualText, color = MaterialTheme.colorScheme.onTertiary)
-                            }
+                            Text(
+                                state.searchedQualifyings.size.toString(),
+                                color = MaterialTheme.colorScheme.onTertiary,
+                            )
                         }
-                        QualifyingList(
-                            qualifyings = visibleQualifyings(),
-                            modifier = Modifier
+                        if (state.searchedQualifyings.isEmpty()) Text(
+                            text = "No qualifying sessions found...",
+                            color = MaterialTheme.colorScheme.onTertiary,
+                        )
+                        else QualifyingList(
+                            qualifyings = state.searchedQualifyings,
+                            modifier = Modifier,
                         )
                     }
+
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }

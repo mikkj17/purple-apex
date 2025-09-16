@@ -9,13 +9,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.purpleapex.driver.domain.DriverDetail
 import com.example.purpleapex.race.domain.Race
 
 @Composable
 fun RaceList(
     races: List<Race>,
-    driver: DriverDetail,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -30,7 +28,7 @@ fun RaceList(
             ) {
                 races.forEach { race ->
                     RaceListItem(
-                        race = race, driverId = driver.id,
+                        race = race,
                         modifier = Modifier.fillMaxWidth()
                     )
                 }
@@ -42,16 +40,14 @@ fun RaceList(
 @Composable
 private fun RaceListItem(
     race: Race,
-    driverId: String,
     modifier: Modifier = Modifier,
 ) {
     Surface(shape = RoundedCornerShape(8.dp), modifier = modifier) {
         Column(modifier = Modifier.padding(8.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = "${race.season} • Round ${race.round}", style = MaterialTheme.typography.labelMedium)
-                val myResult = race.results.firstOrNull { it.driver.id == driverId }
                 Text(
-                    text = myResult?.let { "P${it.position}" } ?: "—",
+                    text = "P${race.results.first().position}",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                 )

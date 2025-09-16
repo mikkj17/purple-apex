@@ -40,7 +40,6 @@ private fun QualifyingListItem(
     qualifying: Qualifying,
     modifier: Modifier = Modifier,
 ) {
-    val posText = qualifying.results.firstOrNull()?.position?.let { "P$it" } ?: "—"
     Surface(shape = RoundedCornerShape(8.dp), modifier = modifier) {
         Column(modifier = Modifier.padding(8.dp)) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -49,7 +48,7 @@ private fun QualifyingListItem(
                     style = MaterialTheme.typography.labelMedium
                 )
                 Text(
-                    text = posText,
+                    text = "P${qualifying.results.first().position}",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                 )
