@@ -1,9 +1,10 @@
 package com.example.purpleapex.driver.presentation.driver_detail.components
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,22 +18,13 @@ fun RaceList(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth()
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Surface(
-            shape = RoundedCornerShape(8.dp),
-        ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(8.dp)
-            ) {
-                races.forEach { race ->
-                    RaceListItem(
-                        race = race,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-            }
+        races.forEach { race ->
+            RaceListItem(
+                race = race,
+                modifier = modifier.fillMaxWidth()
+            )
         }
     }
 }
@@ -42,22 +34,20 @@ private fun RaceListItem(
     race: Race,
     modifier: Modifier = Modifier,
 ) {
-    Surface(shape = RoundedCornerShape(8.dp), modifier = modifier) {
-        Column(modifier = Modifier.padding(8.dp)) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = "${race.season} • Round ${race.round}", style = MaterialTheme.typography.labelMedium)
-                Text(
-                    text = "P${race.results.first().position}",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
-            Text(text = race.name, style = MaterialTheme.typography.titleMedium)
+    Column(modifier = modifier) {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Text(text = "${race.season} • Round ${race.round}", style = MaterialTheme.typography.labelMedium)
             Text(
-                text = "${race.circuit.name} — ${race.circuit.location.locality}, ${race.circuit.location.country}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                text = "P${race.results.first().position}",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
             )
         }
+        Text(text = race.name, style = MaterialTheme.typography.titleMedium)
+        Text(
+            text = "${race.circuit.name} — ${race.circuit.location.locality}, ${race.circuit.location.country}",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }

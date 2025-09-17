@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.core.presentation.components.AnimatedContainer
 import com.example.purpleapex.driver.presentation.driver_detail.components.DriverInfoCard
 import com.example.purpleapex.driver.presentation.driver_detail.components.Header
 import com.example.purpleapex.driver.presentation.driver_detail.components.QualifyingList
@@ -90,60 +91,58 @@ private fun DriverDetailScreen(
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
                     DriverInfoCard(driver = state.driver!!, constructors = state.constructors)
-
-                    Column(modifier = Modifier.padding(top = 12.dp)) {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(
-                                "Races",
-                                style = MaterialTheme.typography.headlineSmall,
-                                color = MaterialTheme.colorScheme.onTertiary,
+                    Spacer(modifier = Modifier.height(16.dp))
+                    AnimatedContainer(
+                        header = {
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = "Races",
+                                    style = MaterialTheme.typography.headlineSmall,
+                                )
+                                Text(
+                                    text = state.searchedRaces.size.toString(),
+                                )
+                            }
+                        },
+                        content = {
+                            if (state.searchedRaces.isEmpty()) Text(
+                                text = "No races found...",
                             )
-                            Text(
-                                state.searchedRaces.size.toString(),
-                                color = MaterialTheme.colorScheme.onTertiary,
+                            else RaceList(
+                                races = state.searchedRaces,
+                                modifier = Modifier,
                             )
-                        }
-
-                        if (state.searchedRaces.isEmpty()) Text(
-                            text = "No races found...",
-                            color = MaterialTheme.colorScheme.onTertiary,
-                        )
-                        else RaceList(
-                            races = state.searchedRaces,
-                            modifier = Modifier,
-                        )
-                    }
-
-                    Column(modifier = Modifier.padding(top = 12.dp)) {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text(
-                                "Qualifying",
-                                style = MaterialTheme.typography.headlineSmall,
-                                color = MaterialTheme.colorScheme.onTertiary,
+                        },
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    AnimatedContainer(
+                        header = {
+                            Row(
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = "Qualifying",
+                                    style = MaterialTheme.typography.headlineSmall,
+                                )
+                                Text(text = state.searchedQualifyings.size.toString())
+                            }
+                        },
+                        content = {
+                            if (state.searchedQualifyings.isEmpty()) Text(
+                                text = "No qualifying sessions found...",
                             )
-                            Text(
-                                state.searchedQualifyings.size.toString(),
-                                color = MaterialTheme.colorScheme.onTertiary,
+                            else QualifyingList(
+                                qualifyings = state.searchedQualifyings,
+                                modifier = Modifier,
                             )
-                        }
-                        if (state.searchedQualifyings.isEmpty()) Text(
-                            text = "No qualifying sessions found...",
-                            color = MaterialTheme.colorScheme.onTertiary,
-                        )
-                        else QualifyingList(
-                            qualifyings = state.searchedQualifyings,
-                            modifier = Modifier,
-                        )
-                    }
-
+                        },
+                    )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
