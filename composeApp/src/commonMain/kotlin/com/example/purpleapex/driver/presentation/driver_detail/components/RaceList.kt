@@ -16,14 +16,9 @@ fun RaceList(
     races: List<Race>,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         races.forEach { race ->
-            RaceListItem(
-                race = race,
-                modifier = modifier.fillMaxWidth()
-            )
+            RaceListItem(race = race, modifier = modifier.fillMaxWidth())
         }
     }
 }
@@ -41,10 +36,8 @@ private fun RaceListItem(
             shape = MaterialTheme.shapes.small,
         )
     ) {
-        Column(
-            modifier = modifier.padding(8.dp),
-        ) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Column(modifier = modifier.padding(8.dp)) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
                 Text(text = "${race.season} • Round ${race.round}", style = MaterialTheme.typography.labelMedium)
                 Text(
                     text = "P${race.results.first().position}",
@@ -56,7 +49,7 @@ private fun RaceListItem(
             Text(
                 text = "${race.circuit.name} — ${race.circuit.location.locality}, ${race.circuit.location.country}",
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }

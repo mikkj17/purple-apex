@@ -50,7 +50,7 @@ private fun DriverDetailScreen(
     val keyBoardController = LocalSoftwareKeyboardController.current
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         when {
             state.isLoading -> CircularProgressIndicator()

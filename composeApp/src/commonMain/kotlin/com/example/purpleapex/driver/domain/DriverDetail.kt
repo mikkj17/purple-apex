@@ -14,7 +14,4 @@ data class DriverDetail(
 ) {
     val fullName: String
         get() = "$givenName $familyName"
-
-    val formattedDateOfBirth: String
-        get() = dateOfBirth.toString()
 }

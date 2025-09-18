@@ -16,14 +16,9 @@ fun QualifyingList(
     qualifyings: List<Qualifying>,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-    ) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         qualifyings.forEach { qual ->
-            QualifyingListItem(
-                qualifying = qual,
-                modifier = modifier.fillMaxWidth(),
-            )
+            QualifyingListItem(qualifying = qual, modifier = modifier.fillMaxWidth())
         }
     }
 }
@@ -41,10 +36,8 @@ private fun QualifyingListItem(
             shape = MaterialTheme.shapes.small,
         )
     ) {
-        Column(
-            modifier = modifier.padding(8.dp),
-        ) {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+        Column(modifier = modifier.padding(8.dp)) {
+            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = "${qualifying.season} • Round ${qualifying.round}",
                     style = MaterialTheme.typography.labelMedium,

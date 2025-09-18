@@ -33,7 +33,7 @@ fun DriverInfoCard(
                 modifier = Modifier.border(
                     width = 1.dp,
                     color = MaterialTheme.colorScheme.onSurface,
-                    shape = MaterialTheme.shapes.small
+                    shape = MaterialTheme.shapes.small,
                 )
             ) {
                 Column(modifier = Modifier.padding(8.dp)) {
@@ -42,7 +42,7 @@ fun DriverInfoCard(
                     if (constructors.isNotEmpty()) {
                         LabeledValue(
                             label = "Constructors",
-                            value = constructors.joinToString(separator = ", ") { it.name }
+                            value = constructors.joinToString(separator = ", ") { it.name },
                         )
                         Spacer(Modifier.height(8.dp))
                     }
@@ -53,7 +53,7 @@ fun DriverInfoCard(
                         }
                         Column(horizontalAlignment = Alignment.End) {
                             LabeledValue(label = "Code", value = driver.code ?: "—")
-                            LabeledValue(label = "Date of birth", value = driver.formattedDateOfBirth)
+                            LabeledValue(label = "Date of birth", value = driver.dateOfBirth.toString())
                         }
                     }
                 }

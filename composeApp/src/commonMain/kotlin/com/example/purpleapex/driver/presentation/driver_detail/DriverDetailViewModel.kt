@@ -72,7 +72,7 @@ class DriverDetailViewModel(
         candidates: List<T>,
         getPosition: T.() -> Int,
         getSeason: T.() -> Int,
-        searchKeys: T.() -> List<String>
+        searchKeys: T.() -> List<String>,
     ): List<T> {
         val query = _state.value.searchQuery.trim()
 
@@ -122,7 +122,7 @@ class DriverDetailViewModel(
                     circuit.location.locality,
                     "$season $round",
                 )
-            }
+            },
         )
     }
 
@@ -139,7 +139,7 @@ class DriverDetailViewModel(
                     circuit.location.locality,
                     "$season $round",
                 )
-            }
+            },
         )
     }
 }
