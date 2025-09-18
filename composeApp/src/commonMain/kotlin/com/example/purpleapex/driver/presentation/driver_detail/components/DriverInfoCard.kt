@@ -1,7 +1,9 @@
 package com.example.purpleapex.driver.presentation.driver_detail.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,24 +28,33 @@ fun DriverInfoCard(
             )
         },
         content = {
-            Column {
-                LabeledValue(label = "Name", value = driver.fullName)
-                Spacer(Modifier.height(8.dp))
-                if (constructors.isNotEmpty()) {
-                    LabeledValue(
-                        label = "Constructors",
-                        value = constructors.joinToString(separator = ", ") { it.name }
-                    )
+            Surface(
+                tonalElevation = 2.dp,
+                modifier = Modifier.border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    shape = MaterialTheme.shapes.small
+                )
+            ) {
+                Column(modifier = Modifier.padding(8.dp)) {
+                    LabeledValue(label = "Name", value = driver.fullName)
                     Spacer(Modifier.height(8.dp))
-                }
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Column {
-                        LabeledValue(label = "Nationality", value = driver.nationality)
-                        LabeledValue(label = "Number", value = driver.number?.toString() ?: "—")
+                    if (constructors.isNotEmpty()) {
+                        LabeledValue(
+                            label = "Constructors",
+                            value = constructors.joinToString(separator = ", ") { it.name }
+                        )
+                        Spacer(Modifier.height(8.dp))
                     }
-                    Column(horizontalAlignment = Alignment.End) {
-                        LabeledValue(label = "Code", value = driver.code ?: "—")
-                        LabeledValue(label = "Date of birth", value = driver.formattedDateOfBirth)
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Column {
+                            LabeledValue(label = "Nationality", value = driver.nationality)
+                            LabeledValue(label = "Number", value = driver.number?.toString() ?: "—")
+                        }
+                        Column(horizontalAlignment = Alignment.End) {
+                            LabeledValue(label = "Code", value = driver.code ?: "—")
+                            LabeledValue(label = "Date of birth", value = driver.formattedDateOfBirth)
+                        }
                     }
                 }
             }
