@@ -7,10 +7,16 @@ import com.example.purpleapex.constructor.data.mappers.toConstructor
 import com.example.purpleapex.constructor.domain.ConstructorClient
 
 class ApolloConstructorClient(
-    private val apolloClient: ApolloClient
+    private val apolloClient: ApolloClient,
 ) : ConstructorClient {
-    override suspend fun getConstructors(year: Int?, round: Int?) = apolloClient
-        .query(ConstructorsQuery(Optional.presentIfNotNull(year), Optional.presentIfNotNull(round)))
+    override suspend fun getConstructors(year: Int?, round: Int?, driverId: String?) = apolloClient
+        .query(
+            ConstructorsQuery(
+                Optional.presentIfNotNull(year),
+                Optional.presentIfNotNull(round),
+                Optional.presentIfNotNull(driverId),
+            )
+        )
         .execute()
         .dataAssertNoErrors
         .constructors

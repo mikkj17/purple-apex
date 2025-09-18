@@ -16,6 +16,7 @@ fun RacesQuery.Race.toRace() = Race(
 )
 
 fun RacesQuery.Result.toResult() = Result(
+    position = position,
     driver = driver.toDriver(),
 )
 

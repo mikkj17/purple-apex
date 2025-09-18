@@ -1,0 +1,20 @@
+query QualifyingsQuery($driverId: String) {
+    qualifyings(driverId: $driverId) {
+        season
+        round
+        name
+        date
+        time
+        circuit {
+            id
+            name
+            location {
+                country
+                locality
+            }
+        }
+        results {
+            position
+        }
+    }
+}

@@ -1,0 +1,12 @@
+query DriverQuery($driverId: String!) {
+    driver(driverId: $driverId) {
+        code
+        dateOfBirth
+        familyName
+        givenName
+        id
+        nationality
+        number
+        url
+    }
+}
