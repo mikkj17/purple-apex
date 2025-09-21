@@ -121,6 +121,7 @@ class DriverDetailViewModel(
                     circuit.location.country,
                     circuit.location.locality,
                     "$season $round",
+                    results.first().constructor.name,
                 )
             },
         )
@@ -138,6 +139,7 @@ class DriverDetailViewModel(
                     circuit.location.country,
                     circuit.location.locality,
                     "$season $round",
+                    results.first().constructor.name,
                 )
             },
         )
