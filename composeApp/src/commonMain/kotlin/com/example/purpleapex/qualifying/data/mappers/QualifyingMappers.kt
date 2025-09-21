@@ -3,6 +3,7 @@ package com.example.purpleapex.qualifying.data.mappers
 import com.example.QualifyingsQuery
 import com.example.purpleapex.circuit.domain.Circuit
 import com.example.purpleapex.circuit.domain.Location
+import com.example.purpleapex.constructor.domain.Constructor
 import com.example.purpleapex.qualifying.domain.Qualifying
 import com.example.purpleapex.qualifying.domain.Result
 
@@ -18,6 +19,13 @@ fun QualifyingsQuery.Qualifying.toQualifying() = Qualifying(
 
 fun QualifyingsQuery.Result.toResult() = Result(
     position = position,
+    constructor = constructor.toConstructor(),
+)
+
+fun QualifyingsQuery.Constructor.toConstructor() = Constructor(
+    id = id,
+    name = name,
+    nationality = nationality,
 )
 
 fun QualifyingsQuery.Circuit.toCircuit() = Circuit(

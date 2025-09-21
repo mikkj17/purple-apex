@@ -46,11 +46,18 @@ private fun RaceListItem(
                 )
             }
             Text(text = race.name, style = MaterialTheme.typography.titleMedium)
-            Text(
-                text = "${race.circuit.name} — ${race.circuit.location.locality}, ${race.circuit.location.country}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = race.circuit.name,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Text(
+                    text = race.results.first().constructor.name,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
         }
     }
 }

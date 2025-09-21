@@ -49,11 +49,18 @@ private fun QualifyingListItem(
                 )
             }
             Text(text = qualifying.name, style = MaterialTheme.typography.titleMedium)
-            Text(
-                text = "${qualifying.circuit.name} — ${qualifying.circuit.location.locality}, ${qualifying.circuit.location.country}",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    text = qualifying.circuit.name,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Text(
+                    text = qualifying.results.first().constructor.name,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
         }
     }
 }
