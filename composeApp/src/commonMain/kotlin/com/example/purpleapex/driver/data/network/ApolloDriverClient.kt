@@ -10,8 +10,14 @@ import com.example.purpleapex.driver.domain.DriverClient
 class ApolloDriverClient(
     private val apolloClient: ApolloClient,
 ) : DriverClient {
-    override suspend fun getDrivers(year: Int?, round: Int?) = apolloClient
-        .query(DriversQuery(Optional.presentIfNotNull(year), Optional.presentIfNotNull(round)))
+    override suspend fun getDrivers(year: Int?, round: Int?, constructorId: String?) = apolloClient
+        .query(
+            DriversQuery(
+                year = Optional.presentIfNotNull(year),
+                round = Optional.presentIfNotNull(round),
+                constructorId = Optional.presentIfNotNull(constructorId),
+            )
+        )
         .execute()
         .dataAssertNoErrors
         .drivers

@@ -7,7 +7,7 @@ import com.example.purpleapex.qualifying.domain.QualifyingRepository
 class DefaultQualifyingRepository(
     private val qualifyingClient: QualifyingClient,
 ) : QualifyingRepository {
-    override suspend fun getQualifyings(driverId: String): List<Qualifying> {
-        return qualifyingClient.getQualifyings(driverId)
+    override suspend fun getQualifyings(driverId: String?, constructorId: String?): List<Qualifying> {
+        return qualifyingClient.getQualifyings(driverId, constructorId)
     }
 }

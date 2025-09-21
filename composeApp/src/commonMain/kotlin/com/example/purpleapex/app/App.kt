@@ -92,7 +92,11 @@ fun App() {
                         )
                     }
                     composable<Route.ConstructorDetail> {
-                        ConstructorDetailScreenRoot()
+                        ConstructorDetailScreenRoot(
+                            onBackClick = {
+                                navController.navigateUp()
+                            }
+                        )
                     }
                     composable<Route.CircuitDetail> {
                         CircuitDetailScreenRoot()

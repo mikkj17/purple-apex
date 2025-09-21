@@ -9,10 +9,11 @@ import com.example.purpleapex.qualifying.domain.QualifyingClient
 class ApolloQualifyingClient(
     private val apolloClient: ApolloClient,
 ) : QualifyingClient {
-    override suspend fun getQualifyings(driverId: String) = apolloClient
+    override suspend fun getQualifyings(driverId: String?, constructorId: String?) = apolloClient
         .query(
             QualifyingsQuery(
-                Optional.presentIfNotNull(driverId)
+                driverId = Optional.presentIfNotNull(driverId),
+                constructorId = Optional.presentIfNotNull(constructorId),
             )
         )
         .execute()

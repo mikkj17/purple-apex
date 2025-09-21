@@ -4,6 +4,7 @@ import com.example.QualifyingsQuery
 import com.example.purpleapex.circuit.domain.Circuit
 import com.example.purpleapex.circuit.domain.Location
 import com.example.purpleapex.constructor.domain.Constructor
+import com.example.purpleapex.driver.domain.Driver
 import com.example.purpleapex.qualifying.domain.Qualifying
 import com.example.purpleapex.qualifying.domain.Result
 
@@ -19,7 +20,16 @@ fun QualifyingsQuery.Qualifying.toQualifying() = Qualifying(
 
 fun QualifyingsQuery.Result.toResult() = Result(
     position = position,
+    driver = driver.toDriver(),
     constructor = constructor.toConstructor(),
+)
+
+fun QualifyingsQuery.Driver.toDriver() = Driver(
+    id = id,
+    givenName = givenName,
+    familyName = familyName,
+    nationality = nationality,
+    number = number,
 )
 
 fun QualifyingsQuery.Constructor.toConstructor() = Constructor(

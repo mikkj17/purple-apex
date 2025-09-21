@@ -9,6 +9,7 @@ import com.example.purpleapex.constructor.data.network.ApolloConstructorClient
 import com.example.purpleapex.constructor.data.repository.DefaultConstructorRepository
 import com.example.purpleapex.constructor.domain.ConstructorClient
 import com.example.purpleapex.constructor.domain.ConstructorRepository
+import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorDetailViewModel
 import com.example.purpleapex.core.util.Constants
 import com.example.purpleapex.driver.data.network.ApolloDriverClient
 import com.example.purpleapex.driver.data.repository.DefaultDriverRepository
@@ -88,5 +89,6 @@ val sharedModule = module {
     viewModelOf(::RaceListViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::DriverDetailViewModel)
+    viewModelOf(::ConstructorDetailViewModel)
     viewModelOf(::NewsListViewModel)
 }
