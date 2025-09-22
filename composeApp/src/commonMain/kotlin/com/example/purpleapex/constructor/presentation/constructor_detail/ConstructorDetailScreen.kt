@@ -15,11 +15,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.purpleapex.constructor.presentation.constructor_detail.components.ConstructorInfoCard
+import com.example.purpleapex.constructor.presentation.constructor_detail.components.*
 import com.example.purpleapex.core.presentation.components.AnimatedContainer
-import com.example.purpleapex.driver.presentation.driver_detail.components.Header
-import com.example.purpleapex.driver.presentation.driver_detail.components.QualifyingList
-import com.example.purpleapex.driver.presentation.driver_detail.components.RaceList
 import com.example.purpleapex.search.presentation.components.SearchBar
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -90,7 +87,9 @@ private fun ConstructorDetailScreen(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
-                    ConstructorInfoCard(constructor = state.constructor!!, drivers = state.drivers)
+                    ConstructorInfoCard(constructor = state.constructor!!)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    DriverList(state.drivers)
                     Spacer(modifier = Modifier.height(16.dp))
                     AnimatedContainer(
                         header = {

@@ -29,7 +29,7 @@ private fun QualifyingListItem(
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        tonalElevation = 2.dp,
+        tonalElevation = 1.dp,
         modifier = Modifier.border(
             width = 1.dp,
             color = MaterialTheme.colorScheme.onSurface,
@@ -37,29 +37,46 @@ private fun QualifyingListItem(
         )
     ) {
         Column(modifier = modifier.padding(8.dp)) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = "${qualifying.season} • Round ${qualifying.round}",
-                    style = MaterialTheme.typography.labelMedium,
-                )
-                Text(
-                    text = "P${qualifying.results.first().position}",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                )
-            }
+            Text(
+                text = "${qualifying.season} • Round ${qualifying.round}",
+                style = MaterialTheme.typography.labelMedium,
+            )
             Text(text = qualifying.name, style = MaterialTheme.typography.titleMedium)
-            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-                Text(
-                    text = qualifying.circuit.name,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-                Text(
-                    text = qualifying.results.first().constructor.name,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+            Text(
+                text = qualifying.circuit.name,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                qualifying.results.forEach { result ->
+                    Surface(
+                        tonalElevation = 3.dp,
+                        modifier = Modifier
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                shape = MaterialTheme.shapes.small,
+                            )
+                    ) {
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                        ) {
+                            Text(
+                                text = result.driver.fullName,
+                                style = MaterialTheme.typography.bodySmall,
+                            )
+                            Text(
+                                text = "P${result.position}",
+                                style = MaterialTheme.typography.bodySmall,
+                                fontWeight = FontWeight.Bold,
+                            )
+                        }
+                    }
+                }
             }
         }
     }
