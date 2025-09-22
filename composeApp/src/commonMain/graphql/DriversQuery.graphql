@@ -1,5 +1,5 @@
-query DriversQuery($year: Int, $round: Int) {
-    drivers(year: $year, round: $round) {
+query DriversQuery($year: Int, $round: Int, $constructorId: String) {
+    drivers(year: $year, round: $round, constructorId: $constructorId) {
         id
         givenName
         familyName

@@ -1,5 +1,5 @@
-query QualifyingsQuery($driverId: String) {
-    qualifyings(driverId: $driverId) {
+query QualifyingsQuery($driverId: String, $constructorId: String) {
+    qualifyings(driverId: $driverId, constructorId: $constructorId) {
         season
         round
         name
@@ -15,6 +15,13 @@ query QualifyingsQuery($driverId: String) {
         }
         results {
             position
+            driver {
+                id
+                givenName
+                familyName
+                nationality
+                number
+            }
             constructor {
                 id
                 name

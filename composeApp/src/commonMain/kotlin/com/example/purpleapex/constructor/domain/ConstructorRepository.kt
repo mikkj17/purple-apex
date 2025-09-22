@@ -6,4 +6,6 @@ interface ConstructorRepository {
         round: Int? = null,
         driverId: String? = null,
     ): List<Constructor>
+
+    suspend fun getConstructor(constructorId: String): Constructor
 }

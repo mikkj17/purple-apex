@@ -14,4 +14,10 @@ class DefaultConstructorRepository(
     ): List<Constructor> {
         return constructorClient.getConstructors(year, round, driverId)
     }
+
+    override suspend fun getConstructor(constructorId: String): Constructor {
+        return constructorClient
+            .getConstructors()
+            .first { it.id == constructorId }
+    }
 }

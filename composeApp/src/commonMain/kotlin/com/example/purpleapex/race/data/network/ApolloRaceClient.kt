@@ -9,11 +9,12 @@ import com.example.purpleapex.race.domain.RaceClient
 class ApolloRaceClient(
     private val apolloClient: ApolloClient,
 ) : RaceClient {
-    override suspend fun getRaces(year: Int?, driverId: String?) = apolloClient
+    override suspend fun getRaces(year: Int?, driverId: String?, constructorId: String?) = apolloClient
         .query(
             RacesQuery(
-                Optional.presentIfNotNull(year),
-                Optional.presentIfNotNull(driverId),
+                year = Optional.presentIfNotNull(year),
+                driverId = Optional.presentIfNotNull(driverId),
+                constructorId = Optional.presentIfNotNull(constructorId),
             )
         )
         .execute()

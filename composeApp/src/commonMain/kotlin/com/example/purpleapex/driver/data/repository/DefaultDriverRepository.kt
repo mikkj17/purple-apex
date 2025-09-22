@@ -8,8 +8,8 @@ import com.example.purpleapex.driver.domain.DriverRepository
 class DefaultDriverRepository(
     private val driverClient: DriverClient,
 ) : DriverRepository {
-    override suspend fun getDrivers(year: Int?, round: Int?): List<Driver> {
-        return driverClient.getDrivers(year, round)
+    override suspend fun getDrivers(year: Int?, round: Int?, constructorId: String?): List<Driver> {
+        return driverClient.getDrivers(year, round, constructorId)
     }
 
     override suspend fun getDriver(driverId: String): DriverDetail {
