@@ -76,7 +76,7 @@ private fun ConstructorDetailScreen(
                             onImeSearch = {
                                 keyBoardController?.hide()
                             },
-                            modifier = Modifier.padding(end = 8.dp)
+                            modifier = Modifier.padding(end = 8.dp),
                         )
                     }
                 )
@@ -102,9 +102,7 @@ private fun ConstructorDetailScreen(
                                     text = "Races",
                                     style = MaterialTheme.typography.headlineSmall,
                                 )
-                                Text(
-                                    text = state.searchedRaces.size.toString(),
-                                )
+                                Text(text = state.searchedRaces.size.toString())
                             }
                         },
                         content = {
