@@ -99,7 +99,11 @@ fun App() {
                         )
                     }
                     composable<Route.CircuitDetail> {
-                        CircuitDetailScreenRoot()
+                        CircuitDetailScreenRoot(
+                            onBackClick = {
+                                navController.navigateUp()
+                            }
+                        )
                     }
                 }
             }

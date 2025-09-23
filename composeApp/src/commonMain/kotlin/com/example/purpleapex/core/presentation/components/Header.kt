@@ -1,4 +1,4 @@
-package com.example.purpleapex.driver.presentation.driver_detail.components
+package com.example.purpleapex.core.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,9 +28,7 @@ fun Header(
             .background(MaterialTheme.colorScheme.primary)
             .padding(vertical = 8.dp)
     ) {
-        IconButton(
-            onClick = onBackClick,
-        ) {
+        IconButton(onClick = onBackClick) {
             Icon(
                 Icons.AutoMirrored.Rounded.ArrowBack,
                 contentDescription = "Go back",

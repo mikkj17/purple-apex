@@ -1,5 +1,5 @@
-query QualifyingsQuery($driverId: String, $constructorId: String) {
-    qualifyings(driverId: $driverId, constructorId: $constructorId) {
+query QualifyingsQuery($driverId: String, $constructorId: String, $circuitId: String) {
+    qualifyings(driverId: $driverId, constructorId: $constructorId, circuitId: $circuitId) {
         season
         round
         name

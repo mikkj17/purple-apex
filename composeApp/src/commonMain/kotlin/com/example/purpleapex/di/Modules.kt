@@ -5,6 +5,7 @@ import com.example.purpleapex.circuit.data.network.ApolloCircuitClient
 import com.example.purpleapex.circuit.data.repository.DefaultCircuitRepository
 import com.example.purpleapex.circuit.domain.CircuitClient
 import com.example.purpleapex.circuit.domain.CircuitRepository
+import com.example.purpleapex.circuit.presentation.circuit_detail.CircuitDetailViewModel
 import com.example.purpleapex.constructor.data.network.ApolloConstructorClient
 import com.example.purpleapex.constructor.data.repository.DefaultConstructorRepository
 import com.example.purpleapex.constructor.domain.ConstructorClient
@@ -90,5 +91,6 @@ val sharedModule = module {
     viewModelOf(::SearchViewModel)
     viewModelOf(::DriverDetailViewModel)
     viewModelOf(::ConstructorDetailViewModel)
+    viewModelOf(::CircuitDetailViewModel)
     viewModelOf(::NewsListViewModel)
 }
