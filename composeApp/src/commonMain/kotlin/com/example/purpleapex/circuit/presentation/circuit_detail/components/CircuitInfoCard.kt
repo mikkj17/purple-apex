@@ -35,7 +35,8 @@ fun CircuitInfoCard(
                 )
             ) {
                 Column(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(8.dp)
                 ) {
                     LabeledValue(label = "Name", value = circuit.name)
