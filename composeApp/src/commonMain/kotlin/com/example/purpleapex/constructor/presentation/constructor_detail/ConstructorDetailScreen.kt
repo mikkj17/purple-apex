@@ -15,8 +15,12 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.purpleapex.constructor.presentation.constructor_detail.components.*
+import com.example.purpleapex.constructor.presentation.constructor_detail.components.ConstructorInfoCard
+import com.example.purpleapex.constructor.presentation.constructor_detail.components.DriverList
+import com.example.purpleapex.constructor.presentation.constructor_detail.components.QualifyingList
+import com.example.purpleapex.constructor.presentation.constructor_detail.components.RaceList
 import com.example.purpleapex.core.presentation.components.AnimatedContainer
+import com.example.purpleapex.core.presentation.components.Header
 import com.example.purpleapex.search.presentation.components.SearchBar
 import org.koin.compose.viewmodel.koinViewModel
 

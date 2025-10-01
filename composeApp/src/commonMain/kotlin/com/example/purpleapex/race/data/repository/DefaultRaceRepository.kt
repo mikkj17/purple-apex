@@ -7,7 +7,12 @@ import com.example.purpleapex.race.domain.RaceRepository
 class DefaultRaceRepository(
     private val raceClient: RaceClient,
 ) : RaceRepository {
-    override suspend fun getRaces(year: Int?, driverId: String?, constructorId: String?): List<Race> {
-        return raceClient.getRaces(year, driverId, constructorId)
+    override suspend fun getRaces(
+        year: Int?,
+        driverId: String?,
+        constructorId: String?,
+        circuitId: String?,
+    ): List<Race> {
+        return raceClient.getRaces(year, driverId, constructorId, circuitId)
     }
 }

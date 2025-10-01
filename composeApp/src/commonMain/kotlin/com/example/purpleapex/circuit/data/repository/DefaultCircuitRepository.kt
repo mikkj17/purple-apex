@@ -10,4 +10,10 @@ class DefaultCircuitRepository(
     override suspend fun getCircuits(year: Int?, round: Int?): List<Circuit> {
         return circuitClient.getCircuits(year, round)
     }
+
+    override suspend fun getCircuit(circuitId: String): Circuit {
+        return circuitClient
+            .getCircuits()
+            .first { it.id == circuitId }
+    }
 }
