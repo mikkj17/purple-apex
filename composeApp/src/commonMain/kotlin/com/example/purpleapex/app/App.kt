@@ -57,7 +57,9 @@ fun App() {
                         )
                     }
                     composable<Route.RaceDetail> {
-                        RaceDetailScreenRoot()
+                        RaceDetailScreenRoot(
+                            onBackClick = { navController.navigateUp() }
+                        )
                     }
                     composable<Route.Search> {
                         SearchScreenRoot(

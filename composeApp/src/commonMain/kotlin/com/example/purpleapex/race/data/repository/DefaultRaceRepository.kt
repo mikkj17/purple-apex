@@ -2,6 +2,7 @@ package com.example.purpleapex.race.data.repository
 
 import com.example.purpleapex.race.domain.Race
 import com.example.purpleapex.race.domain.RaceClient
+import com.example.purpleapex.race.domain.RaceDetail
 import com.example.purpleapex.race.domain.RaceRepository
 
 class DefaultRaceRepository(
@@ -14,5 +15,13 @@ class DefaultRaceRepository(
         circuitId: String?,
     ): List<Race> {
         return raceClient.getRaces(year, driverId, constructorId, circuitId)
+    }
+
+    override suspend fun getRace(year: Int, round: Int): Race {
+        return raceClient.getRace(year, round)
+    }
+
+    override suspend fun getRaceDetail(year: Int, round: Int): RaceDetail {
+        return raceClient.getRaceDetail(year, round)
     }
 }
