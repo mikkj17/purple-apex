@@ -35,6 +35,7 @@ fun ResultListItem(result: ResultDetail) {
         Text(
             text = result.time?.time ?: result.status,
             style = MaterialTheme.typography.bodySmall,
+            textAlign = TextAlign.End,
             modifier = Modifier.weight(1.0f),
         )
         Text(

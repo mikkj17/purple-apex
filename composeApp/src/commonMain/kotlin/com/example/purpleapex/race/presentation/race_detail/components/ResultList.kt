@@ -1,5 +1,6 @@
 package com.example.purpleapex.race.presentation.race_detail.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,7 +17,11 @@ import com.example.purpleapex.race.domain.ResultDetail
 
 @Composable
 fun ResultList(results: List<ResultDetail>) {
-    Surface(tonalElevation = 1.dp, shape = MaterialTheme.shapes.small) {
+    Surface(
+        tonalElevation = 1.dp,
+        shape = MaterialTheme.shapes.small,
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
+    ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(8.dp),
@@ -33,6 +38,7 @@ fun ResultList(results: List<ResultDetail>) {
                 Text(
                     text = "Time",
                     modifier = Modifier.weight(1.0f),
+                    textAlign = TextAlign.End,
                 )
                 Text(
                     text = "Pts.",

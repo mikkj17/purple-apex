@@ -67,15 +67,15 @@ private fun RaceDetailScreen(
                 )
                 Column(
                     modifier = Modifier
-                        .padding(horizontal = 16.dp)
+                        .padding(horizontal = 8.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
                     RaceInfoCard(race = state.race)
                     Spacer(modifier = Modifier.height(16.dp))
                     ResultList(results = state.race.results)
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
-                Spacer(modifier = Modifier.height(16.dp))
             }
         }
     }

@@ -34,13 +34,13 @@ class RaceDetailViewModel(
     private fun load() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }
-            runCatching {
-                raceRepository.getRaceDetail(args.season, args.round)
-            }.onSuccess { race ->
-                _state.update { it.copy(race = race, isLoading = false, errorMessage = null) }
-            }.onFailure { throwable ->
-                _state.update { it.copy(isLoading = false, errorMessage = throwable.message ?: "Unknown error") }
-            }
+            runCatching { raceRepository.getRaceDetail(args.season, args.round) }
+                .onSuccess { race -> _state.update { it.copy(race = race, isLoading = false, errorMessage = null) } }
+                .onFailure { throwable ->
+                    _state.update {
+                        it.copy(isLoading = false, errorMessage = throwable.message ?: "Unknown error")
+                    }
+                }
         }
     }
 }
