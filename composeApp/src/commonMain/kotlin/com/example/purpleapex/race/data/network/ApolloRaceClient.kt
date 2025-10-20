@@ -37,20 +37,6 @@ class ApolloRaceClient(
             .execute()
             .dataAssertNoErrors
             .race
-            ?.toRace()
-            ?: error("Race not found for year=$year, round=$round")
-
-    override suspend fun getRaceDetail(year: Int, round: Int) =
-        apolloClient
-            .query(
-                RaceQuery(
-                    year = year,
-                    round = round,
-                )
-            )
-            .execute()
-            .dataAssertNoErrors
-            .race
             ?.toRaceDetail()
             ?: error("Race not found for year=$year, round=$round")
 }

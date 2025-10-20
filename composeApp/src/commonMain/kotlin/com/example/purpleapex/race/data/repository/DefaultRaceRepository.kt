@@ -17,11 +17,7 @@ class DefaultRaceRepository(
         return raceClient.getRaces(year, driverId, constructorId, circuitId)
     }
 
-    override suspend fun getRace(year: Int, round: Int): Race {
+    override suspend fun getRace(year: Int, round: Int): RaceDetail {
         return raceClient.getRace(year, round)
-    }
-
-    override suspend fun getRaceDetail(year: Int, round: Int): RaceDetail {
-        return raceClient.getRaceDetail(year, round)
     }
 }
