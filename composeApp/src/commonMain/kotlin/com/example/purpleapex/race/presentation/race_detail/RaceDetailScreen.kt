@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.core.presentation.components.Header
+import com.example.purpleapex.race.presentation.race_detail.components.Menu
 import com.example.purpleapex.race.presentation.race_detail.components.RaceInfoCard
 import com.example.purpleapex.race.presentation.race_detail.components.ResultList
 import org.koin.compose.viewmodel.koinViewModel
@@ -22,13 +23,21 @@ import org.koin.compose.viewmodel.koinViewModel
 fun RaceDetailScreenRoot(
     viewModel: RaceDetailViewModel = koinViewModel(),
     onBackClick: () -> Unit = {},
+    onQualifyingClick: (season: Int, round: Int) -> Unit,
+    onLapTimesClick: (season: Int, round: Int) -> Unit,
+    onPitStopsClick: (season: Int, round: Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     RaceDetailScreen(
         state = state,
         onAction = { action ->
+            val race = state.race!!
+
             when (action) {
                 RaceDetailAction.OnBackClick -> onBackClick()
+                RaceDetailAction.OnQualifyingClick -> onQualifyingClick(race.season, race.round)
+                RaceDetailAction.OnLapTimesClick -> onLapTimesClick(race.season, race.round)
+                RaceDetailAction.OnPitStopsClick -> onPitStopsClick(race.season, race.round)
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -57,12 +66,14 @@ private fun RaceDetailScreen(
                 Header(
                     onBackClick = { onAction(RaceDetailAction.OnBackClick) },
                     trailingContent = {
-                        Text(
-                            text = state.race.name,
-                            style = MaterialTheme.typography.titleLarge,
-                            color = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier.padding(end = 16.dp),
-                        )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = state.race.name,
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.onPrimary,
+                            )
+                            Menu(onAction = onAction)
+                        }
                     }
                 )
                 Column(

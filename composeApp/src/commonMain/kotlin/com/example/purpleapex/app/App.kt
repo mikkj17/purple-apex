@@ -10,6 +10,9 @@ import com.example.purpleapex.circuit.presentation.circuit_detail.CircuitDetailS
 import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorDetailScreenRoot
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScreenRoot
 import com.example.purpleapex.home.presentation.HomeScreenRoot
+import com.example.purpleapex.qualifying.presentation.qualifying_detail.QualifyingDetailScreenRoot
+import com.example.purpleapex.race.presentation.race_detail.LapTimesScreenRoot
+import com.example.purpleapex.race.presentation.race_detail.PitStopsScreenRoot
 import com.example.purpleapex.race.presentation.race_detail.RaceDetailScreenRoot
 import com.example.purpleapex.race.presentation.race_list.RaceListScreenRoot
 import com.example.purpleapex.search.presentation.SearchScreenRoot
@@ -58,7 +61,16 @@ fun App() {
                     }
                     composable<Route.RaceDetail> {
                         RaceDetailScreenRoot(
-                            onBackClick = { navController.navigateUp() }
+                            onBackClick = { navController.navigateUp() },
+                            onQualifyingClick = { season, round ->
+                                navController.navigate(Route.QualifyingDetail(season, round))
+                            },
+                            onLapTimesClick = { season, round ->
+                                navController.navigate(Route.LapTimes(season, round))
+                            },
+                            onPitStopsClick = { season, round ->
+                                navController.navigate(Route.PitStops(season, round))
+                            },
                         )
                     }
                     composable<Route.Search> {
@@ -102,6 +114,27 @@ fun App() {
                     }
                     composable<Route.CircuitDetail> {
                         CircuitDetailScreenRoot(
+                            onBackClick = {
+                                navController.navigateUp()
+                            }
+                        )
+                    }
+                    composable<Route.QualifyingDetail> {
+                        QualifyingDetailScreenRoot(
+                            onBackClick = {
+                                navController.navigateUp()
+                            }
+                        )
+                    }
+                    composable<Route.LapTimes> {
+                        LapTimesScreenRoot(
+                            onBackClick = {
+                                navController.navigateUp()
+                            }
+                        )
+                    }
+                    composable<Route.PitStops> {
+                        PitStopsScreenRoot(
                             onBackClick = {
                                 navController.navigateUp()
                             }

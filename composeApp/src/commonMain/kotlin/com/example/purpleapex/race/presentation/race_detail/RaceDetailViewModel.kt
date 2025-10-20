@@ -26,8 +26,8 @@ class RaceDetailViewModel(
 
     fun onAction(action: RaceDetailAction) {
         when (action) {
-            RaceDetailAction.OnBackClick -> Unit
-            RaceDetailAction.OnRetryClick -> load()
+            is RaceDetailAction.OnRetryClick -> load()
+            else -> Unit
         }
     }
 

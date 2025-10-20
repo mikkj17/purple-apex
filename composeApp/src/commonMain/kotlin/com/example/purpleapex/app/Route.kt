@@ -19,6 +19,15 @@ sealed interface Route {
     data class RaceDetail(val season: Int, val round: Int) : Route
 
     @Serializable
+    data class QualifyingDetail(val season: Int, val round: Int) : Route
+
+    @Serializable
+    data class LapTimes(val season: Int, val round: Int) : Route
+
+    @Serializable
+    data class PitStops(val season: Int, val round: Int) : Route
+
+    @Serializable
     data object Search : Route
 
     @Serializable
