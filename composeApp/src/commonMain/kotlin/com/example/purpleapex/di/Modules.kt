@@ -31,6 +31,7 @@ import com.example.purpleapex.race.data.repository.DefaultRaceRepository
 import com.example.purpleapex.race.domain.RaceClient
 import com.example.purpleapex.race.domain.RaceRepository
 import com.example.purpleapex.race.presentation.race_list.RaceListViewModel
+import com.example.purpleapex.race.presentation.race_detail.RaceDetailViewModel
 import com.example.purpleapex.search.presentation.SearchViewModel
 import com.example.purpleapex.standings.data.network.ApolloStandingsClient
 import com.example.purpleapex.standings.data.repository.DefaultStandingsRepository
@@ -88,6 +89,7 @@ val sharedModule = module {
 
     viewModelOf(::StandingsListViewModel)
     viewModelOf(::RaceListViewModel)
+    viewModelOf(::RaceDetailViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::DriverDetailViewModel)
     viewModelOf(::ConstructorDetailViewModel)
