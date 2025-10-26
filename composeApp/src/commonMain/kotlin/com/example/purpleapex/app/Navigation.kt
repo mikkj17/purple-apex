@@ -49,10 +49,28 @@ fun BottomNavigationBar(
                     )
                 },
                 onClick = { onNavigate(topLevelRoute.route) },
-                selected = currentDestination
-                    ?.route
-                    ?.substringAfterLast(".")
-                    ?.equals(topLevelRoute.route.toString()) == true,
+                selected = run {
+                    val current = currentDestination
+                        ?.route
+                        ?.substringAfterLast(".")
+                    when (topLevelRoute) {
+                        TopLevelRoutes.HOME -> current == "Home"
+                        TopLevelRoutes.STANDINGS -> current == "Standings"
+                        TopLevelRoutes.RACING -> current in setOf(
+                            "Racing",
+                            "RaceDetail",
+                            "QualifyingDetail",
+                            "LapTimes",
+                            "PitStops",
+                        )
+                        TopLevelRoutes.DRIVERS -> current in setOf(
+                            "Search",
+                            "DriverDetail",
+                            "ConstructorDetail",
+                            "CircuitDetail",
+                        )
+                    }
+                },
             )
         }
     }

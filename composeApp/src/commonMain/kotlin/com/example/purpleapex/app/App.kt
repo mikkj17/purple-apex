@@ -29,7 +29,17 @@ fun App() {
             bottomBar = {
                 BottomNavigationBar(
                     currentDestination = currentDestination,
-                    onNavigate = { navController.navigate(it) },
+                    onNavigate = { route ->
+                        navController.navigate(route) {
+                            // Navigate to top-level destinations without building up a large back stack
+                            // and restore previous state when reselecting a tab
+                            launchSingleTop = true
+                            restoreState = true
+                            popUpTo<Route.Graph> {
+                                saveState = true
+                            }
+                        }
+                    },
                 )
             },
         ) { innerPadding ->
