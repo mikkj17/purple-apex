@@ -6,11 +6,7 @@ import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Leaderboard
 import androidx.compose.material.icons.rounded.RocketLaunch
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -23,7 +19,7 @@ import kotlinx.serialization.serializer
 private object GraphRoutes {
     @OptIn(ExperimentalSerializationApi::class)
     inline fun <reified T : Route> serialName(): String =
-        kotlinx.serialization.serializer<T>().descriptor.serialName
+        serializer<T>().descriptor.serialName
 
     val home by lazy { serialName<Route.HomeGraph>() }
     val standings by lazy { serialName<Route.StandingsGraph>() }
@@ -48,9 +44,7 @@ fun BottomNavigationBar(
     currentDestination: NavDestination?,
     onNavigate: (graph: Route, root: Route, reselected: Boolean) -> Unit,
 ) {
-    BottomAppBar(
-        containerColor = MaterialTheme.colorScheme.surface
-    ) {
+    BottomAppBar(containerColor = MaterialTheme.colorScheme.surface) {
         TopLevelRoutes.entries.forEach { topLevelRoute ->
             val isSelected = currentDestination
                 ?.hierarchy
@@ -61,7 +55,7 @@ fun BottomNavigationBar(
                         TopLevelRoutes.RACING -> dest.hasRoute(GraphRoutes.racing, null)
                         TopLevelRoutes.DRIVERS -> dest.hasRoute(GraphRoutes.search, null)
                     }
-                } == true
+                } ?: false
 
             NavigationBarItem(
                 icon = {
