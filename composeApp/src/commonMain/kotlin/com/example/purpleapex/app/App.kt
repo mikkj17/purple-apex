@@ -29,14 +29,25 @@ fun App() {
             bottomBar = {
                 BottomNavigationBar(
                     currentDestination = currentDestination,
-                    onNavigate = { route ->
-                        navController.navigate(route) {
-                            // Navigate to top-level destinations without building up a large back stack
-                            // and restore previous state when reselecting a tab
-                            launchSingleTop = true
-                            restoreState = true
-                            popUpTo<Route.Graph> {
-                                saveState = true
+                    onNavigate = { route, reselected ->
+                        if (reselected) {
+                            // On reselect: pop back to the tab's root if it's in the back stack.
+                            // This guarantees leaving any sub-screens and showing the root.
+                            val popped = navController.popBackStack(route, inclusive = false)
+                            if (!popped) {
+                                // If the root wasn't in the stack (e.g., first time visiting), navigate to it.
+                                navController.navigate(route) {
+                                    launchSingleTop = true
+                                    restoreState = true
+                                    popUpTo<Route.Graph> { saveState = true }
+                                }
+                            }
+                        } else {
+                            // Normal top-level tab switching: navigate while preserving each tab's stack
+                            navController.navigate(route) {
+                                launchSingleTop = true
+                                restoreState = true
+                                popUpTo<Route.Graph> { saveState = true }
                             }
                         }
                     },

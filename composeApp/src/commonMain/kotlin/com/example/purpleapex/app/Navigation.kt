@@ -27,12 +27,37 @@ enum class TopLevelRoutes(val title: String, val route: Route, val icon: ImageVe
 @Composable
 fun BottomNavigationBar(
     currentDestination: NavDestination?,
-    onNavigate: (Route) -> Unit,
+    onNavigate: (Route, Boolean) -> Unit,
 ) {
     BottomAppBar(
         containerColor = MaterialTheme.colorScheme.surface
     ) {
         TopLevelRoutes.entries.forEach { topLevelRoute ->
+            val isSelected = run {
+                val routeString = currentDestination?.route.orEmpty()
+                when (topLevelRoute) {
+                    TopLevelRoutes.HOME -> routeString.contains("Route.Home") || routeString.endsWith(".Home")
+                    TopLevelRoutes.STANDINGS -> routeString.contains("Route.Standings") || routeString.endsWith(".Standings")
+                    TopLevelRoutes.RACING -> routeString.contains("Route.Racing") ||
+                            routeString.contains("Route.RaceDetail") ||
+                            routeString.contains("Route.QualifyingDetail") ||
+                            routeString.contains("Route.LapTimes") ||
+                            routeString.contains("Route.PitStops") ||
+                            routeString.endsWith(".Racing") ||
+                            routeString.endsWith(".RaceDetail") ||
+                            routeString.endsWith(".QualifyingDetail") ||
+                            routeString.endsWith(".LapTimes") ||
+                            routeString.endsWith(".PitStops")
+                    TopLevelRoutes.DRIVERS -> routeString.contains("Route.Search") ||
+                            routeString.contains("Route.DriverDetail") ||
+                            routeString.contains("Route.ConstructorDetail") ||
+                            routeString.contains("Route.CircuitDetail") ||
+                            routeString.endsWith(".Search") ||
+                            routeString.endsWith(".DriverDetail") ||
+                            routeString.endsWith(".ConstructorDetail") ||
+                            routeString.endsWith(".CircuitDetail")
+                }
+            }
             NavigationBarItem(
                 icon = {
                     Icon(
@@ -48,29 +73,8 @@ fun BottomNavigationBar(
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                 },
-                onClick = { onNavigate(topLevelRoute.route) },
-                selected = run {
-                    val current = currentDestination
-                        ?.route
-                        ?.substringAfterLast(".")
-                    when (topLevelRoute) {
-                        TopLevelRoutes.HOME -> current == "Home"
-                        TopLevelRoutes.STANDINGS -> current == "Standings"
-                        TopLevelRoutes.RACING -> current in setOf(
-                            "Racing",
-                            "RaceDetail",
-                            "QualifyingDetail",
-                            "LapTimes",
-                            "PitStops",
-                        )
-                        TopLevelRoutes.DRIVERS -> current in setOf(
-                            "Search",
-                            "DriverDetail",
-                            "ConstructorDetail",
-                            "CircuitDetail",
-                        )
-                    }
-                },
+                onClick = { onNavigate(topLevelRoute.route, isSelected) },
+                selected = isSelected,
             )
         }
     }
