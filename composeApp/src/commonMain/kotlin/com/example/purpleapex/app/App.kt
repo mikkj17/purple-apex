@@ -30,25 +30,25 @@ fun App() {
                 BottomNavigationBar(
                     currentDestination = currentDestination,
                     onNavigate = { graph, root, reselected ->
-                        if (reselected) {
-                            // On reselect: pop back to the tab's root leaf if it's in the back stack.
-                            val popped = navController.popBackStack(root, inclusive = false)
-                            if (!popped) {
-                                // If the root isn't present yet, navigate to the tab graph to restore state.
+                        // Delegate to a small testable helper via a NavController-backed adapter.
+                        val navigator = object : TabNavigator {
+                            override fun popBackStack(route: Route, inclusive: Boolean): Boolean =
+                                navController.popBackStack(route, inclusive)
+
+                            override fun navigateToGraph(graph: Route) {
                                 navController.navigate(graph) {
                                     launchSingleTop = true
                                     restoreState = true
                                     popUpTo<Route.Graph> { saveState = true }
                                 }
                             }
-                        } else {
-                            // Switching tabs: navigate to the tab graph to restore its saved inner back stack.
-                            navController.navigate(graph) {
-                                launchSingleTop = true
-                                restoreState = true
-                                popUpTo<Route.Graph> { saveState = true }
-                            }
                         }
+                        handleBottomBarNavigation(
+                            navigator = navigator,
+                            graph = graph,
+                            root = root,
+                            reselected = reselected,
+                        )
                     },
                 )
             },
