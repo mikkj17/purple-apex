@@ -6,33 +6,57 @@ import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Leaderboard
 import androidx.compose.material.icons.rounded.RocketLaunch
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.serializer
 
-enum class TopLevelRoutes(val title: String, val route: Route, val icon: ImageVector) {
-    HOME("Home", Route.Home, Icons.Rounded.Home),
-    STANDINGS("Standings", Route.Standings, Icons.Rounded.Leaderboard),
-    RACING("Racing", Route.Racing, Icons.Rounded.RocketLaunch),
-    DRIVERS("Search", Route.Search, Icons.Rounded.Search),
+private object GraphRoutes {
+    @OptIn(ExperimentalSerializationApi::class)
+    inline fun <reified T : Route> serialName(): String =
+        serializer<T>().descriptor.serialName
+
+    val home by lazy { serialName<Route.HomeGraph>() }
+    val standings by lazy { serialName<Route.StandingsGraph>() }
+    val racing by lazy { serialName<Route.RacingGraph>() }
+    val search by lazy { serialName<Route.SearchGraph>() }
+}
+
+enum class TopLevelRoutes(
+    val title: String,
+    val graph: Route,
+    val root: Route,
+    val icon: ImageVector
+) {
+    HOME("Home", Route.HomeGraph, Route.Home, Icons.Rounded.Home),
+    STANDINGS("Standings", Route.StandingsGraph, Route.Standings, Icons.Rounded.Leaderboard),
+    RACING("Racing", Route.RacingGraph, Route.Racing, Icons.Rounded.RocketLaunch),
+    DRIVERS("Search", Route.SearchGraph, Route.Search, Icons.Rounded.Search),
 }
 
 @Composable
 fun BottomNavigationBar(
     currentDestination: NavDestination?,
-    onNavigate: (Route) -> Unit,
+    onNavigate: (graph: Route, root: Route, reselected: Boolean) -> Unit,
 ) {
-    BottomAppBar(
-        containerColor = MaterialTheme.colorScheme.surface
-    ) {
+    BottomAppBar(containerColor = MaterialTheme.colorScheme.surface) {
         TopLevelRoutes.entries.forEach { topLevelRoute ->
+            val isSelected = currentDestination
+                ?.hierarchy
+                ?.any { dest ->
+                    when (topLevelRoute) {
+                        TopLevelRoutes.HOME -> dest.hasRoute(GraphRoutes.home, null)
+                        TopLevelRoutes.STANDINGS -> dest.hasRoute(GraphRoutes.standings, null)
+                        TopLevelRoutes.RACING -> dest.hasRoute(GraphRoutes.racing, null)
+                        TopLevelRoutes.DRIVERS -> dest.hasRoute(GraphRoutes.search, null)
+                    }
+                } ?: false
+
             NavigationBarItem(
                 icon = {
                     Icon(
@@ -48,11 +72,8 @@ fun BottomNavigationBar(
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                 },
-                onClick = { onNavigate(topLevelRoute.route) },
-                selected = currentDestination
-                    ?.route
-                    ?.substringAfterLast(".")
-                    ?.equals(topLevelRoute.route.toString()) == true,
+                onClick = { onNavigate(topLevelRoute.graph, topLevelRoute.root, isSelected) },
+                selected = isSelected,
             )
         }
     }
