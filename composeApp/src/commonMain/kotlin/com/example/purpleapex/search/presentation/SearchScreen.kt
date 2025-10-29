@@ -1,21 +1,11 @@
 package com.example.purpleapex.search.presentation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -100,14 +90,14 @@ private fun SearchScreen(
                 .background(color = MaterialTheme.colorScheme.primary)
                 .padding(8.dp)
         )
-        TabRow(
+        PrimaryTabRow(
             selectedTabIndex = state.selectedTabIndex,
             containerColor = MaterialTheme.colorScheme.primary,
             modifier = Modifier.fillMaxWidth(),
             indicator = {
                 TabRowDefaults.SecondaryIndicator(
                     color = MaterialTheme.colorScheme.onPrimary,
-                    modifier = Modifier.tabIndicatorOffset(it[state.selectedTabIndex])
+                    modifier = Modifier.tabIndicatorOffset(state.selectedTabIndex),
                 )
             }
         ) {

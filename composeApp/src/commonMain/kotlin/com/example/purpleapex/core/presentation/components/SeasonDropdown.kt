@@ -37,7 +37,7 @@ fun SeasonDropdown(
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .menuAnchor(MenuAnchorType.PrimaryEditable)
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable)
                 .width(80.dp)
                 .border(
                     width = 1.5.dp,

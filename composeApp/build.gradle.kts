@@ -1,6 +1,5 @@
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.compose.compiler.gradle.ComposeFeatureFlag
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -45,7 +44,7 @@ kotlin {
             implementation(libs.koin.androidx.compose)
             implementation(libs.ktor.client.okhttp)
 
-            implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+            implementation(libs.mp.android.chart)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -85,24 +84,20 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
 
             // Lets-Plot Kotlin API
-            implementation("org.jetbrains.lets-plot:lets-plot-kotlin-kernel:4.9.3")
+            implementation(libs.lets.plot.kotlin.kernel)
 
             // Lets-Plot Multiplatform
-            implementation("org.jetbrains.lets-plot:lets-plot-common:4.5.2")
-            implementation("org.jetbrains.lets-plot:platf-awt:4.5.2")
+            implementation(libs.lets.plot.common)
+            implementation(libs.lets.plot.platf.awt)
 
             // Lets-Plot Skia Frontend
-            implementation("org.jetbrains.lets-plot:lets-plot-compose:2.1.1")
+            implementation(libs.lets.plot.compose)
         }
 
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
     }
-}
-
-composeCompiler {
-    featureFlags.add(ComposeFeatureFlag.OptimizeNonSkippingGroups)
 }
 
 apollo {
