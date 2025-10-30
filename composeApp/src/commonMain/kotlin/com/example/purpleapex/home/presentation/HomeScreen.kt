@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -14,6 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.news.presentation.NewsListAction
 import com.example.purpleapex.news.presentation.NewsListState
 import com.example.purpleapex.news.presentation.NewsListViewModel
@@ -48,10 +48,8 @@ fun HomeScreen(
             contentScale = ContentScale.Crop
         )
 
-        Surface(
-            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
-            shadowElevation = 6.dp,
-            tonalElevation = 2.dp,
+        AppCard(
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f),
             shape = RoundedCornerShape(16.dp),
             modifier = Modifier
                 .align(Alignment.BottomCenter)

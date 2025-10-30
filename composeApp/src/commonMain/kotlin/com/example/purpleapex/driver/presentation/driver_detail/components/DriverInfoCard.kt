@@ -1,10 +1,7 @@
 package com.example.purpleapex.driver.presentation.driver_detail.components
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,6 +10,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.constructor.domain.Constructor
 import com.example.purpleapex.core.presentation.components.AnimatedContainer
+import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.driver.domain.DriverDetail
 
 @Composable
@@ -21,19 +19,19 @@ fun DriverInfoCard(
     constructors: List<Constructor>,
     modifier: Modifier = Modifier,
 ) {
-    AnimatedContainer(
-        header = {
-            Text(
-                text = "General Information",
-                style = MaterialTheme.typography.headlineSmall,
-            )
-        },
-        content = {
-            Surface(
-                shape = MaterialTheme.shapes.small,
-                color = MaterialTheme.colorScheme.surfaceContainerLow,
-                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
-            ) {
+    AppCard(
+        shape = MaterialTheme.shapes.small,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        modifier = modifier,
+    ) {
+        AnimatedContainer(
+            header = {
+                Text(
+                    text = "General Information",
+                    style = MaterialTheme.typography.headlineSmall,
+                )
+            },
+            content = {
                 Column(modifier = Modifier.padding(8.dp)) {
                     LabeledValue(label = "Name", value = driver.fullName)
                     Spacer(Modifier.height(8.dp))
@@ -55,15 +53,11 @@ fun DriverInfoCard(
                         }
                     }
                 }
-            }
-        },
-        isExpandedByDefault = true,
-        modifier = modifier.border(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.outlineVariant,
-            shape = MaterialTheme.shapes.small,
-        ),
-    )
+            },
+            isExpandedByDefault = true,
+            modifier = Modifier,
+        )
+    }
 }
 
 @Composable

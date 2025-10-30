@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.core.presentation.extensions.formatAsPoints
 import com.example.purpleapex.standings.domain.ConstructorStanding
 
@@ -18,10 +19,9 @@ fun ConstructorStandingListItem(
     constructorStanding: ConstructorStanding,
     modifier: Modifier = Modifier
 ) {
-    Surface(
+    AppCard(
         shape = RoundedCornerShape(8.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier,
     ) {
         Row(

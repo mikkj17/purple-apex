@@ -29,10 +29,9 @@ fun DriverListItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Surface(
+    com.example.purpleapex.core.presentation.components.AppCard(
         shape = RoundedCornerShape(8.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLow,
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier.clickable(onClick = onClick)
     ) {
         Row(
