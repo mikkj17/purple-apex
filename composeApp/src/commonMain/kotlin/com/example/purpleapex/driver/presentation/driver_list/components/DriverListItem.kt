@@ -29,8 +29,9 @@ fun DriverListItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Surface(
+    com.example.purpleapex.core.presentation.components.AppCard(
         shape = RoundedCornerShape(8.dp),
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier.clickable(onClick = onClick)
     ) {
         Row(
@@ -47,6 +48,7 @@ fun DriverListItem(
                 Text(
                     text = driver.givenName.uppercase(),
                     style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
                     text = driver.familyName.uppercase(),
@@ -57,6 +59,7 @@ fun DriverListItem(
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(24.dp)
             )
         }

@@ -75,7 +75,7 @@ private fun SearchScreen(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.background(MaterialTheme.colorScheme.tertiary),
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
     ) {
         SearchBar(
             searchQuery = state.searchQuery,
@@ -87,16 +87,16 @@ private fun SearchScreen(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.primary)
+                .background(color = MaterialTheme.colorScheme.surface)
                 .padding(8.dp)
         )
         PrimaryTabRow(
             selectedTabIndex = state.selectedTabIndex,
-            containerColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.surface,
             modifier = Modifier.fillMaxWidth(),
             indicator = {
                 TabRowDefaults.SecondaryIndicator(
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.tabIndicatorOffset(state.selectedTabIndex),
                 )
             }
@@ -108,8 +108,8 @@ private fun SearchScreen(
                         onAction(SearchAction.OnTabSelected(index))
                     },
                     modifier = Modifier.weight(1f),
-                    selectedContentColor = MaterialTheme.colorScheme.onPrimary,
-                    unselectedContentColor = MaterialTheme.colorScheme.onSecondary,
+                    selectedContentColor = MaterialTheme.colorScheme.onSurface,
+                    unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 ) {
                     Text(
                         text = s,

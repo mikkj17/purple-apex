@@ -40,16 +40,24 @@ fun SearchBar(
             onValueChange = onSearchQueryChange,
             shape = RoundedCornerShape(32),
             colors = OutlinedTextFieldDefaults.colors(
-                cursorColor = MaterialTheme.colorScheme.onPrimary,
-                focusedBorderColor = MaterialTheme.colorScheme.onPrimary,
-                unfocusedBorderColor = MaterialTheme.colorScheme.onPrimary,
-                focusedTextColor = MaterialTheme.colorScheme.onPrimary,
-                unfocusedTextColor = MaterialTheme.colorScheme.onPrimary,
+                cursorColor = MaterialTheme.colorScheme.primary,
+                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                focusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                focusedLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unfocusedLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
             ),
             placeholder = {
                 Text(
                     text = "Search...",
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             },
             singleLine = true,
@@ -66,7 +74,7 @@ fun SearchBar(
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             },
             trailingIcon = {
@@ -81,7 +89,7 @@ fun SearchBar(
                         Icon(
                             imageVector = Icons.Default.Close,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }

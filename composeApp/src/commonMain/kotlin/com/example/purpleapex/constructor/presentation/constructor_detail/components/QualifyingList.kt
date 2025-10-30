@@ -1,14 +1,14 @@
 package com.example.purpleapex.constructor.presentation.constructor_detail.components
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.qualifying.domain.Qualifying
 
 @Composable
@@ -28,13 +28,9 @@ private fun QualifyingListItem(
     qualifying: Qualifying,
     modifier: Modifier = Modifier,
 ) {
-    Surface(
-        tonalElevation = 1.dp,
-        modifier = Modifier.border(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.onSurface,
-            shape = MaterialTheme.shapes.small,
-        )
+    AppCard(
+        shape = MaterialTheme.shapes.small,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
     ) {
         Column(modifier = modifier.padding(8.dp)) {
             Text(
@@ -50,14 +46,9 @@ private fun QualifyingListItem(
             Spacer(modifier = Modifier.height(8.dp))
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 qualifying.results.forEach { result ->
-                    Surface(
-                        tonalElevation = 3.dp,
-                        modifier = Modifier
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                shape = MaterialTheme.shapes.small,
-                            )
+                    AppCard(
+                        shape = RoundedCornerShape(6.dp),
+                        containerColor = MaterialTheme.colorScheme.surfaceContainer,
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,

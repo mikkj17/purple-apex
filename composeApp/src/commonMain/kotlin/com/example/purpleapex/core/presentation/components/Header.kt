@@ -25,14 +25,14 @@ fun Header(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(MaterialTheme.colorScheme.surface)
             .padding(vertical = 8.dp)
     ) {
         IconButton(onClick = onBackClick) {
             Icon(
                 Icons.AutoMirrored.Rounded.ArrowBack,
                 contentDescription = "Go back",
-                tint = MaterialTheme.colorScheme.onPrimary,
+                tint = MaterialTheme.colorScheme.onSurface,
             )
         }
 

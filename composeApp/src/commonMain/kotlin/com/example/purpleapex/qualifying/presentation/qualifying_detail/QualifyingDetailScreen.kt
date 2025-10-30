@@ -21,7 +21,7 @@ fun QualifyingDetailScreenRoot(
             Text(
                 text = "Qualifying",
                 style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(end = 16.dp),
             )
         }

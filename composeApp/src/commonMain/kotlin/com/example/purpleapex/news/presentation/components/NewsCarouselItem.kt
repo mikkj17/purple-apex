@@ -1,17 +1,16 @@
 package com.example.purpleapex.news.presentation.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.news.domain.NewsArticle
 
 @Composable
@@ -20,12 +19,9 @@ fun NewsCarouselItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Surface(
+    AppCard(
         shape = RoundedCornerShape(14.dp),
-        color = MaterialTheme.colorScheme.surfaceContainerLowest,
-        tonalElevation = 0.dp,
-        shadowElevation = 0.dp,
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.08f)),
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLowest,
         modifier = modifier
             .width(260.dp)
             .clickable { onClick() }

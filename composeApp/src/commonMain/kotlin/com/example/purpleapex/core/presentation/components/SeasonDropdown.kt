@@ -42,13 +42,13 @@ fun SeasonDropdown(
                 .border(
                     width = 1.5.dp,
                     shape = RoundedCornerShape(4.dp),
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.outline,
                 )
                 .padding(vertical = 4.dp, horizontal = 12.dp)
         ) {
             Text(
                 selectedYear.toString(),
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.onSurface,
             )
         }
         DropdownMenu(
