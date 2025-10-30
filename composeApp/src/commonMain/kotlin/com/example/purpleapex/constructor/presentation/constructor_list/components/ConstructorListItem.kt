@@ -30,6 +30,8 @@ fun ConstructorListItem(
 ) {
     Surface(
         shape = RoundedCornerShape(8.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         modifier = modifier.clickable(onClick = onClick)
     ) {
         Row(
@@ -46,16 +48,19 @@ fun ConstructorListItem(
                 Text(
                     text = constructor.name,
                     style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
                     text = constructor.nationality,
                     style = MaterialTheme.typography.bodySmall,
                     fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(24.dp)
             )
         }

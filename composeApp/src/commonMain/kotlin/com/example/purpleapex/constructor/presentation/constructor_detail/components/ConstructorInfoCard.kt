@@ -1,5 +1,6 @@
 package com.example.purpleapex.constructor.presentation.constructor_detail.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -27,12 +28,9 @@ fun ConstructorInfoCard(
         },
         content = {
             Surface(
-                tonalElevation = 2.dp,
-                modifier = Modifier.border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    shape = MaterialTheme.shapes.small,
-                )
+                shape = MaterialTheme.shapes.small,
+                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
             ) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -50,7 +48,11 @@ fun ConstructorInfoCard(
             }
         },
         isExpandedByDefault = true,
-        modifier = modifier,
+        modifier = modifier.border(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.outlineVariant,
+            shape = MaterialTheme.shapes.small,
+        ),
     )
 }
 

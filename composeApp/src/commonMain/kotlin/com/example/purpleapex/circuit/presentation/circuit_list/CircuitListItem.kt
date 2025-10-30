@@ -30,6 +30,8 @@ fun CircuitListItem(
 ) {
     Surface(
         shape = RoundedCornerShape(8.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         modifier = modifier.clickable(onClick = onClick)
     ) {
         Row(
@@ -46,6 +48,7 @@ fun CircuitListItem(
                 Text(
                     text = circuit.name,
                     style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
                     text = "${circuit.location.locality}, ${circuit.location.country}",

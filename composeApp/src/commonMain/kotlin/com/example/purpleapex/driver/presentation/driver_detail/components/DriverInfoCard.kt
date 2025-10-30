@@ -1,5 +1,6 @@
 package com.example.purpleapex.driver.presentation.driver_detail.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -29,12 +30,9 @@ fun DriverInfoCard(
         },
         content = {
             Surface(
-                tonalElevation = 2.dp,
-                modifier = Modifier.border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    shape = MaterialTheme.shapes.small,
-                )
+                shape = MaterialTheme.shapes.small,
+                color = MaterialTheme.colorScheme.surfaceContainerLow,
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
             ) {
                 Column(modifier = Modifier.padding(8.dp)) {
                     LabeledValue(label = "Name", value = driver.fullName)
@@ -60,7 +58,11 @@ fun DriverInfoCard(
             }
         },
         isExpandedByDefault = true,
-        modifier = modifier,
+        modifier = modifier.border(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.outlineVariant,
+            shape = MaterialTheme.shapes.small,
+        ),
     )
 }
 

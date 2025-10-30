@@ -1,7 +1,8 @@
 package com.example.purpleapex.circuit.presentation.circuit_detail.components
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -30,12 +31,9 @@ private fun RaceListItem(
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        tonalElevation = 1.dp,
-        modifier = Modifier.border(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.onSurface,
-            shape = MaterialTheme.shapes.small,
-        )
+        shape = MaterialTheme.shapes.small,
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
     ) {
         Column(modifier = modifier.padding(8.dp)) {
             Text(text = "${race.season} • Round ${race.round}", style = MaterialTheme.typography.labelMedium)
@@ -49,13 +47,12 @@ private fun RaceListItem(
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 race.results.take(3).forEach { result ->
                     Surface(
-                        tonalElevation = 3.dp,
-                        modifier = Modifier
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.onSurface,
-                                shape = MaterialTheme.shapes.small,
-                            )
+                        shape = RoundedCornerShape(6.dp),
+                        color = MaterialTheme.colorScheme.surfaceContainer,
+                        border = BorderStroke(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant
+                        ),
                     ) {
                         Row(
                             horizontalArrangement = Arrangement.SpaceBetween,

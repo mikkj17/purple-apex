@@ -47,20 +47,20 @@ private fun RaceListScreen(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.background(MaterialTheme.colorScheme.tertiary),
+        modifier = Modifier.background(MaterialTheme.colorScheme.background),
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.primary)
+                .background(color = MaterialTheme.colorScheme.surface)
                 .padding(top = 8.dp)
                 .padding(8.dp)
         ) {
             Text(
                 text = "RACES",
                 style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.onSurface,
             )
             SeasonDropdown(
                 selectedYear = state.selectedYear,

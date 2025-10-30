@@ -1,6 +1,6 @@
 package com.example.purpleapex.driver.presentation.driver_detail.components
 
-import androidx.compose.foundation.border
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -29,12 +29,9 @@ private fun QualifyingListItem(
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        tonalElevation = 2.dp,
-        modifier = Modifier.border(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.onSurface,
-            shape = MaterialTheme.shapes.small,
-        )
+        shape = MaterialTheme.shapes.small,
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
     ) {
         Column(modifier = modifier.padding(8.dp)) {
             Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {

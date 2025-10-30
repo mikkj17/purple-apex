@@ -18,9 +18,9 @@ import com.example.purpleapex.race.domain.ResultDetail
 @Composable
 fun ResultList(results: List<ResultDetail>) {
     Surface(
-        tonalElevation = 1.dp,
-        shape = MaterialTheme.shapes.small,
-        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outlineVariant),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),

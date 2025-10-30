@@ -70,7 +70,7 @@ private fun RaceDetailScreen(
                             Text(
                                 text = state.race.name,
                                 style = MaterialTheme.typography.titleLarge,
-                                color = MaterialTheme.colorScheme.onPrimary,
+                                color = MaterialTheme.colorScheme.onSurface,
                             )
                             Menu(onAction = onAction)
                         }

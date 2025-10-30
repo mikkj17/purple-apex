@@ -31,6 +31,8 @@ fun DriverListItem(
 ) {
     Surface(
         shape = RoundedCornerShape(8.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         modifier = modifier.clickable(onClick = onClick)
     ) {
         Row(
@@ -47,6 +49,7 @@ fun DriverListItem(
                 Text(
                     text = driver.givenName.uppercase(),
                     style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
                     text = driver.familyName.uppercase(),
@@ -57,6 +60,7 @@ fun DriverListItem(
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
                 contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(24.dp)
             )
         }

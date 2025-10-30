@@ -1,5 +1,6 @@
 package com.example.purpleapex.constructor.presentation.constructor_detail.components
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -7,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.core.presentation.components.AnimatedContainer
 import com.example.purpleapex.driver.domain.Driver
@@ -43,7 +45,11 @@ fun DriverList(
                 }
             }
         },
-        modifier = modifier,
+        modifier = modifier.border(
+            width = 1.dp,
+            color = MaterialTheme.colorScheme.outlineVariant,
+            shape = MaterialTheme.shapes.small,
+        ),
     )
 }
 
@@ -56,7 +62,7 @@ fun DriverItem(driver: Driver) {
         Text(
             text = driver.fullName,
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            color = Color.White,
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
         )
     }

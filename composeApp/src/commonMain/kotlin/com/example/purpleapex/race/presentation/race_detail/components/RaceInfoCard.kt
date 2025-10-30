@@ -14,9 +14,9 @@ import com.example.purpleapex.race.domain.RaceDetail
 @Composable
 fun RaceInfoCard(race: RaceDetail, modifier: Modifier = Modifier) {
     Surface(
-        tonalElevation = 1.dp,
         shape = MaterialTheme.shapes.small,
-        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.outline),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         modifier = modifier.fillMaxWidth(),
     ) {
         Column(modifier = Modifier.padding(12.dp)) {

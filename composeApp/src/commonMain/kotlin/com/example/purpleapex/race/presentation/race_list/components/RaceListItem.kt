@@ -25,6 +25,8 @@ fun RaceListItem(
 ) {
     Surface(
         shape = RoundedCornerShape(8.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLow,
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         modifier = modifier.clickable(onClick = onClick),
     ) {
         Row(
@@ -40,7 +42,7 @@ fun RaceListItem(
                 Text(
                     "ROUND ${race.round}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.primaryContainer,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
                     race.circuit.location.country,

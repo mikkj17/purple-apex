@@ -1,6 +1,7 @@
 package com.example.purpleapex.constructor.presentation.constructor_detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -65,7 +66,7 @@ private fun ConstructorDetailScreen(
             else -> Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.tertiary),
+                    .background(MaterialTheme.colorScheme.background),
             ) {
                 Header(
                     onBackClick = {
@@ -118,6 +119,11 @@ private fun ConstructorDetailScreen(
                                 modifier = Modifier,
                             )
                         },
+                        modifier = Modifier.border(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant,
+                            shape = MaterialTheme.shapes.small,
+                        ),
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     AnimatedContainer(
@@ -143,6 +149,11 @@ private fun ConstructorDetailScreen(
                                 modifier = Modifier,
                             )
                         },
+                        modifier = Modifier.border(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant,
+                            shape = MaterialTheme.shapes.small,
+                        ),
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }

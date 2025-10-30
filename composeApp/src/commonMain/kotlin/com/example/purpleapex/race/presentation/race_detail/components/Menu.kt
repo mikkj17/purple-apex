@@ -18,7 +18,7 @@ fun Menu(onAction: (RaceDetailAction) -> Unit) {
             Icon(
                 imageVector = Icons.Rounded.MoreVert,
                 contentDescription = "More",
-                tint = MaterialTheme.colorScheme.onPrimary,
+                tint = MaterialTheme.colorScheme.onSurface,
             )
         }
         DropdownMenu(
