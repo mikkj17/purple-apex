@@ -15,6 +15,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalScaffoldPadding
+import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.constructor.presentation.constructor_detail.components.ConstructorInfoCard
 import com.example.purpleapex.constructor.presentation.constructor_detail.components.DriverList
 import com.example.purpleapex.constructor.presentation.constructor_detail.components.QualifyingList
@@ -66,7 +68,8 @@ private fun ConstructorDetailScreen(
             else -> Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(LocalTopSafePadding.current),
             ) {
                 Header(
                     onBackClick = {
@@ -88,6 +91,7 @@ private fun ConstructorDetailScreen(
 
                 Column(
                     modifier = Modifier
+                        .padding(LocalScaffoldPadding.current)
                         .padding(horizontal = 8.dp)
                         .verticalScroll(rememberScrollState())
                 ) {

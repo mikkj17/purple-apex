@@ -15,6 +15,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalScaffoldPadding
+import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.circuit.presentation.circuit_detail.components.CircuitInfoCard
 import com.example.purpleapex.circuit.presentation.circuit_detail.components.QualifyingList
 import com.example.purpleapex.circuit.presentation.circuit_detail.components.RaceList
@@ -65,7 +67,8 @@ private fun CircuitDetailScreen(
             else -> Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background),
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(LocalTopSafePadding.current),
             ) {
                 Header(
                     onBackClick = {
@@ -87,6 +90,7 @@ private fun CircuitDetailScreen(
 
                 Column(
                     modifier = Modifier
+                        .padding(LocalScaffoldPadding.current)
                         .padding(horizontal = 8.dp)
                         .verticalScroll(rememberScrollState())
                 ) {

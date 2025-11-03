@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.purpleapex.app.LocalScaffoldPadding
 import com.example.purpleapex.constructor.domain.Constructor
 
 @Composable
@@ -26,7 +27,8 @@ fun ConstructorList(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         state = scrollState,
-        modifier = modifier.padding(vertical = 8.dp)
+        modifier = modifier.padding(vertical = 8.dp),
+        contentPadding = LocalScaffoldPadding.current,
     ) {
         items(
             constructors,

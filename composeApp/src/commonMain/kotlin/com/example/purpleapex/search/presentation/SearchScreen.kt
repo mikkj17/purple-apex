@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.circuit.domain.Circuit
 import com.example.purpleapex.circuit.presentation.circuit_list.CircuitList
 import com.example.purpleapex.constructor.domain.Constructor
@@ -75,7 +76,9 @@ private fun SearchScreen(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.background(MaterialTheme.colorScheme.background),
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+            .padding(LocalTopSafePadding.current),
     ) {
         SearchBar(
             searchQuery = state.searchQuery,

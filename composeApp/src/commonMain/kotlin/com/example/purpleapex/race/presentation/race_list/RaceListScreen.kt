@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.core.presentation.components.SeasonDropdown
 import com.example.purpleapex.race.domain.Race
 import com.example.purpleapex.race.presentation.race_list.components.RaceList
@@ -47,7 +48,9 @@ private fun RaceListScreen(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.background(MaterialTheme.colorScheme.background),
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+            .padding(LocalTopSafePadding.current),
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

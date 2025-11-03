@@ -13,6 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalScaffoldPadding
 import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.news.presentation.NewsListAction
 import com.example.purpleapex.news.presentation.NewsListState
@@ -55,6 +56,7 @@ fun HomeScreen(
                 .align(Alignment.BottomCenter)
                 .fillMaxWidth()
                 .wrapContentHeight()
+                .padding(LocalScaffoldPadding.current)
                 .padding(horizontal = 8.dp, vertical = 12.dp)
         ) {
             Column(
