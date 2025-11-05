@@ -1,11 +1,6 @@
 package com.example.purpleapex.standings.presentation.standings_list.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -13,7 +8,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.core.presentation.extensions.formatAsPoints
 import com.example.purpleapex.standings.domain.ConstructorStanding
 
@@ -22,8 +19,9 @@ fun ConstructorStandingListItem(
     constructorStanding: ConstructorStanding,
     modifier: Modifier = Modifier
 ) {
-    Surface(
+    AppCard(
         shape = RoundedCornerShape(8.dp),
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier,
     ) {
         Row(
@@ -63,7 +61,7 @@ fun ConstructorStandingListItem(
                 Text(
                     "${constructorStanding.points.formatAsPoints()} PTS",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    color = Color.White,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                 )
             }

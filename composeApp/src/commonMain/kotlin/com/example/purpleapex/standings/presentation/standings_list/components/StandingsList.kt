@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.purpleapex.app.LocalScaffoldPadding
 
 @Composable
 fun <T> StandingsList(
@@ -25,6 +26,7 @@ fun <T> StandingsList(
         state = scrollState,
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
+        contentPadding = LocalScaffoldPadding.current,
     ) {
         item {
             Spacer(modifier.height(8.dp))

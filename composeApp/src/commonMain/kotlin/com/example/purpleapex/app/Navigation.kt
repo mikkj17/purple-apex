@@ -1,5 +1,6 @@
 package com.example.purpleapex.app
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Home
@@ -44,7 +45,10 @@ fun BottomNavigationBar(
     currentDestination: NavDestination?,
     onNavigate: (graph: Route, root: Route, reselected: Boolean) -> Unit,
 ) {
-    BottomAppBar(containerColor = MaterialTheme.colorScheme.surface) {
+    BottomAppBar(
+        containerColor = MaterialTheme.colorScheme.surface,
+        windowInsets = WindowInsets(0, 0, 0, 0),
+    ) {
         TopLevelRoutes.entries.forEach { topLevelRoute ->
             val isSelected = currentDestination
                 ?.hierarchy

@@ -13,6 +13,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalScaffoldPadding
+import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.core.presentation.components.Header
 import com.example.purpleapex.race.presentation.race_detail.components.Menu
 import com.example.purpleapex.race.presentation.race_detail.components.RaceInfoCard
@@ -22,7 +24,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun RaceDetailScreenRoot(
     viewModel: RaceDetailViewModel = koinViewModel(),
-    onBackClick: () -> Unit = {},
+    onBackClick: () -> Unit,
     onQualifyingClick: (season: Int, round: Int) -> Unit,
     onLapTimesClick: (season: Int, round: Int) -> Unit,
     onPitStopsClick: (season: Int, round: Int) -> Unit,
@@ -62,7 +64,11 @@ private fun RaceDetailScreen(
                 Button(onClick = { onAction(RaceDetailAction.OnRetryClick) }) { Text("Retry") }
             }
 
-            state.race != null -> Column(modifier = Modifier.fillMaxSize()) {
+            state.race != null -> Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(LocalTopSafePadding.current)
+            ) {
                 Header(
                     onBackClick = { onAction(RaceDetailAction.OnBackClick) },
                     trailingContent = {
@@ -70,7 +76,7 @@ private fun RaceDetailScreen(
                             Text(
                                 text = state.race.name,
                                 style = MaterialTheme.typography.titleLarge,
-                                color = MaterialTheme.colorScheme.onPrimary,
+                                color = MaterialTheme.colorScheme.onSurface,
                             )
                             Menu(onAction = onAction)
                         }
@@ -78,6 +84,7 @@ private fun RaceDetailScreen(
                 )
                 Column(
                     modifier = Modifier
+                        .padding(LocalScaffoldPadding.current)
                         .padding(horizontal = 8.dp)
                         .verticalScroll(rememberScrollState())
                 ) {

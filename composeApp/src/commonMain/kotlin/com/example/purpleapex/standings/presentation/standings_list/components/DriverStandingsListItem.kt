@@ -8,8 +8,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.core.presentation.extensions.formatAsPoints
 import com.example.purpleapex.standings.domain.DriverStanding
 
@@ -18,8 +20,9 @@ fun DriverStandingListItem(
     driverStanding: DriverStanding,
     modifier: Modifier = Modifier
 ) {
-    Surface(
+    AppCard(
         shape = RoundedCornerShape(8.dp),
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier,
     ) {
         Row(
@@ -68,9 +71,9 @@ fun DriverStandingListItem(
                 color = MaterialTheme.colorScheme.primaryContainer,
             ) {
                 Text(
-                    "${driverStanding.points.formatAsPoints()} PTS",
+                    text = "${driverStanding.points.formatAsPoints()} PTS",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    color = Color.White,
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
                 )
             }

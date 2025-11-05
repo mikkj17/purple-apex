@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.core.presentation.components.SeasonDropdown
 import com.example.purpleapex.standings.presentation.standings_list.components.ConstructorStandingListItem
 import com.example.purpleapex.standings.presentation.standings_list.components.DriverStandingListItem
@@ -47,20 +48,22 @@ private fun StandingsListScreen(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.background(MaterialTheme.colorScheme.tertiary),
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.background)
+            .padding(LocalTopSafePadding.current),
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.primary)
+                .background(color = MaterialTheme.colorScheme.surface)
                 .padding(top = 16.dp)
                 .padding(horizontal = 8.dp)
         ) {
             Text(
                 text = "STANDINGS",
                 style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = MaterialTheme.colorScheme.onSurface,
             )
             SeasonDropdown(
                 selectedYear = state.selectedYear,
@@ -71,11 +74,11 @@ private fun StandingsListScreen(
         }
         PrimaryTabRow(
             selectedTabIndex = state.selectedTabIndex,
-            containerColor = MaterialTheme.colorScheme.primary,
+            containerColor = MaterialTheme.colorScheme.surface,
             modifier = Modifier.fillMaxWidth(),
             indicator = {
                 TabRowDefaults.SecondaryIndicator(
-                    color = MaterialTheme.colorScheme.onPrimary,
+                    color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.tabIndicatorOffset(state.selectedTabIndex),
                 )
             }
@@ -87,8 +90,8 @@ private fun StandingsListScreen(
                         onAction(StandingsListAction.OnTabSelected(index))
                     },
                     modifier = Modifier.weight(1f),
-                    selectedContentColor = MaterialTheme.colorScheme.onPrimary,
-                    unselectedContentColor = MaterialTheme.colorScheme.onSecondary,
+                    selectedContentColor = MaterialTheme.colorScheme.onSurface,
+                    unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 ) {
                     Text(
                         text = s,

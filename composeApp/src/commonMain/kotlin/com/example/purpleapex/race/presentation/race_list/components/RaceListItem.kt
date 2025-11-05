@@ -1,20 +1,15 @@
 package com.example.purpleapex.race.presentation.race_list.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.core.presentation.Colors
+import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.race.domain.Race
 
 @Composable
@@ -23,46 +18,39 @@ fun RaceListItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Surface(
-        shape = RoundedCornerShape(8.dp),
+    AppCard(
+        shape = MaterialTheme.shapes.small,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier.clickable(onClick = onClick),
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
         ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxHeight()
-            ) {
+            Column {
                 Text(
-                    "ROUND ${race.round}",
+                    text = "ROUND ${race.round}",
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.primaryContainer,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
-                    race.circuit.location.country,
+                    text = race.circuit.location.country,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
-                    race.name.uppercase(),
+                    text = race.name.uppercase(),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
-            Column(
-                verticalArrangement = Arrangement.SpaceAround,
-                horizontalAlignment = Alignment.End,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxHeight()
-            ) {
+            Column(horizontalAlignment = Alignment.End) {
                 race.results.take(3).zip(Colors.Podium).forEach { (result, color) ->
                     Text(
-                        "${result.driver.givenName} ${result.driver.familyName}",
+                        text = result.driver.fullName,
                         style = MaterialTheme.typography.labelSmall,
                         color = color,
                     )

@@ -15,10 +15,13 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalScaffoldPadding
+import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.circuit.presentation.circuit_detail.components.CircuitInfoCard
 import com.example.purpleapex.circuit.presentation.circuit_detail.components.QualifyingList
 import com.example.purpleapex.circuit.presentation.circuit_detail.components.RaceList
 import com.example.purpleapex.core.presentation.components.AnimatedContainer
+import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.core.presentation.components.Header
 import com.example.purpleapex.search.presentation.components.SearchBar
 import org.koin.compose.viewmodel.koinViewModel
@@ -64,7 +67,8 @@ private fun CircuitDetailScreen(
             else -> Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.tertiary),
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(LocalTopSafePadding.current),
             ) {
                 Header(
                     onBackClick = {
@@ -86,61 +90,74 @@ private fun CircuitDetailScreen(
 
                 Column(
                     modifier = Modifier
+                        .padding(LocalScaffoldPadding.current)
                         .padding(horizontal = 8.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
                     CircuitInfoCard(circuit = state.circuit!!)
                     Spacer(modifier = Modifier.height(16.dp))
-                    AnimatedContainer(
-                        header = {
-                            Row(
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Text(
-                                    text = "Races",
-                                    style = MaterialTheme.typography.headlineSmall,
+                    AppCard(
+                        shape = MaterialTheme.shapes.small,
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                    ) {
+                        AnimatedContainer(
+                            header = {
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(
+                                        text = "Races",
+                                        style = MaterialTheme.typography.headlineSmall,
+                                    )
+                                    Text(text = state.searchedRaces.size.toString())
+                                }
+                            },
+                            content = {
+                                if (state.searchedRaces.isEmpty()) Text(
+                                    text = "No races found...",
                                 )
-                                Text(text = state.searchedRaces.size.toString())
-                            }
-                        },
-                        content = {
-                            if (state.searchedRaces.isEmpty()) Text(
-                                text = "No races found...",
-                            )
-                            else RaceList(
-                                races = state.searchedRaces,
-                                modifier = Modifier,
-                            )
-                        },
-                    )
+                                else RaceList(
+                                    races = state.searchedRaces,
+                                    modifier = Modifier,
+                                )
+                            },
+                            modifier = Modifier,
+                        )
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
-                    AnimatedContainer(
-                        header = {
-                            Row(
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Text(
-                                    text = "Qualifying",
-                                    style = MaterialTheme.typography.headlineSmall,
+                    AppCard(
+                        shape = MaterialTheme.shapes.small,
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                    ) {
+                        AnimatedContainer(
+                            header = {
+                                Row(
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Text(
+                                        text = "Qualifying",
+                                        style = MaterialTheme.typography.headlineSmall,
+                                    )
+                                    Text(text = state.searchedQualifyings.size.toString())
+                                }
+                            },
+                            content = {
+                                if (state.searchedQualifyings.isEmpty()) Text(
+                                    text = "No qualifying sessions found...",
                                 )
-                                Text(text = state.searchedQualifyings.size.toString())
-                            }
-                        },
-                        content = {
-                            if (state.searchedQualifyings.isEmpty()) Text(
-                                text = "No qualifying sessions found...",
-                            )
-                            else QualifyingList(
-                                qualifyings = state.searchedQualifyings,
-                                modifier = Modifier,
-                            )
-                        },
-                    )
+                                else QualifyingList(
+                                    qualifyings = state.searchedQualifyings,
+                                    modifier = Modifier,
+                                )
+                            },
+                            modifier = Modifier,
+                        )
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
