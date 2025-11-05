@@ -26,7 +26,7 @@ fun <T> StandingsList(
         state = scrollState,
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        contentPadding = com.example.purpleapex.app.LocalScaffoldPadding.current,
+        contentPadding = LocalScaffoldPadding.current,
     ) {
         item {
             Spacer(modifier.height(8.dp))

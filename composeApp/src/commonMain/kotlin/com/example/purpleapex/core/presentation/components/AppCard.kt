@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
@@ -29,7 +27,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AppCard(
     modifier: Modifier = Modifier,
-    shape: Shape = RoundedCornerShape(8.dp),
+    shape: Shape = MaterialTheme.shapes.small,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
     elevationLight: Dp = 3.dp,
     highlightHeightDark: Dp = 24.dp,
@@ -37,12 +35,13 @@ fun AppCard(
 ) {
     val isDark = isSystemInDarkTheme()
 
-    val border = if (isDark) {
-        BorderStroke(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.24f)
-        )
-    } else null
+    val border =
+        if (isDark)
+            BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.24f),
+            )
+        else null
 
     Surface(
         shape = shape,
@@ -63,7 +62,6 @@ fun AppCard(
             if (isDark) {
                 Box(
                     modifier = Modifier
-                        .align(Alignment.TopCenter)
                         .fillMaxWidth()
                         .height(highlightHeightDark)
                         .background(

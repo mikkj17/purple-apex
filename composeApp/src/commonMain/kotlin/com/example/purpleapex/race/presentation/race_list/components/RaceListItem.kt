@@ -2,7 +2,6 @@ package com.example.purpleapex.race.presentation.race_list.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +19,7 @@ fun RaceListItem(
     modifier: Modifier = Modifier,
 ) {
     AppCard(
-        shape = RoundedCornerShape(8.dp),
+        shape = MaterialTheme.shapes.small,
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier.clickable(onClick = onClick),
     ) {
@@ -31,39 +30,29 @@ fun RaceListItem(
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            Column(
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier
-                    .weight(1f)
-            ) {
+            Column {
                 Text(
-                    "ROUND ${race.round}",
+                    text = "ROUND ${race.round}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
-                    race.circuit.location.country,
+                    text = race.circuit.location.country,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
-                    race.name.uppercase(),
+                    text = race.name.uppercase(),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
-            Column(
-                verticalArrangement = Arrangement.spacedBy(2.dp),
-                horizontalAlignment = Alignment.End,
-            ) {
+            Column(horizontalAlignment = Alignment.End) {
                 race.results.take(3).zip(Colors.Podium).forEach { (result, color) ->
                     Text(
-                        "${result.driver.givenName} ${result.driver.familyName}",
+                        text = result.driver.fullName,
                         style = MaterialTheme.typography.labelSmall,
                         color = color,
-                        textAlign = androidx.compose.ui.text.style.TextAlign.End,
-                        maxLines = 1,
-                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
                     )
                 }
             }

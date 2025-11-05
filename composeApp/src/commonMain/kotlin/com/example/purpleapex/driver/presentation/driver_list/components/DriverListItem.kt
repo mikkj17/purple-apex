@@ -1,25 +1,19 @@
 package com.example.purpleapex.driver.presentation.driver_list.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.driver.domain.Driver
 
 
@@ -29,7 +23,7 @@ fun DriverListItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    com.example.purpleapex.core.presentation.components.AppCard(
+    AppCard(
         shape = RoundedCornerShape(8.dp),
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier.clickable(onClick = onClick)
