@@ -24,6 +24,7 @@ import com.example.purpleapex.constructor.presentation.constructor_detail.compon
 import com.example.purpleapex.core.presentation.components.AnimatedContainer
 import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.core.presentation.components.Header
+import com.example.purpleapex.driver.presentation.driver_detail.components.CareerStatsCard
 import com.example.purpleapex.search.presentation.components.SearchBar
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -97,6 +98,10 @@ private fun ConstructorDetailScreen(
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
                     ConstructorInfoCard(constructor = state.constructor!!)
+                    state.careerStats?.let { stats ->
+                        Spacer(modifier = Modifier.height(16.dp))
+                        CareerStatsCard(stats = stats)
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
                     DriverList(state.drivers)
                     Spacer(modifier = Modifier.height(16.dp))

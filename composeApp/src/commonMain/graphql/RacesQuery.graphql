@@ -13,6 +13,9 @@ query RacesQuery($year: Int, $driverId: String, $constructorId: String, $circuit
         }
         results {
             position
+            positionText
+            status
+            grid
             driver {
                 id
                 givenName

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.purpleapex.app.Route
 import com.example.purpleapex.circuit.domain.CircuitRepository
+import com.example.purpleapex.circuit.domain.CircuitStatsCalculator
 import com.example.purpleapex.core.fuzzysearch.FuzzySearch
 import com.example.purpleapex.qualifying.domain.Qualifying
 import com.example.purpleapex.qualifying.domain.QualifyingRepository
@@ -31,11 +32,16 @@ class CircuitDetailViewModel(
             _state.update {
                 it.copy(isLoading = true)
             }
+            val circuit = circuitRepository.getCircuit(circuitId = circuitId)
+            val races = raceRepository.getRaces(circuitId = circuitId)
+            val qualifyings = qualifyingRepository.getQualifyings(circuitId = circuitId)
+
             _state.update {
                 it.copy(
-                    circuit = circuitRepository.getCircuit(circuitId = circuitId),
-                    races = raceRepository.getRaces(circuitId = circuitId),
-                    qualifyings = qualifyingRepository.getQualifyings(circuitId = circuitId),
+                    circuit = circuit,
+                    races = races,
+                    qualifyings = qualifyings,
+                    circuitStats = CircuitStatsCalculator.compute(races, qualifyings),
                     isLoading = false,
                 )
             }

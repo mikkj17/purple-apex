@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.constructor.domain.Constructor
-import com.example.purpleapex.core.presentation.components.AnimatedContainer
 import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.driver.domain.DriverDetail
 
@@ -24,39 +23,32 @@ fun DriverInfoCard(
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier,
     ) {
-        AnimatedContainer(
-            header = {
-                Text(
-                    text = "General Information",
-                    style = MaterialTheme.typography.headlineSmall,
+        Column(modifier = Modifier.padding(8.dp)) {
+            Text(
+                text = "General Information",
+                style = MaterialTheme.typography.headlineSmall,
+            )
+            Spacer(Modifier.height(8.dp))
+            LabeledValue(label = "Name", value = driver.fullName)
+            Spacer(Modifier.height(8.dp))
+            if (constructors.isNotEmpty()) {
+                LabeledValue(
+                    label = "Constructors",
+                    value = constructors.joinToString(separator = ", ") { it.name },
                 )
-            },
-            content = {
-                Column(modifier = Modifier.padding(8.dp)) {
-                    LabeledValue(label = "Name", value = driver.fullName)
-                    Spacer(Modifier.height(8.dp))
-                    if (constructors.isNotEmpty()) {
-                        LabeledValue(
-                            label = "Constructors",
-                            value = constructors.joinToString(separator = ", ") { it.name },
-                        )
-                        Spacer(Modifier.height(8.dp))
-                    }
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Column {
-                            LabeledValue(label = "Nationality", value = driver.nationality)
-                            LabeledValue(label = "Number", value = driver.number?.toString() ?: "—")
-                        }
-                        Column(horizontalAlignment = Alignment.End) {
-                            LabeledValue(label = "Code", value = driver.code ?: "—")
-                            LabeledValue(label = "Date of birth", value = driver.dateOfBirth.toString())
-                        }
-                    }
+                Spacer(Modifier.height(8.dp))
+            }
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                Column {
+                    LabeledValue(label = "Nationality", value = driver.nationality)
+                    LabeledValue(label = "Number", value = driver.number?.toString() ?: "—")
                 }
-            },
-            isExpandedByDefault = true,
-            modifier = Modifier,
-        )
+                Column(horizontalAlignment = Alignment.End) {
+                    LabeledValue(label = "Code", value = driver.code ?: "—")
+                    LabeledValue(label = "Date of birth", value = driver.dateOfBirth.toString())
+                }
+            }
+        }
     }
 }
 

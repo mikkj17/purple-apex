@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.circuit.domain.Circuit
-import com.example.purpleapex.core.presentation.components.AnimatedContainer
 import com.example.purpleapex.core.presentation.components.AppCard
 
 @Composable
@@ -22,37 +21,26 @@ fun CircuitInfoCard(
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier,
     ) {
-        AnimatedContainer(
-            header = {
-                Text(
-                    text = "General Information",
-                    style = MaterialTheme.typography.headlineSmall,
-                )
-            },
-            content = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    LabeledValue(label = "Name", value = circuit.name)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Column {
-                            LabeledValue(label = "Location", value = circuit.location.locality)
-                        }
-                        Column(horizontalAlignment = Alignment.End) {
-                            LabeledValue(label = "Country", value = circuit.location.country)
-                        }
-                    }
+        Column(modifier = Modifier.padding(8.dp)) {
+            Text(
+                text = "General Information",
+                style = MaterialTheme.typography.headlineSmall,
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            LabeledValue(label = "Name", value = circuit.name)
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Column {
+                    LabeledValue(label = "Location", value = circuit.location.locality)
                 }
-            },
-            isExpandedByDefault = true,
-            modifier = Modifier,
-        )
+                Column(horizontalAlignment = Alignment.End) {
+                    LabeledValue(label = "Country", value = circuit.location.country)
+                }
+            }
+        }
     }
 }
 
