@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.constructor.domain.Constructor
-import com.example.purpleapex.core.presentation.components.AnimatedContainer
 import com.example.purpleapex.core.presentation.components.AppCard
 
 @Composable
@@ -22,31 +21,25 @@ fun ConstructorInfoCard(
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier,
     ) {
-        AnimatedContainer(
-            header = {
-                Text(
-                    text = "General Information",
-                    style = MaterialTheme.typography.headlineSmall,
-                )
-            },
-            content = {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    Column {
-                        LabeledValue(label = "Name", value = constructor.name)
-                    }
-                    Column(horizontalAlignment = Alignment.End) {
-                        LabeledValue(label = "Nationality", value = constructor.nationality)
-                    }
+        Column(modifier = Modifier.padding(8.dp)) {
+            Text(
+                text = "General Information",
+                style = MaterialTheme.typography.headlineSmall,
+            )
+            Spacer(Modifier.height(8.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Column {
+                    LabeledValue(label = "Name", value = constructor.name)
                 }
-            },
-            isExpandedByDefault = true,
-            modifier = Modifier,
-        )
+                Column(horizontalAlignment = Alignment.End) {
+                    LabeledValue(label = "Nationality", value = constructor.nationality)
+                }
+            }
+        }
     }
 }
 

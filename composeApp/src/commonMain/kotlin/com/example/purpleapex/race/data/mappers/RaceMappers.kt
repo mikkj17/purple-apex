@@ -18,6 +18,9 @@ fun RacesQuery.Race.toRace() = Race(
 
 fun RacesQuery.Result.toResult() = Result(
     position = position,
+    positionText = positionText,
+    status = status,
+    grid = grid,
     driver = driver.toDriver(),
     constructor = constructor.toConstructor(),
 )
