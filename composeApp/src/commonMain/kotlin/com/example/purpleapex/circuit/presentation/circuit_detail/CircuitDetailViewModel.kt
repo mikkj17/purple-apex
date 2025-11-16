@@ -26,7 +26,7 @@ class CircuitDetailViewModel(
     private val circuitId = savedStateHandle.toRoute<Route.CircuitDetail>().circuitId
     private val _state = MutableStateFlow(CircuitDetailState())
     val state = _state.asStateFlow()
-    
+
     init {
         load()
     }
