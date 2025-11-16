@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.purpleapex.app.Route
 import com.example.purpleapex.constructor.domain.ConstructorRepository
+import com.example.purpleapex.constructor.domain.ConstructorStatsCalculator
 import com.example.purpleapex.core.fuzzysearch.FuzzySearch
-import com.example.purpleapex.driver.domain.CareerStatsCalculator
 import com.example.purpleapex.driver.domain.DriverRepository
 import com.example.purpleapex.qualifying.domain.Qualifying
 import com.example.purpleapex.qualifying.domain.QualifyingRepository
@@ -45,8 +45,7 @@ class ConstructorDetailViewModel(
                     drivers = drivers,
                     races = races,
                     qualifyings = qualifyings,
-                    careerStats = CareerStatsCalculator.computeForConstructor(
-                        constructorId = constructorId,
+                    constructorStats = ConstructorStatsCalculator.compute(
                         races = races,
                         qualifyings = qualifyings,
                     ),

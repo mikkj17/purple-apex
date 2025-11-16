@@ -8,7 +8,7 @@ import com.example.purpleapex.app.Route
 import com.example.purpleapex.constructor.domain.ConstructorRepository
 import com.example.purpleapex.core.fuzzysearch.FuzzySearch
 import com.example.purpleapex.driver.domain.DriverRepository
-import com.example.purpleapex.driver.domain.CareerStatsCalculator
+import com.example.purpleapex.driver.domain.DriverStatsCalculator
 import com.example.purpleapex.qualifying.domain.Qualifying
 import com.example.purpleapex.qualifying.domain.QualifyingRepository
 import com.example.purpleapex.race.domain.Race
@@ -45,7 +45,7 @@ class DriverDetailViewModel(
                     constructors = constructors,
                     races = races,
                     qualifyings = qualifyings,
-                    careerStats = CareerStatsCalculator.compute(
+                    driverStats = DriverStatsCalculator.compute(
                         races = races,
                         qualifyings = qualifyings,
                     ),

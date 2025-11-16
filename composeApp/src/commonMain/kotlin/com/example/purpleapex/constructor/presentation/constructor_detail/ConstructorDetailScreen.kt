@@ -17,14 +17,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.app.LocalScaffoldPadding
 import com.example.purpleapex.app.LocalTopSafePadding
-import com.example.purpleapex.constructor.presentation.constructor_detail.components.ConstructorInfoCard
-import com.example.purpleapex.constructor.presentation.constructor_detail.components.DriverList
-import com.example.purpleapex.constructor.presentation.constructor_detail.components.QualifyingList
-import com.example.purpleapex.constructor.presentation.constructor_detail.components.RaceList
+import com.example.purpleapex.constructor.presentation.constructor_detail.components.*
 import com.example.purpleapex.core.presentation.components.AnimatedContainer
 import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.core.presentation.components.Header
-import com.example.purpleapex.driver.presentation.driver_detail.components.CareerStatsCard
 import com.example.purpleapex.search.presentation.components.SearchBar
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -98,9 +94,9 @@ private fun ConstructorDetailScreen(
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
                     ConstructorInfoCard(constructor = state.constructor!!)
-                    state.careerStats?.let { stats ->
+                    state.constructorStats?.let { stats ->
                         Spacer(modifier = Modifier.height(16.dp))
-                        CareerStatsCard(stats = stats)
+                        ConstructorStatsCard(stats = stats)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     DriverList(state.drivers)

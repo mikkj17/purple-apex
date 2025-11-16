@@ -8,11 +8,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.core.presentation.components.AppCard
-import com.example.purpleapex.driver.domain.CareerStats
+import com.example.purpleapex.driver.domain.DriverStats
 
 @Composable
-fun CareerStatsCard(
-    stats: CareerStats,
+fun DriverStatsCard(
+    stats: DriverStats,
     modifier: Modifier = Modifier,
 ) {
     AppCard(
@@ -50,7 +50,7 @@ fun CareerStatsCard(
             val highestGridSuffix = if (stats.highestGridCount > 1) " (${stats.highestGridCount}x)" else ""
             StatRow(
                 label = if (hasPole) "Pole positions" else "Highest grid position",
-                value = if (hasPole) stats.polePositions.toString()
+                value = if (hasPole) stats.highestGridCount.toString()
                 else highestGrid?.let { "P$it$highestGridSuffix" } ?: "—",
             )
             Spacer(Modifier.height(8.dp))
