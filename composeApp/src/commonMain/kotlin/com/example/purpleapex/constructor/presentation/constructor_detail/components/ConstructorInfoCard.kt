@@ -15,7 +15,7 @@ import com.example.purpleapex.core.presentation.components.AppCard
 @Composable
 fun ConstructorInfoCard(
     constructor: Constructor,
-    stats: ConstructorStats? = null,
+    stats: ConstructorStats,
     modifier: Modifier = Modifier,
 ) {
     AppCard(
@@ -43,41 +43,41 @@ fun ConstructorInfoCard(
             }
 
             // Stats section (when available) in the same card
-            stats?.let { s ->
-                Spacer(Modifier.height(16.dp))
-                Text(
-                    text = "Stats",
-                    style = MaterialTheme.typography.headlineSmall,
-                )
-                Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(16.dp))
+            Text(
+                text = "Stats",
+                style = MaterialTheme.typography.headlineSmall,
+            )
+            Spacer(Modifier.height(8.dp))
 
-                StatRow(label = "Grand Prix entered", value = s.grandsPrixEntered.toString())
-                Spacer(Modifier.height(8.dp))
+            StatRow(label = "Grand Prix entered", value = stats.grandsPrixEntered.toString())
+            Spacer(Modifier.height(8.dp))
 
-                val highestFinish = s.highestRaceFinish
-                val hasWon = highestFinish == 1
-                val highestFinishSuffix = if (s.highestRaceFinishCount > 1) " (${s.highestRaceFinishCount}x)" else ""
-                StatRow(
-                    label = if (hasWon) "Wins" else "Highest race finish",
-                    value = if (hasWon) s.highestRaceFinishCount.toString()
-                    else highestFinish?.let { "P$it$highestFinishSuffix" } ?: "—",
-                )
-                Spacer(Modifier.height(8.dp))
+            val highestFinish = stats.highestRaceFinish
+            val hasWon = highestFinish == 1
+            val highestFinishSuffix = if (stats.highestRaceFinishCount > 1)
+                " (${stats.highestRaceFinishCount}x)"
+            else ""
+            StatRow(
+                label = if (hasWon) "Wins" else "Highest race finish",
+                value = if (hasWon) stats.highestRaceFinishCount.toString()
+                else highestFinish?.let { "P$it$highestFinishSuffix" } ?: "—",
+            )
+            Spacer(Modifier.height(8.dp))
 
-                StatRow(label = "Podiums", value = s.podiums.toString())
-                Spacer(Modifier.height(8.dp))
+            StatRow(label = "Podiums", value = stats.podiums.toString())
+            Spacer(Modifier.height(8.dp))
 
-                val highestGrid = s.highestGrid
-                val hasPole = highestGrid == 1
-                val highestGridSuffix = if (s.highestGridCount > 1) " (${s.highestGridCount}x)" else ""
-                StatRow(
-                    label = if (hasPole) "Pole positions" else "Highest grid position",
-                    value = if (hasPole) s.highestGridCount.toString()
-                    else highestGrid?.let { "P$it$highestGridSuffix" } ?: "—",
-                )
-                Spacer(Modifier.height(8.dp))
-                StatRow(label = "DNFs", value = s.dnfs.toString())
-            }
+            val highestGrid = stats.highestGrid
+            val hasPole = highestGrid == 1
+            val highestGridSuffix = if (stats.highestGridCount > 1) " (${stats.highestGridCount}x)" else ""
+            StatRow(
+                label = if (hasPole) "Pole positions" else "Highest grid position",
+                value = if (hasPole) stats.highestGridCount.toString()
+                else highestGrid?.let { "P$it$highestGridSuffix" } ?: "—",
+            )
+            Spacer(Modifier.height(8.dp))
+            StatRow(label = "DNFs", value = stats.dnfs.toString())
         }
     }
 }

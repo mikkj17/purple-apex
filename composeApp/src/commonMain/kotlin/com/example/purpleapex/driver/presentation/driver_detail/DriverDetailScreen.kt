@@ -97,10 +97,8 @@ private fun DriverDetailScreen(
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
                     DriverInfoCard(driver = state.driver!!, constructors = state.constructors)
-                    state.driverStats?.let { stats ->
-                        Spacer(modifier = Modifier.height(16.dp))
-                        DriverStatsCard(stats = stats)
-                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    DriverStatsCard(stats = state.driverStats!!)
                     Spacer(modifier = Modifier.height(16.dp))
                     AppCard(
                         shape = MaterialTheme.shapes.small,

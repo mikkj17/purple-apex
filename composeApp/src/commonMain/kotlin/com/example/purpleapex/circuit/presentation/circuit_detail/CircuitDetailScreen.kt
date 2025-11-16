@@ -97,7 +97,7 @@ private fun CircuitDetailScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     CircuitInfoCard(
                         circuit = state.circuit!!,
-                        stats = state.circuitStats,
+                        stats = state.circuitStats!!,
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                     AppCard(

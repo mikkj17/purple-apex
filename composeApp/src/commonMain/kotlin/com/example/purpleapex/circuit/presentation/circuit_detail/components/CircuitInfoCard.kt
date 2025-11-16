@@ -16,7 +16,7 @@ import com.example.purpleapex.core.presentation.components.AppCard
 @Composable
 fun CircuitInfoCard(
     circuit: Circuit,
-    stats: CircuitStats? = null,
+    stats: CircuitStats,
     modifier: Modifier = Modifier,
 ) {
     AppCard(
@@ -44,45 +44,42 @@ fun CircuitInfoCard(
                 }
             }
 
-            // Stats section (when available) in the same card
-            stats?.let { s ->
-                Spacer(modifier = Modifier.height(12.dp))
-                HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(12.dp))
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            Spacer(modifier = Modifier.height(12.dp))
 
-                val driverValue = s.topDriverName?.let { name ->
-                    if (s.topDriverWins > 0) "$name (${s.topDriverWins}x)" else name
-                } ?: "—"
-                val constructorValue = s.topConstructorName?.let { name ->
-                    if (s.topConstructorWins > 0) "$name (${s.topConstructorWins}x)" else name
-                } ?: "—"
-                val driverPolesValue = s.topDriverPolesName?.let { name ->
-                    if (s.topDriverPoles > 0) "$name (${s.topDriverPoles}x)" else name
-                } ?: "—"
-                val constructorPolesValue = s.topConstructorPolesName?.let { name ->
-                    if (s.topConstructorPoles > 0) "$name (${s.topConstructorPoles}x)" else name
-                } ?: "—"
+            val driverValue = stats.topDriverName?.let { name ->
+                if (stats.topDriverWins > 0) "$name (${stats.topDriverWins}x)" else name
+            } ?: "—"
+            val constructorValue = stats.topConstructorName?.let { name ->
+                if (stats.topConstructorWins > 0) "$name (${stats.topConstructorWins}x)" else name
+            } ?: "—"
+            val driverPolesValue = stats.topDriverPolesName?.let { name ->
+                if (stats.topDriverPoles > 0) "$name (${stats.topDriverPoles}x)" else name
+            } ?: "—"
+            val constructorPolesValue = stats.topConstructorPolesName?.let { name ->
+                if (stats.topConstructorPoles > 0) "$name (${stats.topConstructorPoles}x)" else name
+            } ?: "—"
 
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Column {
-                        LabeledValue(label = "GPs", value = s.grandsPrix.toString())
-                    }
-                    Column(horizontalAlignment = Alignment.End) {
-                        LabeledValue(label = "First GP", value = s.firstGrandPrixYear?.toString() ?: "—")
-                    }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Column {
+                    LabeledValue(label = "GPs", value = stats.grandsPrix.toString())
                 }
-                Spacer(Modifier.height(8.dp))
-                LabeledValue(label = "Most wins (driver)", value = driverValue)
-                Spacer(Modifier.height(8.dp))
-                LabeledValue(label = "Most wins (constructor)", value = constructorValue)
-                Spacer(Modifier.height(8.dp))
-                LabeledValue(label = "Most poles (driver)", value = driverPolesValue)
-                Spacer(Modifier.height(8.dp))
-                LabeledValue(label = "Most poles (constructor)", value = constructorPolesValue)
+                Column(horizontalAlignment = Alignment.End) {
+                    LabeledValue(label = "First GP", value = stats.firstGrandPrixYear?.toString() ?: "—")
+                }
             }
+            Spacer(Modifier.height(8.dp))
+            LabeledValue(label = "Most wins (driver)", value = driverValue)
+            Spacer(Modifier.height(8.dp))
+            LabeledValue(label = "Most wins (constructor)", value = constructorValue)
+            Spacer(Modifier.height(8.dp))
+            LabeledValue(label = "Most poles (driver)", value = driverPolesValue)
+            Spacer(Modifier.height(8.dp))
+            LabeledValue(label = "Most poles (constructor)", value = constructorPolesValue)
         }
     }
 }

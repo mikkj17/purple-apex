@@ -24,17 +24,7 @@ object ConstructorStatsCalculator {
         val highestGrid = qualResults.minOfOrNull { it.position }
         val highestGridCount = if (highestGrid != null) qualResults.count { it.position == highestGrid } else 0
 
-        val dnfKeywords = listOf(
-            "dnf", "retired", "accident", "collision", "disqualified", "engine", "gearbox", "electrical"
-        )
-        val dnfs = raceResults.count { res ->
-            val posText = res.positionText
-            val nonNumericPosText = posText != null && posText.toIntOrNull() == null
-            val statusIndicatesDnf = res.status?.let { s ->
-                dnfKeywords.any { kw -> s.contains(kw, ignoreCase = true) }
-            } ?: false
-            nonNumericPosText || statusIndicatesDnf
-        }
+        val dnfs = raceResults.count { it.positionText.toIntOrNull() == null }
 
         return ConstructorStats(
             grandsPrixEntered = races.size,

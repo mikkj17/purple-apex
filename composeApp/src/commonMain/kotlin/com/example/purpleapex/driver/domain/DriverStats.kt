@@ -24,18 +24,7 @@ object DriverStatsCalculator {
         val highestGrid = qualResults.minOfOrNull { it.position }
         val highestGridCount = if (highestGrid != null) qualResults.count { it.position == highestGrid } else 0
 
-        // DNFs: based on non-numeric positionText or status keywords
-        val dnfKeywords = listOf(
-            "dnf", "retired", "accident", "collision", "disqualified", "engine", "gearbox", "electrical"
-        )
-        val dnfs = raceResults.count { res ->
-            val posText = res.positionText
-            val nonNumericPosText = posText != null && posText.toIntOrNull() == null
-            val statusIndicatesDnf = res.status?.let { s ->
-                dnfKeywords.any { kw -> s.contains(kw, ignoreCase = true) }
-            } ?: false
-            nonNumericPosText || statusIndicatesDnf
-        }
+        val dnfs = raceResults.count { it.positionText.toIntOrNull() == null }
 
         return DriverStats(
             grandsPrixEntered = races.size,
