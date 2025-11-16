@@ -26,27 +26,9 @@ class CircuitDetailViewModel(
     private val circuitId = savedStateHandle.toRoute<Route.CircuitDetail>().circuitId
     private val _state = MutableStateFlow(CircuitDetailState())
     val state = _state.asStateFlow()
-
+    
     init {
-        viewModelScope.launch {
-            _state.update {
-                it.copy(isLoading = true)
-            }
-            val circuit = circuitRepository.getCircuit(circuitId = circuitId)
-            val races = raceRepository.getRaces(circuitId = circuitId)
-            val qualifyings = qualifyingRepository.getQualifyings(circuitId = circuitId)
-
-            _state.update {
-                it.copy(
-                    circuit = circuit,
-                    races = races,
-                    qualifyings = qualifyings,
-                    circuitStats = CircuitStatsCalculator.compute(races, qualifyings),
-                    isLoading = false,
-                )
-            }
-            updateSearchResults()
-        }
+        load()
     }
 
     fun onAction(action: CircuitDetailAction) {
@@ -59,6 +41,7 @@ class CircuitDetailViewModel(
             }
 
             is CircuitDetailAction.OnBackClick -> {}
+            is CircuitDetailAction.OnRetryClick -> load()
         }
     }
 
@@ -125,5 +108,33 @@ class CircuitDetailViewModel(
                 ).toList()
             },
         )
+    }
+
+    private fun load() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, errorMessage = null) }
+            runCatching {
+                val circuit = circuitRepository.getCircuit(circuitId = circuitId)
+                val races = raceRepository.getRaces(circuitId = circuitId)
+                val qualifyings = qualifyingRepository.getQualifyings(circuitId = circuitId)
+                Triple(circuit, races, qualifyings)
+            }.onSuccess { (circuit, races, qualifyings) ->
+                _state.update {
+                    it.copy(
+                        circuit = circuit,
+                        races = races,
+                        qualifyings = qualifyings,
+                        circuitStats = CircuitStatsCalculator.compute(races, qualifyings),
+                        isLoading = false,
+                        errorMessage = null,
+                    )
+                }
+                updateSearchResults()
+            }.onFailure { throwable ->
+                _state.update {
+                    it.copy(isLoading = false, errorMessage = throwable.message ?: "Unknown error")
+                }
+            }
+        }
     }
 }

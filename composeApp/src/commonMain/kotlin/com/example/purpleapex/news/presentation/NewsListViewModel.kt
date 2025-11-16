@@ -31,6 +31,10 @@ class NewsListViewModel(
                     it.copy(selectedArticle = null)
                 }
             }
+
+            is NewsListAction.OnRetryClick -> {
+                load()
+            }
         }
     }
 

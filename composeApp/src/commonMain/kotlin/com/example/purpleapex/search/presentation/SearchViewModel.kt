@@ -23,20 +23,7 @@ class SearchViewModel(
     val state = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            _state.update {
-                it.copy(isLoading = true)
-            }
-            _state.update {
-                it.copy(
-                    drivers = driverRepository.getDrivers(),
-                    constructors = constructorRepository.getConstructors(),
-                    circuits = circuitRepository.getCircuits(),
-                    isLoading = false,
-                )
-            }
-            updateSearchResults()
-        }
+        load()
     }
 
     fun onAction(action: SearchAction) {
@@ -57,6 +44,7 @@ class SearchViewModel(
             is SearchAction.OnDriverClick -> {}
             is SearchAction.OnConstructorClick -> {}
             is SearchAction.OnCircuitClick -> {}
+            is SearchAction.OnRetryClick -> load()
         }
     }
 
@@ -140,6 +128,31 @@ class SearchViewModel(
                 location.country,
                 location.locality,
             )
+        }
+    }
+
+    private fun load() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, errorMessage = null) }
+            runCatching {
+                val drivers = driverRepository.getDrivers()
+                val constructors = constructorRepository.getConstructors()
+                val circuits = circuitRepository.getCircuits()
+                Triple(drivers, constructors, circuits)
+            }.onSuccess { (drivers, constructors, circuits) ->
+                _state.update {
+                    it.copy(
+                        drivers = drivers,
+                        constructors = constructors,
+                        circuits = circuits,
+                        isLoading = false,
+                        errorMessage = null,
+                    )
+                }
+                updateSearchResults()
+            }.onFailure { throwable ->
+                _state.update { it.copy(isLoading = false, errorMessage = throwable.message ?: "Unknown error") }
+            }
         }
     }
 }

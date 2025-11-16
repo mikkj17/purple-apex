@@ -23,6 +23,7 @@ fun NewsList(
     onArticleClick: (NewsArticle) -> Unit,
     onUrlClick: (String) -> Unit,
     onArticleClose: () -> Unit,
+    onRetryClick: () -> Unit,
     modifier: Modifier = Modifier,
     scrollState: LazyListState = rememberLazyListState(),
 ) {
@@ -34,7 +35,14 @@ fun NewsList(
             CircularProgressIndicator()
         }
 
-        state.errorMessage != null -> Text(text = state.errorMessage, color = MaterialTheme.colorScheme.error)
+        state.errorMessage != null -> Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(text = state.errorMessage, color = MaterialTheme.colorScheme.error)
+            Spacer(Modifier.height(8.dp))
+            Button(onClick = onRetryClick) { Text("Retry") }
+        }
 
         else -> LazyRow(
             modifier = modifier.fillMaxWidth(),

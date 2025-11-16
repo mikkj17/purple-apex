@@ -28,21 +28,20 @@ class RaceListViewModel(
             }
 
             is RaceListAction.OnRaceClick -> {}
+            is RaceListAction.OnRetryClick -> loadRaces()
         }
     }
 
     private fun loadRaces() {
         viewModelScope.launch {
-            _state.update {
-                it.copy(isLoading = true)
-            }
-
-            _state.update {
-                it.copy(
-                    races = raceRepository.getRaces(year = _state.value.selectedYear),
-                    isLoading = false,
-                )
-            }
+            _state.update { it.copy(isLoading = true, errorMessage = null) }
+            runCatching { raceRepository.getRaces(year = _state.value.selectedYear) }
+                .onSuccess { races ->
+                    _state.update { it.copy(races = races, isLoading = false, errorMessage = null) }
+                }
+                .onFailure { throwable ->
+                    _state.update { it.copy(isLoading = false, errorMessage = throwable.message ?: "Unknown error") }
+                }
         }
     }
 }

@@ -5,4 +5,5 @@ import com.example.purpleapex.race.domain.Race
 sealed interface RaceListAction {
     data class SelectedYearChanged(val year: Int) : RaceListAction
     data class OnRaceClick(val race: Race) : RaceListAction
+    data object OnRetryClick : RaceListAction
 }
