@@ -18,7 +18,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.app.LocalScaffoldPadding
 import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.circuit.presentation.circuit_detail.components.CircuitInfoCard
-import com.example.purpleapex.circuit.presentation.circuit_detail.components.CircuitStatsCard
 import com.example.purpleapex.circuit.presentation.circuit_detail.components.QualifyingList
 import com.example.purpleapex.circuit.presentation.circuit_detail.components.RaceList
 import com.example.purpleapex.core.presentation.components.AnimatedContainer
@@ -96,11 +95,10 @@ private fun CircuitDetailScreen(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
-                    CircuitInfoCard(circuit = state.circuit!!)
-                    state.circuitStats?.let { stats ->
-                        Spacer(modifier = Modifier.height(16.dp))
-                        CircuitStatsCard(stats = stats)
-                    }
+                    CircuitInfoCard(
+                        circuit = state.circuit!!,
+                        stats = state.circuitStats,
+                    )
                     Spacer(modifier = Modifier.height(16.dp))
                     AppCard(
                         shape = MaterialTheme.shapes.small,

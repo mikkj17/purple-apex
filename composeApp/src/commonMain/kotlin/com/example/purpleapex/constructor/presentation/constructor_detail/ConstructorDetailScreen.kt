@@ -93,11 +93,10 @@ private fun ConstructorDetailScreen(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
-                    ConstructorInfoCard(constructor = state.constructor!!)
-                    state.constructorStats?.let { stats ->
-                        Spacer(modifier = Modifier.height(16.dp))
-                        ConstructorStatsCard(stats = stats)
-                    }
+                    ConstructorInfoCard(
+                        constructor = state.constructor!!,
+                        stats = state.constructorStats,
+                    )
                     Spacer(modifier = Modifier.height(16.dp))
                     DriverList(state.drivers)
                     Spacer(modifier = Modifier.height(16.dp))

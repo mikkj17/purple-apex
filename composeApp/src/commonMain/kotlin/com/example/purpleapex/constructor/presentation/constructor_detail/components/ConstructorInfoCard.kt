@@ -9,11 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.constructor.domain.Constructor
+import com.example.purpleapex.constructor.domain.ConstructorStats
 import com.example.purpleapex.core.presentation.components.AppCard
 
 @Composable
 fun ConstructorInfoCard(
     constructor: Constructor,
+    stats: ConstructorStats? = null,
     modifier: Modifier = Modifier,
 ) {
     AppCard(
@@ -39,6 +41,43 @@ fun ConstructorInfoCard(
                     LabeledValue(label = "Nationality", value = constructor.nationality)
                 }
             }
+
+            // Stats section (when available) in the same card
+            stats?.let { s ->
+                Spacer(Modifier.height(16.dp))
+                Text(
+                    text = "Stats",
+                    style = MaterialTheme.typography.headlineSmall,
+                )
+                Spacer(Modifier.height(8.dp))
+
+                StatRow(label = "Grand Prix entered", value = s.grandsPrixEntered.toString())
+                Spacer(Modifier.height(8.dp))
+
+                val highestFinish = s.highestRaceFinish
+                val hasWon = highestFinish == 1
+                val highestFinishSuffix = if (s.highestRaceFinishCount > 1) " (${s.highestRaceFinishCount}x)" else ""
+                StatRow(
+                    label = if (hasWon) "Wins" else "Highest race finish",
+                    value = if (hasWon) s.highestRaceFinishCount.toString()
+                    else highestFinish?.let { "P$it$highestFinishSuffix" } ?: "—",
+                )
+                Spacer(Modifier.height(8.dp))
+
+                StatRow(label = "Podiums", value = s.podiums.toString())
+                Spacer(Modifier.height(8.dp))
+
+                val highestGrid = s.highestGrid
+                val hasPole = highestGrid == 1
+                val highestGridSuffix = if (s.highestGridCount > 1) " (${s.highestGridCount}x)" else ""
+                StatRow(
+                    label = if (hasPole) "Pole positions" else "Highest grid position",
+                    value = if (hasPole) s.highestGridCount.toString()
+                    else highestGrid?.let { "P$it$highestGridSuffix" } ?: "—",
+                )
+                Spacer(Modifier.height(8.dp))
+                StatRow(label = "DNFs", value = s.dnfs.toString())
+            }
         }
     }
 }
@@ -47,4 +86,20 @@ fun ConstructorInfoCard(
 private fun LabeledValue(label: String, value: String) {
     Text(text = label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
     Text(text = value, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium)
+}
+
+@Composable
+private fun StatRow(label: String, value: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Text(text = value, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium)
+    }
 }
