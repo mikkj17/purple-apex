@@ -1,4 +1,4 @@
-package com.example.purpleapex.constructor.presentation.constructor_detail.components
+package com.example.purpleapex.driver.presentation.driver_detail.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -8,14 +8,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.purpleapex.constructor.domain.Constructor
-import com.example.purpleapex.constructor.domain.ConstructorStats
 import com.example.purpleapex.core.presentation.components.AppCard
+import com.example.purpleapex.driver.domain.DriverStats
 
 @Composable
-fun ConstructorInfoCard(
-    constructor: Constructor,
-    stats: ConstructorStats,
+fun DriverStatsCard(
+    stats: DriverStats,
     modifier: Modifier = Modifier,
 ) {
     AppCard(
@@ -25,25 +23,7 @@ fun ConstructorInfoCard(
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
-                text = "General Information",
-                style = MaterialTheme.typography.headlineSmall,
-            )
-            Spacer(Modifier.height(8.dp))
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column {
-                    LabeledValue(label = "Name", value = constructor.name)
-                }
-                Column(horizontalAlignment = Alignment.End) {
-                    LabeledValue(label = "Nationality", value = constructor.nationality)
-                }
-            }
-
-            Spacer(Modifier.height(16.dp))
-            Text(
-                text = "Stats",
+                text = "Career stats",
                 style = MaterialTheme.typography.headlineSmall,
             )
             Spacer(Modifier.height(8.dp))
@@ -78,12 +58,6 @@ fun ConstructorInfoCard(
             StatRow(label = "DNFs", value = stats.dnfs.toString())
         }
     }
-}
-
-@Composable
-private fun LabeledValue(label: String, value: String) {
-    Text(text = label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-    Text(text = value, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium)
 }
 
 @Composable

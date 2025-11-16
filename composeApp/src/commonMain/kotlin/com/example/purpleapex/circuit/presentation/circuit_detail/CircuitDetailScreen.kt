@@ -95,7 +95,10 @@ private fun CircuitDetailScreen(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
-                    CircuitInfoCard(circuit = state.circuit!!)
+                    CircuitInfoCard(
+                        circuit = state.circuit!!,
+                        stats = state.circuitStats!!,
+                    )
                     Spacer(modifier = Modifier.height(16.dp))
                     AppCard(
                         shape = MaterialTheme.shapes.small,

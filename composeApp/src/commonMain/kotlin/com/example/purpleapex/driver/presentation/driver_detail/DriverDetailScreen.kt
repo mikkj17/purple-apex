@@ -21,6 +21,7 @@ import com.example.purpleapex.core.presentation.components.AnimatedContainer
 import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.core.presentation.components.Header
 import com.example.purpleapex.driver.presentation.driver_detail.components.DriverInfoCard
+import com.example.purpleapex.driver.presentation.driver_detail.components.DriverStatsCard
 import com.example.purpleapex.driver.presentation.driver_detail.components.QualifyingList
 import com.example.purpleapex.driver.presentation.driver_detail.components.RaceList
 import com.example.purpleapex.search.presentation.components.SearchBar
@@ -96,6 +97,8 @@ private fun DriverDetailScreen(
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
                     DriverInfoCard(driver = state.driver!!, constructors = state.constructors)
+                    Spacer(modifier = Modifier.height(16.dp))
+                    DriverStatsCard(stats = state.driverStats!!)
                     Spacer(modifier = Modifier.height(16.dp))
                     AppCard(
                         shape = MaterialTheme.shapes.small,

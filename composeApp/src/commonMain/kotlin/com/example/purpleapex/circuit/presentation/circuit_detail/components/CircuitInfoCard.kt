@@ -1,6 +1,7 @@
 package com.example.purpleapex.circuit.presentation.circuit_detail.components
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -9,12 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.circuit.domain.Circuit
-import com.example.purpleapex.core.presentation.components.AnimatedContainer
+import com.example.purpleapex.circuit.domain.CircuitStats
 import com.example.purpleapex.core.presentation.components.AppCard
 
 @Composable
 fun CircuitInfoCard(
     circuit: Circuit,
+    stats: CircuitStats,
     modifier: Modifier = Modifier,
 ) {
     AppCard(
@@ -22,37 +24,63 @@ fun CircuitInfoCard(
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier,
     ) {
-        AnimatedContainer(
-            header = {
-                Text(
-                    text = "General Information",
-                    style = MaterialTheme.typography.headlineSmall,
-                )
-            },
-            content = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(8.dp)
-                ) {
-                    LabeledValue(label = "Name", value = circuit.name)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Column {
-                            LabeledValue(label = "Location", value = circuit.location.locality)
-                        }
-                        Column(horizontalAlignment = Alignment.End) {
-                            LabeledValue(label = "Country", value = circuit.location.country)
-                        }
-                    }
+        Column(modifier = Modifier.padding(8.dp)) {
+            Text(
+                text = "General Information",
+                style = MaterialTheme.typography.headlineSmall,
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            LabeledValue(label = "Name", value = circuit.name)
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Column {
+                    LabeledValue(label = "Location", value = circuit.location.locality)
                 }
-            },
-            isExpandedByDefault = true,
-            modifier = Modifier,
-        )
+                Column(horizontalAlignment = Alignment.End) {
+                    LabeledValue(label = "Country", value = circuit.location.country)
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            Spacer(modifier = Modifier.height(12.dp))
+
+            val driverValue = stats.topDriverName?.let { name ->
+                if (stats.topDriverWins > 0) "$name (${stats.topDriverWins}x)" else name
+            } ?: "—"
+            val constructorValue = stats.topConstructorName?.let { name ->
+                if (stats.topConstructorWins > 0) "$name (${stats.topConstructorWins}x)" else name
+            } ?: "—"
+            val driverPolesValue = stats.topDriverPolesName?.let { name ->
+                if (stats.topDriverPoles > 0) "$name (${stats.topDriverPoles}x)" else name
+            } ?: "—"
+            val constructorPolesValue = stats.topConstructorPolesName?.let { name ->
+                if (stats.topConstructorPoles > 0) "$name (${stats.topConstructorPoles}x)" else name
+            } ?: "—"
+
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Column {
+                    LabeledValue(label = "GPs", value = stats.grandsPrix.toString())
+                }
+                Column(horizontalAlignment = Alignment.End) {
+                    LabeledValue(label = "First GP", value = stats.firstGrandPrixYear?.toString() ?: "—")
+                }
+            }
+            Spacer(Modifier.height(8.dp))
+            LabeledValue(label = "Most wins (driver)", value = driverValue)
+            Spacer(Modifier.height(8.dp))
+            LabeledValue(label = "Most wins (constructor)", value = constructorValue)
+            Spacer(Modifier.height(8.dp))
+            LabeledValue(label = "Most poles (driver)", value = driverPolesValue)
+            Spacer(Modifier.height(8.dp))
+            LabeledValue(label = "Most poles (constructor)", value = constructorPolesValue)
+        }
     }
 }
 

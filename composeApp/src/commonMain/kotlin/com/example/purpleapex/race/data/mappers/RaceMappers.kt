@@ -18,6 +18,9 @@ fun RacesQuery.Race.toRace() = Race(
 
 fun RacesQuery.Result.toResult() = Result(
     position = position,
+    positionText = positionText,
+    status = status,
+    grid = grid,
     driver = driver.toDriver(),
     constructor = constructor.toConstructor(),
 )
@@ -47,14 +50,6 @@ fun RacesQuery.Location.toLocation() = Location(
     locality = locality,
 )
 
-fun RaceQuery.Race.toRace() = Race(
-    season = season,
-    round = round,
-    name = name,
-    circuit = circuit.toCircuit(),
-    results = results.map { it.toResult() },
-)
-
 fun RaceQuery.Race.toRaceDetail() = RaceDetail(
     season = season,
     round = round,
@@ -63,12 +58,6 @@ fun RaceQuery.Race.toRaceDetail() = RaceDetail(
     time = time,
     circuit = circuit.toCircuit(),
     results = results.map { it.toResultDetail() },
-)
-
-fun RaceQuery.Result.toResult() = Result(
-    position = position,
-    driver = driver.toDriver(),
-    constructor = constructor.toConstructor(),
 )
 
 fun RaceQuery.Result.toResultDetail() = ResultDetail(

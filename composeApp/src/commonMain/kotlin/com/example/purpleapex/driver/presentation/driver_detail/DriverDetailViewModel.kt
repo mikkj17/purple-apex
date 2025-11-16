@@ -8,6 +8,7 @@ import com.example.purpleapex.app.Route
 import com.example.purpleapex.constructor.domain.ConstructorRepository
 import com.example.purpleapex.core.fuzzysearch.FuzzySearch
 import com.example.purpleapex.driver.domain.DriverRepository
+import com.example.purpleapex.driver.domain.DriverStatsCalculator
 import com.example.purpleapex.qualifying.domain.Qualifying
 import com.example.purpleapex.qualifying.domain.QualifyingRepository
 import com.example.purpleapex.race.domain.Race
@@ -33,12 +34,21 @@ class DriverDetailViewModel(
             _state.update {
                 it.copy(isLoading = true)
             }
+            val driver = driverRepository.getDriver(driverId)
+            val constructors = constructorRepository.getConstructors(driverId = driverId)
+            val races = raceRepository.getRaces(driverId = driverId)
+            val qualifyings = qualifyingRepository.getQualifyings(driverId = driverId)
+
             _state.update {
                 it.copy(
-                    driver = driverRepository.getDriver(driverId),
-                    constructors = constructorRepository.getConstructors(driverId = driverId),
-                    races = raceRepository.getRaces(driverId = driverId),
-                    qualifyings = qualifyingRepository.getQualifyings(driverId = driverId),
+                    driver = driver,
+                    constructors = constructors,
+                    races = races,
+                    qualifyings = qualifyings,
+                    driverStats = DriverStatsCalculator.compute(
+                        races = races,
+                        qualifyings = qualifyings,
+                    ),
                     isLoading = false,
                 )
             }
