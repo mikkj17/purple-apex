@@ -30,6 +30,9 @@ fun CircuitStatsCard(
             StatRow(label = "Grands Prix", value = stats.grandsPrix.toString())
             Spacer(Modifier.height(8.dp))
 
+            StatRow(label = "First Grand Prix", value = stats.firstGrandPrixYear?.toString() ?: "—")
+            Spacer(Modifier.height(8.dp))
+
             val driverValue = stats.topDriverName?.let { name ->
                 if (stats.topDriverWins > 0) "$name (${stats.topDriverWins}x)" else name
             } ?: "—"

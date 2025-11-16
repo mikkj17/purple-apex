@@ -1,9 +1,11 @@
 package com.example.purpleapex.circuit.domain
 
+import com.example.purpleapex.qualifying.domain.Qualifying
 import com.example.purpleapex.race.domain.Race
 
 data class CircuitStats(
     val grandsPrix: Int,
+    val firstGrandPrixYear: Int?,
     val topDriverName: String?,
     val topDriverWins: Int,
     val topConstructorName: String?,
@@ -18,13 +20,15 @@ object CircuitStatsCalculator {
     /**
      * Compute circuit stats from the provided list of races held at this circuit.
      * - Grand Prix count
+     * - First Grand Prix year
      * - Most winning driver (name and wins)
      * - Most winning constructor (name and wins)
      * - Most pole positions driver (name and poles)
      * - Most pole positions constructor (name and poles)
      */
-    fun compute(races: List<Race>, qualifyings: List<com.example.purpleapex.qualifying.domain.Qualifying>): CircuitStats {
+    fun compute(races: List<Race>, qualifyings: List<Qualifying>): CircuitStats {
         val gp = races.size
+        val firstGp = races.minOfOrNull { it.season }
 
         // Winners per race are entries with position == 1
         val winningResults = races.flatMap { race -> race.results.filter { it.position == 1 } }
@@ -58,6 +62,7 @@ object CircuitStatsCalculator {
 
         return CircuitStats(
             grandsPrix = gp,
+            firstGrandPrixYear = firstGp,
             topDriverName = topDriverName,
             topDriverWins = topDriverWins,
             topConstructorName = topConstructorName,
