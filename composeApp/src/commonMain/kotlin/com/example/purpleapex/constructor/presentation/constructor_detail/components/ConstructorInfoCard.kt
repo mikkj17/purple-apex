@@ -31,8 +31,7 @@ fun ConstructorInfoCard(
             Spacer(Modifier.height(8.dp))
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Column {
                     LabeledValue(label = "Name", value = constructor.name)
@@ -42,7 +41,6 @@ fun ConstructorInfoCard(
                 }
             }
 
-            // Stats section (when available) in the same card
             Spacer(Modifier.height(16.dp))
             Text(
                 text = "Stats",
