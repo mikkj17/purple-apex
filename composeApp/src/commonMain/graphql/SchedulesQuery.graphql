@@ -1,0 +1,17 @@
+query SchedulesQuery($year: Int!) {
+    schedules(year: $year) {
+        round
+        season
+        time
+        date
+        raceName
+        circuit {
+            id
+            name
+            location {
+                country
+                locality
+            }
+        }
+    }
+}

@@ -87,7 +87,7 @@ private fun RaceListScreen(
                     Button(onClick = { onAction(RaceListAction.OnRetryClick) }) { Text("Retry") }
                 }
 
-                state.races.isEmpty() -> Text(
+                state.races.isEmpty() && state.schedules.isEmpty() -> Text(
                     text = "No races found...",
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.error,
@@ -95,6 +95,7 @@ private fun RaceListScreen(
 
                 else -> RaceList(
                     races = state.races,
+                    schedules = state.schedules,
                     onRaceClick = {
                         onAction(RaceListAction.OnRaceClick(it))
                     },
