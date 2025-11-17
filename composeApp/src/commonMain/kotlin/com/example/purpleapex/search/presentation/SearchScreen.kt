@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -135,13 +137,15 @@ private fun SearchScreen(
             ) {
                 when {
                     state.isLoading -> CircularProgressIndicator()
-                    state.errorMessage != null -> {
+                    state.errorMessage != null -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
                             text = state.errorMessage,
                             textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.headlineSmall,
                             color = MaterialTheme.colorScheme.error,
                         )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Button(onClick = { onAction(SearchAction.OnRetryClick) }) { Text("Retry") }
                     }
 
                     pageIndex == 0 -> {

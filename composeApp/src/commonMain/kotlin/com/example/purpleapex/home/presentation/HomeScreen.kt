@@ -86,6 +86,9 @@ fun HomeScreen(
                         onArticleClose = {
                             onAction(NewsListAction.OnArticleClose)
                         },
+                        onRetryClick = {
+                            onAction(NewsListAction.OnRetryClick)
+                        },
                         modifier = Modifier.fillMaxWidth()
                     )
                 }

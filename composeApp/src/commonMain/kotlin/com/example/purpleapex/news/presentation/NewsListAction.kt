@@ -5,4 +5,5 @@ import com.example.purpleapex.news.domain.NewsArticle
 sealed interface NewsListAction {
     data class OnArticleClick(val article: NewsArticle) : NewsListAction
     data object OnArticleClose : NewsListAction
+    data object OnRetryClick : NewsListAction
 }

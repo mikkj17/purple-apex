@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.app.LocalScaffoldPadding
@@ -59,7 +60,12 @@ private fun RaceDetailScreen(
         when {
             state.isLoading -> CircularProgressIndicator()
             state.errorMessage != null -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = state.errorMessage, color = MaterialTheme.colorScheme.error)
+                Text(
+                    text = state.errorMessage,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
                 Spacer(modifier = Modifier.height(8.dp))
                 Button(onClick = { onAction(RaceDetailAction.OnRetryClick) }) { Text("Retry") }
             }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -57,12 +58,16 @@ private fun CircuitDetailScreen(
     ) {
         when {
             state.isLoading -> CircularProgressIndicator()
-            state.errorMessage != null -> Text(
-                text = state.errorMessage,
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.error,
-            )
+            state.errorMessage != null -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = state.errorMessage,
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.error,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Button(onClick = { onAction(CircuitDetailAction.OnRetryClick) }) { Text("Retry") }
+            }
 
             else -> Column(
                 modifier = Modifier

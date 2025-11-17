@@ -32,22 +32,28 @@ class StandingsListViewModel(
                     it.copy(selectedTabIndex = action.index)
                 }
             }
+
+            is StandingsListAction.OnRetryClick -> loadStandings()
         }
     }
 
     private fun loadStandings() {
         viewModelScope.launch {
-            _state.update {
-                it.copy(isLoading = true)
-            }
-            val standings = standingsRepository.getStandings(year = _state.value.selectedYear)
-            _state.update {
-                it.copy(
-                    driverStandings = standings.first,
-                    constructorStandings = standings.second,
-                    isLoading = false,
-                )
-            }
+            _state.update { it.copy(isLoading = true, errorMessage = null) }
+            runCatching { standingsRepository.getStandings(year = _state.value.selectedYear) }
+                .onSuccess { standings ->
+                    _state.update {
+                        it.copy(
+                            driverStandings = standings.first,
+                            constructorStandings = standings.second,
+                            isLoading = false,
+                            errorMessage = null,
+                        )
+                    }
+                }
+                .onFailure { throwable ->
+                    _state.update { it.copy(isLoading = false, errorMessage = throwable.message ?: "Unknown error") }
+                }
         }
     }
 }

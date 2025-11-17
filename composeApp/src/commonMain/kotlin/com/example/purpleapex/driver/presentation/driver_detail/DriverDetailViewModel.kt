@@ -7,6 +7,7 @@ import androidx.navigation.toRoute
 import com.example.purpleapex.app.Route
 import com.example.purpleapex.constructor.domain.ConstructorRepository
 import com.example.purpleapex.core.fuzzysearch.FuzzySearch
+import com.example.purpleapex.core.helpers.Quadruple
 import com.example.purpleapex.driver.domain.DriverRepository
 import com.example.purpleapex.driver.domain.DriverStatsCalculator
 import com.example.purpleapex.qualifying.domain.Qualifying
@@ -30,30 +31,7 @@ class DriverDetailViewModel(
     val state = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            _state.update {
-                it.copy(isLoading = true)
-            }
-            val driver = driverRepository.getDriver(driverId)
-            val constructors = constructorRepository.getConstructors(driverId = driverId)
-            val races = raceRepository.getRaces(driverId = driverId)
-            val qualifyings = qualifyingRepository.getQualifyings(driverId = driverId)
-
-            _state.update {
-                it.copy(
-                    driver = driver,
-                    constructors = constructors,
-                    races = races,
-                    qualifyings = qualifyings,
-                    driverStats = DriverStatsCalculator.compute(
-                        races = races,
-                        qualifyings = qualifyings,
-                    ),
-                    isLoading = false,
-                )
-            }
-            updateSearchResults()
-        }
+        load()
     }
 
     fun onAction(action: DriverDetailAction) {
@@ -66,6 +44,7 @@ class DriverDetailViewModel(
             }
 
             is DriverDetailAction.OnBackClick -> {}
+            is DriverDetailAction.OnRetryClick -> load()
         }
     }
 
@@ -153,5 +132,38 @@ class DriverDetailViewModel(
                 )
             },
         )
+    }
+
+    private fun load() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, errorMessage = null) }
+            runCatching {
+                val driver = driverRepository.getDriver(driverId)
+                val constructors = constructorRepository.getConstructors(driverId = driverId)
+                val races = raceRepository.getRaces(driverId = driverId)
+                val qualifyings = qualifyingRepository.getQualifyings(driverId = driverId)
+                Quadruple(driver, constructors, races, qualifyings)
+            }.onSuccess { (driver, constructors, races, qualifyings) ->
+                _state.update {
+                    it.copy(
+                        driver = driver,
+                        constructors = constructors,
+                        races = races,
+                        qualifyings = qualifyings,
+                        driverStats = DriverStatsCalculator.compute(
+                            races = races,
+                            qualifyings = qualifyings,
+                        ),
+                        isLoading = false,
+                        errorMessage = null,
+                    )
+                }
+                updateSearchResults()
+            }.onFailure { throwable ->
+                _state.update {
+                    it.copy(isLoading = false, errorMessage = throwable.message ?: "Unknown error")
+                }
+            }
+        }
     }
 }

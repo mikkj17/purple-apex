@@ -8,6 +8,7 @@ import com.example.purpleapex.app.Route
 import com.example.purpleapex.constructor.domain.ConstructorRepository
 import com.example.purpleapex.constructor.domain.ConstructorStatsCalculator
 import com.example.purpleapex.core.fuzzysearch.FuzzySearch
+import com.example.purpleapex.core.helpers.Quadruple
 import com.example.purpleapex.driver.domain.DriverRepository
 import com.example.purpleapex.qualifying.domain.Qualifying
 import com.example.purpleapex.qualifying.domain.QualifyingRepository
@@ -30,30 +31,7 @@ class ConstructorDetailViewModel(
     val state = _state.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            _state.update {
-                it.copy(isLoading = true)
-            }
-            val constructor = constructorRepository.getConstructor(constructorId = constructorId)
-            val drivers = driverRepository.getDrivers(constructorId = constructorId)
-            val races = raceRepository.getRaces(constructorId = constructorId)
-            val qualifyings = qualifyingRepository.getQualifyings(constructorId = constructorId)
-
-            _state.update {
-                it.copy(
-                    constructor = constructor,
-                    drivers = drivers,
-                    races = races,
-                    qualifyings = qualifyings,
-                    constructorStats = ConstructorStatsCalculator.compute(
-                        races = races,
-                        qualifyings = qualifyings,
-                    ),
-                    isLoading = false,
-                )
-            }
-            updateSearchResults()
-        }
+        load()
     }
 
     fun onAction(action: ConstructorDetailAction) {
@@ -66,6 +44,7 @@ class ConstructorDetailViewModel(
             }
 
             is ConstructorDetailAction.OnBackClick -> {}
+            is ConstructorDetailAction.OnRetryClick -> load()
         }
     }
 
@@ -153,5 +132,36 @@ class ConstructorDetailViewModel(
                 ).toList()
             },
         )
+    }
+
+    private fun load() {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, errorMessage = null) }
+            runCatching {
+                val constructor = constructorRepository.getConstructor(constructorId = constructorId)
+                val drivers = driverRepository.getDrivers(constructorId = constructorId)
+                val races = raceRepository.getRaces(constructorId = constructorId)
+                val qualifyings = qualifyingRepository.getQualifyings(constructorId = constructorId)
+                Quadruple(constructor, drivers, races, qualifyings)
+            }.onSuccess { (constructor, drivers, races, qualifyings) ->
+                _state.update {
+                    it.copy(
+                        constructor = constructor,
+                        drivers = drivers,
+                        races = races,
+                        qualifyings = qualifyings,
+                        constructorStats = ConstructorStatsCalculator.compute(
+                            races = races,
+                            qualifyings = qualifyings,
+                        ),
+                        isLoading = false,
+                        errorMessage = null,
+                    )
+                }
+                updateSearchResults()
+            }.onFailure { throwable ->
+                _state.update { it.copy(isLoading = false, errorMessage = throwable.message ?: "Unknown error") }
+            }
+        }
     }
 }

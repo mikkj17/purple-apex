@@ -10,4 +10,5 @@ sealed interface SearchAction {
     data class OnDriverClick(val driver: Driver) : SearchAction
     data class OnConstructorClick(val constructor: Constructor) : SearchAction
     data class OnCircuitClick(val circuit: Circuit) : SearchAction
+    data object OnRetryClick : SearchAction
 }
