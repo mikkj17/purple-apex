@@ -6,4 +6,6 @@ interface QualifyingRepository {
         constructorId: String? = null,
         circuitId: String? = null,
     ): List<Qualifying>
+
+    suspend fun getQualifying(year: Int, round: Int): QualifyingDetail
 }
