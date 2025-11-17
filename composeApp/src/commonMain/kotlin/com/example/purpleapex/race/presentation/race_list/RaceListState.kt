@@ -1,6 +1,7 @@
 package com.example.purpleapex.race.presentation.race_list
 
 import com.example.purpleapex.race.domain.Race
+import com.example.purpleapex.schedule.domain.Schedule
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.todayIn
 import kotlin.time.Clock
@@ -12,4 +13,5 @@ data class RaceListState(
     val errorMessage: String? = null,
     val selectedYear: Int = Clock.System.todayIn(TimeZone.UTC).year,
     val races: List<Race> = emptyList(),
+    val schedules: List<Schedule> = emptyList(),
 )

@@ -14,10 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.app.LocalScaffoldPadding
 import com.example.purpleapex.race.domain.Race
+import com.example.purpleapex.schedule.domain.Schedule
 
 @Composable
 fun RaceList(
     races: List<Race>,
+    schedules: List<Schedule>,
     onRaceClick: (Race) -> Unit,
     modifier: Modifier = Modifier,
     scrollState: LazyListState = rememberLazyListState(),
@@ -39,6 +41,15 @@ fun RaceList(
             RaceListItem(
                 race = race,
                 onClick = { onRaceClick(race) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        items(
+            schedules.filterNot { it.round in races.map { race -> race.round } },
+            key = { it.round }
+        ) { schedule ->
+            ScheduleListItem(
+                schedule = schedule,
                 modifier = Modifier.fillMaxWidth(),
             )
         }
