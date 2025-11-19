@@ -39,9 +39,6 @@ sealed interface Route {
     @Serializable
     data class LapTimes(val season: Int, val round: Int) : Route
 
-    @Serializable
-    data class PitStops(val season: Int, val round: Int) : Route
-
     // Search tab + sub-screens
     @Serializable
     data object Search : Route

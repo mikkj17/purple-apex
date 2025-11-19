@@ -18,7 +18,6 @@ import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScre
 import com.example.purpleapex.home.presentation.HomeScreenRoot
 import com.example.purpleapex.qualifying.presentation.qualifying_detail.QualifyingDetailScreenRoot
 import com.example.purpleapex.race.presentation.race_detail.LapTimesScreenRoot
-import com.example.purpleapex.race.presentation.race_detail.PitStopsScreenRoot
 import com.example.purpleapex.race.presentation.race_detail.RaceDetailScreenRoot
 import com.example.purpleapex.race.presentation.race_list.RaceListScreenRoot
 import com.example.purpleapex.search.presentation.SearchScreenRoot
@@ -112,9 +111,6 @@ fun App() {
                                     onLapTimesClick = { season, round ->
                                         navController.navigate(Route.LapTimes(season, round))
                                     },
-                                    onPitStopsClick = { season, round ->
-                                        navController.navigate(Route.PitStops(season, round))
-                                    },
                                 )
                             }
                             composable<Route.QualifyingDetail> {
@@ -124,11 +120,6 @@ fun App() {
                             }
                             composable<Route.LapTimes> {
                                 LapTimesScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
-                                )
-                            }
-                            composable<Route.PitStops> {
-                                PitStopsScreenRoot(
                                     onBackClick = { navController.navigateUp() }
                                 )
                             }
