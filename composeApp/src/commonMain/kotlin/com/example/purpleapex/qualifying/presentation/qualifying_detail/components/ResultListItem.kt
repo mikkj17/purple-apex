@@ -32,7 +32,19 @@ fun ResultListItem(position: Int, result: ResultDetail) {
             )
         }
         Text(
-            text = result.q3 ?: result.q2 ?: result.q1 ?: "–",
+            text = result.q1 ?: "",
+            style = MaterialTheme.typography.bodySmall,
+            textAlign = TextAlign.End,
+            modifier = Modifier.weight(1.0f),
+        )
+        Text(
+            text = result.q2 ?: "",
+            style = MaterialTheme.typography.bodySmall,
+            textAlign = TextAlign.End,
+            modifier = Modifier.weight(1.0f),
+        )
+        Text(
+            text = result.q3 ?: "",
             style = MaterialTheme.typography.bodySmall,
             textAlign = TextAlign.End,
             modifier = Modifier.weight(1.0f),

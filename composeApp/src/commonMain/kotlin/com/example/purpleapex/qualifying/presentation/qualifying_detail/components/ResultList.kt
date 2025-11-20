@@ -34,7 +34,17 @@ fun ResultList(results: List<ResultDetail>) {
                     modifier = Modifier.weight(1.8f),
                 )
                 Text(
-                    text = "Time",
+                    text = "Q1",
+                    modifier = Modifier.weight(1.0f),
+                    textAlign = TextAlign.End,
+                )
+                Text(
+                    text = "Q2",
+                    modifier = Modifier.weight(1.0f),
+                    textAlign = TextAlign.End,
+                )
+                Text(
+                    text = "Q3",
                     modifier = Modifier.weight(1.0f),
                     textAlign = TextAlign.End,
                 )
