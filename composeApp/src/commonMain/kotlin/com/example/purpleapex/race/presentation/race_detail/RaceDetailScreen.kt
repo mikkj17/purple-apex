@@ -28,7 +28,6 @@ fun RaceDetailScreenRoot(
     onBackClick: () -> Unit,
     onQualifyingClick: (season: Int, round: Int) -> Unit,
     onLapTimesClick: (season: Int, round: Int) -> Unit,
-    onPitStopsClick: (season: Int, round: Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     RaceDetailScreen(
@@ -40,7 +39,6 @@ fun RaceDetailScreenRoot(
                 RaceDetailAction.OnBackClick -> onBackClick()
                 RaceDetailAction.OnQualifyingClick -> onQualifyingClick(race.season, race.round)
                 RaceDetailAction.OnLapTimesClick -> onLapTimesClick(race.season, race.round)
-                RaceDetailAction.OnPitStopsClick -> onPitStopsClick(race.season, race.round)
                 else -> Unit
             }
             viewModel.onAction(action)

@@ -1,0 +1,36 @@
+query QualifyingQuery($year: Int!, $round: Int!) {
+    qualifying(year: $year, round: $round) {
+        season
+        round
+        name
+        date
+        time
+        circuit {
+            id
+            name
+            location {
+                country
+                locality
+            }
+        }
+        results {
+            number
+            position
+            q1
+            q2
+            q3
+            driver {
+                id
+                givenName
+                familyName
+                nationality
+                number
+            }
+            constructor {
+                id
+                name
+                nationality
+            }
+        }
+    }
+}

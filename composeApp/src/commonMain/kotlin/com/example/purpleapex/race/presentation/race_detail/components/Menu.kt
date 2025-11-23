@@ -39,13 +39,6 @@ fun Menu(onAction: (RaceDetailAction) -> Unit) {
                     onAction(RaceDetailAction.OnLapTimesClick)
                 }
             )
-            DropdownMenuItem(
-                text = { Text("Pit stops") },
-                onClick = {
-                    expanded = false
-                    onAction(RaceDetailAction.OnPitStopsClick)
-                }
-            )
         }
     }
 }

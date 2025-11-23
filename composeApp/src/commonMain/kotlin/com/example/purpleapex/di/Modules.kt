@@ -26,6 +26,7 @@ import com.example.purpleapex.qualifying.data.network.ApolloQualifyingClient
 import com.example.purpleapex.qualifying.data.repository.DefaultQualifyingRepository
 import com.example.purpleapex.qualifying.domain.QualifyingClient
 import com.example.purpleapex.qualifying.domain.QualifyingRepository
+import com.example.purpleapex.qualifying.presentation.qualifying_detail.QualifyingDetailViewModel
 import com.example.purpleapex.race.data.network.ApolloRaceClient
 import com.example.purpleapex.race.data.repository.DefaultRaceRepository
 import com.example.purpleapex.race.domain.RaceClient
@@ -97,6 +98,7 @@ val sharedModule = module {
     viewModelOf(::StandingsListViewModel)
     viewModelOf(::RaceListViewModel)
     viewModelOf(::RaceDetailViewModel)
+    viewModelOf(::QualifyingDetailViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::DriverDetailViewModel)
     viewModelOf(::ConstructorDetailViewModel)

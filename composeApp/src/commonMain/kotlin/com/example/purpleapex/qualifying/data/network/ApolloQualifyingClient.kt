@@ -2,9 +2,12 @@ package com.example.purpleapex.qualifying.data.network
 
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
+import com.example.QualifyingQuery
 import com.example.QualifyingsQuery
 import com.example.purpleapex.qualifying.data.mappers.toQualifying
+import com.example.purpleapex.qualifying.data.mappers.toQualifyingDetail
 import com.example.purpleapex.qualifying.domain.QualifyingClient
+import com.example.purpleapex.qualifying.domain.QualifyingDetail
 
 class ApolloQualifyingClient(
     private val apolloClient: ApolloClient,
@@ -21,4 +24,16 @@ class ApolloQualifyingClient(
         .dataAssertNoErrors
         .qualifyings
         .map { it.toQualifying() }
+
+    override suspend fun getQualifying(
+        year: Int,
+        round: Int
+    ): QualifyingDetail {
+        return apolloClient
+            .query(QualifyingQuery(year = year, round = round))
+            .execute()
+            .dataAssertNoErrors
+            .qualifying
+            .toQualifyingDetail()
+    }
 }

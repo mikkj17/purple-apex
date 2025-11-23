@@ -5,5 +5,4 @@ sealed interface RaceDetailAction {
     data object OnRetryClick : RaceDetailAction
     data object OnQualifyingClick : RaceDetailAction
     data object OnLapTimesClick : RaceDetailAction
-    data object OnPitStopsClick : RaceDetailAction
 }
