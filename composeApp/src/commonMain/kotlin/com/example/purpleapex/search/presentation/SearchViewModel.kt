@@ -81,7 +81,7 @@ class SearchViewModel(
             query = query,
             candidates = drivers
         ) {
-            listOf(
+            listOfNotNull(
                 "$givenName $familyName",
                 givenName,
                 familyName,

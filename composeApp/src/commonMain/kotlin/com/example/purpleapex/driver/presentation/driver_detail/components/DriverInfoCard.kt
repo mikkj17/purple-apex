@@ -40,12 +40,12 @@ fun DriverInfoCard(
             }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Column {
-                    LabeledValue(label = "Nationality", value = driver.nationality)
+                    LabeledValue(label = "Nationality", value = driver.nationality ?: "—")
                     LabeledValue(label = "Number", value = driver.number?.toString() ?: "—")
                 }
                 Column(horizontalAlignment = Alignment.End) {
                     LabeledValue(label = "Code", value = driver.code ?: "—")
-                    LabeledValue(label = "Date of birth", value = driver.dateOfBirth.toString())
+                    LabeledValue(label = "Date of birth", value = driver.dateOfBirth?.toString() ?: "—")
                 }
             }
         }

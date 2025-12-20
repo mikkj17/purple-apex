@@ -26,7 +26,7 @@ type Constructor {
 
   nationality: String!
 
-  url: String!
+  url: String
 }
 
 type ConstructorStanding {
@@ -52,7 +52,7 @@ type ConstructorStandingList {
 type Driver {
   code: String
 
-  dateOfBirth: String!
+  dateOfBirth: String
 
   familyName: String!
 
@@ -60,17 +60,17 @@ type Driver {
 
   id: String!
 
-  nationality: String!
+  nationality: String
 
   number: Int
 
-  url: String!
+  url: String
 }
 
 type DriverDetail {
   code: String
 
-  dateOfBirth: String!
+  dateOfBirth: String
 
   details: DriverDetails
 
@@ -80,11 +80,11 @@ type DriverDetail {
 
   id: String!
 
-  nationality: String!
+  nationality: String
 
   number: Int
 
-  url: String!
+  url: String
 }
 
 type DriverDetails {
@@ -156,11 +156,11 @@ type Lap {
 type Location {
   country: String!
 
-  latitude: Float!
+  latitude: Float
 
   locality: String!
 
-  longitude: Float!
+  longitude: Float
 }
 
 type PitStop {
@@ -306,7 +306,7 @@ type RaceResult {
 
   laps: Int!
 
-  number: Int!
+  number: Int
 
   points: Float!
 

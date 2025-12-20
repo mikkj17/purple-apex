@@ -16,7 +16,7 @@ fun DriversQuery.Driver.toDriver() = Driver(
 
 fun DriverQuery.Driver.toDriver() = DriverDetail(
     code = code,
-    dateOfBirth = LocalDate.parse(dateOfBirth),
+    dateOfBirth = dateOfBirth?.let { LocalDate.parse(it) },
     familyName = familyName,
     givenName = givenName,
     id = id,

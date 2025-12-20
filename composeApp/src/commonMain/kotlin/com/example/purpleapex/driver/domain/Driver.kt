@@ -4,7 +4,7 @@ data class Driver(
     val id: String,
     val givenName: String,
     val familyName: String,
-    val nationality: String,
+    val nationality: String?,
     val number: Int?,
 ) {
     val fullName: String
