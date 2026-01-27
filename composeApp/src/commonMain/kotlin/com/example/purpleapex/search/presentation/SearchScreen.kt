@@ -1,29 +1,34 @@
 package com.example.purpleapex.search.presentation
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.circuit.domain.Circuit
-import com.example.purpleapex.circuit.presentation.circuit_list.CircuitList
 import com.example.purpleapex.constructor.domain.Constructor
-import com.example.purpleapex.constructor.presentation.constructor_list.components.ConstructorList
+import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.driver.domain.Driver
-import com.example.purpleapex.driver.presentation.driver_list.components.DriverList
+import com.example.purpleapex.search.presentation.components.CircuitSearchResultItem
+import com.example.purpleapex.search.presentation.components.ConstructorSearchResultItem
+import com.example.purpleapex.search.presentation.components.DriverSearchResultItem
 import com.example.purpleapex.search.presentation.components.SearchBar
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -49,163 +54,175 @@ fun SearchScreenRoot(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SearchScreen(
     state: SearchState,
     onAction: (SearchAction) -> Unit,
 ) {
     val keyBoardController = LocalSoftwareKeyboardController.current
-    val searchResultsListState = rememberLazyGridState()
-    val pagerState = rememberPagerState { 3 }
+    val listState = rememberLazyListState()
+    val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(state.searchedDrivers) {
-        searchResultsListState.animateScrollToItem(0)
-    }
-    LaunchedEffect(state.searchedConstructors) {
-        searchResultsListState.animateScrollToItem(0)
-    }
-    LaunchedEffect(state.searchedCircuits) {
-        searchResultsListState.animateScrollToItem(0)
-    }
+    val hasResults = state.searchedDrivers.isNotEmpty() ||
+            state.searchedConstructors.isNotEmpty() ||
+            state.searchedCircuits.isNotEmpty()
 
-    LaunchedEffect(state.selectedTabIndex) {
-        pagerState.animateScrollToPage(state.selectedTabIndex)
-    }
+    val searchBarAlignmentBias by animateFloatAsState(
+        targetValue = if (hasResults || state.searchQuery.isNotEmpty()) -1f else 0f,
+        animationSpec = tween(durationMillis = 300)
+    )
 
-    LaunchedEffect(pagerState.settledPage) {
-        onAction(SearchAction.OnTabSelected(pagerState.settledPage))
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
     }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Box(
         modifier = Modifier
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
             .padding(LocalTopSafePadding.current),
     ) {
-        SearchBar(
-            searchQuery = state.searchQuery,
-            onSearchQueryChange = {
-                onAction(SearchAction.OnSearchQueryChange(it))
-            },
-            onImeSearch = {
-                keyBoardController?.hide()
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.surface)
-                .padding(8.dp)
-        )
-        PrimaryTabRow(
-            selectedTabIndex = state.selectedTabIndex,
-            containerColor = MaterialTheme.colorScheme.surface,
-            modifier = Modifier.fillMaxWidth(),
-            indicator = {
-                TabRowDefaults.SecondaryIndicator(
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.tabIndicatorOffset(state.selectedTabIndex),
-                )
-            }
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            listOf("Drivers", "Constructors", "Circuits").forEachIndexed { index, s ->
-                Tab(
-                    selected = state.selectedTabIndex == index,
-                    onClick = {
-                        onAction(SearchAction.OnTabSelected(index))
-                    },
-                    modifier = Modifier.weight(1f),
-                    selectedContentColor = MaterialTheme.colorScheme.onSurface,
-                    unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                contentAlignment = BiasAlignment(0f, searchBarAlignmentBias)
+            ) {
+                val searchBarHeightModifier = if (hasResults || state.searchQuery.isNotEmpty()) {
+                    Modifier.height(80.dp)
+                } else {
+                    Modifier.fillMaxHeight()
+                }
+                Box(
+                    modifier = searchBarHeightModifier,
+                    contentAlignment = BiasAlignment(0f, searchBarAlignmentBias)
                 ) {
-                    Text(
-                        text = s,
-                        modifier = Modifier.padding(vertical = 12.dp)
+                    SearchBar(
+                        searchQuery = state.searchQuery,
+                        onSearchQueryChange = {
+                            onAction(SearchAction.OnSearchQueryChange(it))
+                        },
+                        onImeSearch = {
+                            keyBoardController?.hide()
+                        },
+                        focusRequester = focusRequester,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
                     )
                 }
             }
-        }
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) { pageIndex ->
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 8.dp)
-            ) {
-                when {
-                    state.isLoading -> CircularProgressIndicator()
-                    state.errorMessage != null -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = state.errorMessage,
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.headlineSmall,
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Button(onClick = { onAction(SearchAction.OnRetryClick) }) { Text("Retry") }
+
+            if (state.isLoading) {
+                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            } else if (state.errorMessage != null) {
+                Column(
+                    modifier = Modifier.weight(1f),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = state.errorMessage,
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Button(onClick = { onAction(SearchAction.OnRetryClick) }) { Text("Retry") }
+                }
+            } else if (hasResults || (state.searchQuery.isNotEmpty() && !state.isLoading)) {
+                LazyColumn(
+                    state = listState,
+                    verticalArrangement = Arrangement.spacedBy(16.dp),
+                    contentPadding = PaddingValues(bottom = 16.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(horizontal = 16.dp),
+                ) {
+                    if (state.searchedDrivers.isNotEmpty()) {
+                        item {
+                            ResultsContainer(title = "Drivers") {
+                                state.searchedDrivers.forEach { driver ->
+                                    DriverSearchResultItem(
+                                        driver = driver,
+                                        onClick = { onAction(SearchAction.OnDriverClick(driver)) }
+                                    )
+                                }
+                            }
+                        }
                     }
 
-                    pageIndex == 0 -> {
-                        if (state.searchedDrivers.isEmpty())
-                            Text(
-                                text = "No drivers found...",
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.headlineSmall,
-                                color = MaterialTheme.colorScheme.error,
-                            )
-                        else
-                            DriverList(
-                                drivers = state.searchedDrivers,
-                                onDriverClick = {
-                                    onAction(SearchAction.OnDriverClick(it))
-                                },
-                                modifier = Modifier.fillMaxSize(),
-                                scrollState = searchResultsListState,
-                            )
+                    if (state.searchedConstructors.isNotEmpty()) {
+                        item {
+                            ResultsContainer(title = "Constructors") {
+                                state.searchedConstructors.forEach { constructor ->
+                                    ConstructorSearchResultItem(
+                                        constructor = constructor,
+                                        onClick = { onAction(SearchAction.OnConstructorClick(constructor)) }
+                                    )
+                                }
+                            }
+                        }
                     }
 
-                    pageIndex == 1 -> {
-                        if (state.searchedConstructors.isEmpty())
-                            Text(
-                                text = "No constructors found...",
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.headlineSmall,
-                                color = MaterialTheme.colorScheme.error,
-                            )
-                        else
-                            ConstructorList(
-                                constructors = state.searchedConstructors,
-                                onConstructorClick = {
-                                    onAction(SearchAction.OnConstructorClick(it))
-                                },
-                                modifier = Modifier.fillMaxSize(),
-                                scrollState = searchResultsListState,
-                            )
+                    if (state.searchedCircuits.isNotEmpty()) {
+                        item {
+                            ResultsContainer(title = "Circuits") {
+                                state.searchedCircuits.forEach { circuit ->
+                                    CircuitSearchResultItem(
+                                        circuit = circuit,
+                                        onClick = { onAction(SearchAction.OnCircuitClick(circuit)) }
+                                    )
+                                }
+                            }
+                        }
                     }
 
-                    else -> {
-                        if (state.searchedCircuits.isEmpty())
-                            Text(
-                                text = "No circuits found...",
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.headlineSmall,
-                                color = MaterialTheme.colorScheme.error,
-                            )
-                        else
-                            CircuitList(
-                                circuits = state.searchedCircuits,
-                                onCircuitClick = {
-                                    onAction(SearchAction.OnCircuitClick(it))
-                                },
-                                modifier = Modifier.fillMaxSize(),
-                                scrollState = searchResultsListState,
-                            )
+                    if (state.searchQuery.isNotEmpty() && !hasResults) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillParentMaxSize()
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = "No results found for \"${state.searchQuery}\"",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
                     }
                 }
             }
         }
     }
 }
+
+@Composable
+private fun ResultsContainer(
+    title: String,
+    modifier: Modifier = Modifier,
+    content: @Composable ColumnScope.() -> Unit
+) {
+        Column(
+            modifier = modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+            content()
+    }
+}
+

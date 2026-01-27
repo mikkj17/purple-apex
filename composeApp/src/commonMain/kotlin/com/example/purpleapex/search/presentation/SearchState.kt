@@ -8,7 +8,6 @@ data class SearchState(
     val isLoading: Boolean = true,
     val errorMessage: String? = null,
     val searchQuery: String = "",
-    val selectedTabIndex: Int = 0,
     val drivers: List<Driver> = emptyList(),
     val searchedDrivers: List<Driver> = emptyList(),
     val constructors: List<Constructor> = emptyList(),

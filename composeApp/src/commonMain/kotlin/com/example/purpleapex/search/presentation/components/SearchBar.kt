@@ -22,12 +22,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+
 @Composable
 fun SearchBar(
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onImeSearch: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    focusRequester: FocusRequester = FocusRequester()
 ) {
     CompositionLocalProvider(
         LocalTextSelectionColors provides TextSelectionColors(
@@ -94,7 +98,9 @@ fun SearchBar(
                     }
                 }
             },
-            modifier = modifier.minimumInteractiveComponentSize(),
+            modifier = modifier
+                .minimumInteractiveComponentSize()
+                .focusRequester(focusRequester),
         )
     }
 }

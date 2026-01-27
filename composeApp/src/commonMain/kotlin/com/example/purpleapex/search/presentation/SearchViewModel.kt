@@ -35,12 +35,6 @@ class SearchViewModel(
                 updateSearchResults()
             }
 
-            is SearchAction.OnTabSelected -> {
-                _state.update {
-                    it.copy(selectedTabIndex = action.index)
-                }
-            }
-
             is SearchAction.OnDriverClick -> {}
             is SearchAction.OnConstructorClick -> {}
             is SearchAction.OnCircuitClick -> {}
@@ -62,6 +56,10 @@ class SearchViewModel(
         val drivers = _state.value.drivers
         val query = _state.value.searchQuery
 
+        if (query.isBlank()) {
+            return emptyList()
+        }
+
         if ("""\d{1,2}""".toRegex().matches(query)) {
             return FuzzySearch.extract(
                 query = query,
@@ -70,11 +68,6 @@ class SearchViewModel(
             ) {
                 listOf(number.toString())
             }
-        }
-
-        if (query.length < 3) {
-
-            return drivers
         }
 
         return FuzzySearch.extract(
@@ -94,8 +87,8 @@ class SearchViewModel(
         val constructors = _state.value.constructors
         val query = _state.value.searchQuery
 
-        if (query.length < 3) {
-            return constructors
+        if (query.isBlank()) {
+            return emptyList()
         }
 
         return FuzzySearch.extract(
@@ -114,8 +107,8 @@ class SearchViewModel(
         val circuits = _state.value.circuits
         val query = _state.value.searchQuery
 
-        if (query.length < 3) {
-            return circuits
+        if (query.isBlank()) {
+            return emptyList()
         }
 
         return FuzzySearch.extract(
