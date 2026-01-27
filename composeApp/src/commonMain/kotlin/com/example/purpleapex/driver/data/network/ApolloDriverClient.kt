@@ -27,6 +27,6 @@ class ApolloDriverClient(
         .query(DriverQuery(driverId))
         .execute()
         .dataAssertNoErrors
-        .driver!!
+        .driver
         .toDriver()
 }

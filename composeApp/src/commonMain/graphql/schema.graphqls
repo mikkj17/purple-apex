@@ -67,44 +67,6 @@ type Driver {
   url: String
 }
 
-type DriverDetail {
-  code: String
-
-  dateOfBirth: String
-
-  details: DriverDetails
-
-  familyName: String!
-
-  givenName: String!
-
-  id: String!
-
-  nationality: String
-
-  number: Int
-
-  url: String
-}
-
-type DriverDetails {
-  broadCastName: String!
-
-  countryCode: String
-
-  driverNumber: Int!
-
-  fullName: String!
-
-  headshotUrl: String!
-
-  nameAcronym: String!
-
-  teamColour: String!
-
-  teamName: String!
-}
-
 type DriverStanding {
   constructors: [Constructor!]!
 
@@ -163,6 +125,50 @@ type Location {
   longitude: Float
 }
 
+type NewsArticle {
+  byline: String
+
+  description: String!
+
+  headline: String!
+
+  id: Int!
+
+  images: [NewsImage!]!
+
+  lastModified: String!
+
+  links: NewsLinks!
+
+  published: String!
+}
+
+type NewsImage {
+  alt: String
+
+  caption: String
+
+  credit: String
+
+  height: Int!
+
+  id: Int
+
+  name: String!
+
+  type: String
+
+  url: String!
+
+  width: Int!
+}
+
+type NewsLinks {
+  mobile: String
+
+  web: String
+}
+
 type PitStop {
   driverId: String!
 
@@ -214,31 +220,39 @@ type Query {
 
   constructors(year: Int, round: Int, driverId: String): [Constructor!]!
 
-  driver(driverId: String!): DriverDetail
+  driver(driverId: String!): Driver!
 
   drivers(year: Int, round: Int, constructorId: String): [Driver!]!
 
   laps(year: Int!, round: Int!, drivers: [String!]): RaceLaps!
 
-  pitStops(year: Int!, round: Int!, drivers: [String!]): RacePitStop
+  pitStops(year: Int!, round: Int!, drivers: [String!]): RacePitStop!
 
   qualifying(year: Int!, round: Int!): Qualifying!
 
   qualifyings(year: Int, driverId: String, constructorId: String, circuitId: String): [Qualifying!]!
 
-  mostRecentRace: Race
+  mostRecentRace: Race!
 
-  race(year: Int!, round: Int!): Race
+  race(year: Int!, round: Int!): Race!
 
   races(year: Int, driverId: String, constructorId: String, circuitId: String): [Race!]!
+
+  sprint(year: Int!, round: Int!): Sprint!
+
+  sprints(year: Int!): [Sprint!]!
+
+  schedule(year: Int!, round: Int!): Schedule!
 
   schedules(year: Int, driverId: String, constructorId: String): [Schedule!]!
 
   seasons: [Season!]!
 
-  constructorStandings(year: Int!, round: Int): ConstructorStandingList
+  constructorStandings(year: Int!, round: Int): ConstructorStandingList!
 
-  driverStandings(year: Int!, round: Int): DriverStandingList
+  driverStandings(year: Int!, round: Int): DriverStandingList!
+
+  news: [NewsArticle!]!
 }
 
 type Race {
@@ -248,7 +262,7 @@ type Race {
 
   name: String!
 
-  results: [RaceResult!]!
+  results: [Result!]!
 
   round: Int!
 
@@ -295,7 +309,7 @@ type RacePitStop {
   url: String!
 }
 
-type RaceResult {
+type Result {
   constructor: Constructor!
 
   driver: Driver!
@@ -361,6 +375,24 @@ type Session {
 
 type SimpleTime {
   time: String!
+}
+
+type Sprint {
+  circuit: Circuit!
+
+  date: String!
+
+  name: String!
+
+  results: [Result!]!
+
+  round: Int!
+
+  season: Int!
+
+  time: String
+
+  url: String!
 }
 
 """

@@ -37,6 +37,5 @@ class ApolloRaceClient(
             .execute()
             .dataAssertNoErrors
             .race
-            ?.toRaceDetail()
-            ?: error("Race not found for year=$year, round=$round")
+            .toRaceDetail()
 }

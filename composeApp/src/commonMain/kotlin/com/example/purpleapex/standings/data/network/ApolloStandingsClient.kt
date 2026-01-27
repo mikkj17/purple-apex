@@ -16,8 +16,8 @@ class ApolloStandingsClient(
         .dataAssertNoErrors
         .let {
             Pair(
-                it.driverStandings?.toDriverStandingList(),
-                it.constructorStandings?.toConstructorStandingList()
+                it.driverStandings.toDriverStandingList(),
+                it.constructorStandings.toConstructorStandingList()
             )
         }
 }
