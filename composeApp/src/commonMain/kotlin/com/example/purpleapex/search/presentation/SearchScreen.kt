@@ -1,36 +1,26 @@
 package com.example.purpleapex.search.presentation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.app.LocalTopSafePadding
-import com.example.purpleapex.circuit.domain.Circuit
-import com.example.purpleapex.constructor.domain.Constructor
-import com.example.purpleapex.core.presentation.components.AppCard
-import com.example.purpleapex.driver.domain.Driver
-import com.example.purpleapex.search.presentation.components.CircuitSearchResultItem
-import com.example.purpleapex.search.presentation.components.ConstructorSearchResultItem
-import com.example.purpleapex.search.presentation.components.DriverSearchResultItem
 import com.example.purpleapex.search.presentation.components.SearchBar
-import org.koin.compose.viewmodel.koinViewModel
+import com.example.purpleapex.search.presentation.components.SearchResultItem
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -110,8 +100,9 @@ fun SearchScreenInternal(
                         item {
                             ResultsContainer(title = "Drivers") {
                                 state.searchedDrivers.forEach { driver ->
-                                    DriverSearchResultItem(
-                                        driver = driver,
+                                    SearchResultItem(
+                                        title = driver.fullName,
+                                        subtitle = driver.nationality,
                                         onClick = { onAction(SearchAction.OnDriverClick(driver)) }
                                     )
                                 }
@@ -123,8 +114,9 @@ fun SearchScreenInternal(
                         item {
                             ResultsContainer(title = "Constructors") {
                                 state.searchedConstructors.forEach { constructor ->
-                                    ConstructorSearchResultItem(
-                                        constructor = constructor,
+                                    SearchResultItem(
+                                        title = constructor.name,
+                                        subtitle = constructor.nationality,
                                         onClick = { onAction(SearchAction.OnConstructorClick(constructor)) }
                                     )
                                 }
@@ -136,8 +128,9 @@ fun SearchScreenInternal(
                         item {
                             ResultsContainer(title = "Circuits") {
                                 state.searchedCircuits.forEach { circuit ->
-                                    CircuitSearchResultItem(
-                                        circuit = circuit,
+                                    SearchResultItem(
+                                        title = circuit.name,
+                                        subtitle = "${circuit.location.locality}, ${circuit.location.country}",
                                         onClick = { onAction(SearchAction.OnCircuitClick(circuit)) }
                                     )
                                 }
@@ -174,16 +167,16 @@ private fun ResultsContainer(
     modifier: Modifier = Modifier,
     content: @Composable ColumnScope.() -> Unit
 ) {
-        Column(
-            modifier = modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
-            content()
+    Column(
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+        content()
     }
 }
 
