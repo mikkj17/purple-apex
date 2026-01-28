@@ -100,6 +100,21 @@ fun App() {
                                     }
                                 )
                             }
+                            composable<Route.DriverDetail> {
+                                DriverDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() }
+                                )
+                            }
+                            composable<Route.ConstructorDetail> {
+                                ConstructorDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() }
+                                )
+                            }
+                            composable<Route.CircuitDetail> {
+                                CircuitDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() }
+                                )
+                            }
                         }
 
                         // Standings tab graph
@@ -144,23 +159,6 @@ fun App() {
                                     onBackClick = { navController.navigateUp() }
                                 )
                             }
-                        }
-
-                        // Detail screens (used to be in Search graph)
-                        composable<Route.DriverDetail> {
-                            DriverDetailScreenRoot(
-                                onBackClick = { navController.navigateUp() }
-                            )
-                        }
-                        composable<Route.ConstructorDetail> {
-                            ConstructorDetailScreenRoot(
-                                onBackClick = { navController.navigateUp() }
-                            )
-                        }
-                        composable<Route.CircuitDetail> {
-                            CircuitDetailScreenRoot(
-                                onBackClick = { navController.navigateUp() }
-                            )
                         }
                     }
                 }
