@@ -70,7 +70,7 @@ fun HomeScreenRoot(
 }
 
 @Composable
-private fun HomeScreen(
+fun HomeScreen(
     newsState: NewsListState,
     searchState: SearchState,
     onNewsAction: (NewsListAction) -> Unit,
