@@ -1,6 +1,5 @@
 package com.example.purpleapex.search.presentation
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -22,9 +21,8 @@ import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.search.presentation.components.SearchBar
 import com.example.purpleapex.search.presentation.components.SearchResultItem
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun SearchScreenInternal(
+fun SearchOverlay(
     state: SearchState,
     onAction: (SearchAction) -> Unit,
 ) {

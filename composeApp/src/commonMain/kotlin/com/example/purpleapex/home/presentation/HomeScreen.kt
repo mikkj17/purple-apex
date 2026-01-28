@@ -30,7 +30,7 @@ import com.example.purpleapex.news.presentation.NewsListState
 import com.example.purpleapex.news.presentation.NewsListViewModel
 import com.example.purpleapex.news.presentation.components.NewsList
 import com.example.purpleapex.search.presentation.SearchAction
-import com.example.purpleapex.search.presentation.SearchScreenInternal
+import com.example.purpleapex.search.presentation.SearchOverlay
 import com.example.purpleapex.search.presentation.SearchState
 import com.example.purpleapex.search.presentation.SearchViewModel
 import org.jetbrains.compose.resources.painterResource
@@ -66,7 +66,7 @@ fun HomeScreenRoot(
 }
 
 @Composable
-fun HomeScreen(
+private fun HomeScreen(
     newsState: NewsListState,
     searchState: SearchState,
     onNewsAction: (NewsListAction) -> Unit,
@@ -157,7 +157,7 @@ fun HomeScreen(
                     .background(MaterialTheme.colorScheme.background.copy(alpha = blurAlpha * 0.4f))
                     .zIndex(1f)
             ) {
-                SearchScreenInternal(
+                SearchOverlay(
                     state = searchState,
                     onAction = { action ->
                         onSearchAction(action)
