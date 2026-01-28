@@ -44,8 +44,8 @@ fun SearchBar(
             onValueChange = onSearchQueryChange,
             shape = RoundedCornerShape(32),
             colors = OutlinedTextFieldDefaults.colors(
-                cursorColor = MaterialTheme.colorScheme.primary,
-                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                cursorColor = MaterialTheme.colorScheme.onSurface,
+                focusedBorderColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 unfocusedBorderColor = MaterialTheme.colorScheme.outline,
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
@@ -55,8 +55,8 @@ fun SearchBar(
                 unfocusedLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 focusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
                 unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                focusedContainerColor = MaterialTheme.colorScheme.surface,
-                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
+                focusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
+                unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.8f),
             ),
             placeholder = {
                 Text(

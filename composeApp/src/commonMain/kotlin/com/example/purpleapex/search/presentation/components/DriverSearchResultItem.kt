@@ -19,36 +19,23 @@ fun DriverSearchResultItem(
     modifier: Modifier = Modifier
 ) {
     AppCard(
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow.copy(alpha = 0.8f),
         modifier = modifier
             .padding(vertical = 4.dp)
             .fillMaxWidth()
             .clickable(onClick = onClick),
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxWidth(),
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
+        Column(modifier = Modifier.padding(8.dp)) {
+            Text(
+                text = driver.fullName,
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+            driver.nationality?.let {
                 Text(
-                    text = driver.fullName,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                driver.nationality?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-            driver.number?.let {
-                Text(
-                    text = "#$it",
-                    style = MaterialTheme.typography.headlineSmall,
+                    text = it,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

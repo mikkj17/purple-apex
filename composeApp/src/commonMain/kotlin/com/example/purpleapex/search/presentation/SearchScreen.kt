@@ -32,31 +32,9 @@ import com.example.purpleapex.search.presentation.components.DriverSearchResultI
 import com.example.purpleapex.search.presentation.components.SearchBar
 import org.koin.compose.viewmodel.koinViewModel
 
-@Composable
-fun SearchScreenRoot(
-    viewModel: SearchViewModel = koinViewModel(),
-    onDriverClick: (Driver) -> Unit,
-    onConstructorClick: (Constructor) -> Unit,
-    onCircuitClick: (Circuit) -> Unit,
-) {
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    SearchScreen(
-        state = state,
-        onAction = { action ->
-            when (action) {
-                is SearchAction.OnDriverClick -> onDriverClick(action.driver)
-                is SearchAction.OnConstructorClick -> onConstructorClick(action.constructor)
-                is SearchAction.OnCircuitClick -> onCircuitClick(action.circuit)
-                else -> Unit
-            }
-            viewModel.onAction(action)
-        },
-    )
-}
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun SearchScreen(
+fun SearchScreenInternal(
     state: SearchState,
     onAction: (SearchAction) -> Unit,
 ) {
@@ -68,11 +46,6 @@ private fun SearchScreen(
             state.searchedConstructors.isNotEmpty() ||
             state.searchedCircuits.isNotEmpty()
 
-    val searchBarAlignmentBias by animateFloatAsState(
-        targetValue = if (hasResults || state.searchQuery.isNotEmpty()) -1f else 0f,
-        animationSpec = tween(durationMillis = 300)
-    )
-
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }
@@ -80,7 +53,6 @@ private fun SearchScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
             .padding(LocalTopSafePadding.current),
     ) {
         Column(
@@ -89,32 +61,21 @@ private fun SearchScreen(
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(),
-                contentAlignment = BiasAlignment(0f, searchBarAlignmentBias)
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                contentAlignment = Alignment.TopCenter
             ) {
-                val searchBarHeightModifier = if (hasResults || state.searchQuery.isNotEmpty()) {
-                    Modifier.height(80.dp)
-                } else {
-                    Modifier.fillMaxHeight()
-                }
-                Box(
-                    modifier = searchBarHeightModifier,
-                    contentAlignment = BiasAlignment(0f, searchBarAlignmentBias)
-                ) {
-                    SearchBar(
-                        searchQuery = state.searchQuery,
-                        onSearchQueryChange = {
-                            onAction(SearchAction.OnSearchQueryChange(it))
-                        },
-                        onImeSearch = {
-                            keyBoardController?.hide()
-                        },
-                        focusRequester = focusRequester,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    )
-                }
+                SearchBar(
+                    searchQuery = state.searchQuery,
+                    onSearchQueryChange = {
+                        onAction(SearchAction.OnSearchQueryChange(it))
+                    },
+                    onImeSearch = {
+                        keyBoardController?.hide()
+                    },
+                    focusRequester = focusRequester,
+                    modifier = Modifier.fillMaxWidth()
+                )
             }
 
             if (state.isLoading) {

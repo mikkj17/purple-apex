@@ -18,7 +18,7 @@ fun CircuitSearchResultItem(
     modifier: Modifier = Modifier
 ) {
     AppCard(
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        containerColor = MaterialTheme.colorScheme.surfaceContainerLow.copy(alpha = 0.8f),
         modifier = modifier
             .padding(vertical = 4.dp)
             .fillMaxWidth()

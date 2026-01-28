@@ -16,9 +16,6 @@ sealed interface Route {
     @Serializable
     data object RacingGraph : Route
 
-    @Serializable
-    data object SearchGraph : Route
-
     // Tab roots
     @Serializable
     data object Home : Route
@@ -38,10 +35,6 @@ sealed interface Route {
 
     @Serializable
     data class LapTimes(val season: Int, val round: Int) : Route
-
-    // Search tab + sub-screens
-    @Serializable
-    data object Search : Route
 
     @Serializable
     data class DriverDetail(val driverId: String) : Route

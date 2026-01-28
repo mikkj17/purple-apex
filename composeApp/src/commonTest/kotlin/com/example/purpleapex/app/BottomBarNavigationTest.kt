@@ -76,19 +76,19 @@ class BottomBarNavigationTest {
 
         handleBottomBarNavigation(
             navigator = fake,
-            graph = Route.SearchGraph,
-            root = Route.Search,
+            graph = Route.StandingsGraph,
+            root = Route.Standings,
             reselected = true,
         )
 
         // Verify pop was attempted
         assertEquals(1, fake.popCalls.size)
         val call = fake.popCalls.single()
-        assertEquals(Route.Search, call.route)
+        assertEquals(Route.Standings, call.route)
         assertFalse(call.inclusive)
 
         // Fallback navigation to graph should happen
         assertEquals(1, fake.navigateGraphCalls.size)
-        assertEquals(Route.SearchGraph, fake.navigateGraphCalls.first())
+        assertEquals(Route.StandingsGraph, fake.navigateGraphCalls.first())
     }
 }
