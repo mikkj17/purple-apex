@@ -34,6 +34,12 @@ fun SearchOverlay(
             state.searchedConstructors.isNotEmpty() ||
             state.searchedCircuits.isNotEmpty()
 
+    LaunchedEffect(state.searchQuery, state.showSearchOverlay) {
+        if (state.searchQuery.isEmpty() && !state.showSearchOverlay) {
+            keyBoardController?.hide()
+        }
+    }
+
     LaunchedEffect(Unit) {
         focusRequester.requestFocus()
     }

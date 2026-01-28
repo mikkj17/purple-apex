@@ -9,21 +9,16 @@ import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Text
-import androidx.compose.material3.minimumInteractiveComponentSize
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
-
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 
 @Composable
 fun SearchBar(
@@ -33,6 +28,11 @@ fun SearchBar(
     modifier: Modifier = Modifier,
     focusRequester: FocusRequester = FocusRequester()
 ) {
+    val textFieldValue = TextFieldValue(
+        text = searchQuery,
+        selection = TextRange(searchQuery.length)
+    )
+
     CompositionLocalProvider(
         LocalTextSelectionColors provides TextSelectionColors(
             handleColor = MaterialTheme.colorScheme.surfaceContainer,
@@ -40,8 +40,8 @@ fun SearchBar(
         )
     ) {
         OutlinedTextField(
-            value = searchQuery,
-            onValueChange = onSearchQueryChange,
+            value = textFieldValue,
+            onValueChange = { onSearchQueryChange(it.text) },
             shape = RoundedCornerShape(32),
             colors = OutlinedTextFieldDefaults.colors(
                 cursorColor = MaterialTheme.colorScheme.onSurface,

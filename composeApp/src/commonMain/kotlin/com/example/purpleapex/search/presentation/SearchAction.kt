@@ -6,6 +6,7 @@ import com.example.purpleapex.driver.domain.Driver
 
 sealed interface SearchAction {
     data class OnSearchQueryChange(val query: String) : SearchAction
+    data class OnToggleSearchOverlay(val show: Boolean) : SearchAction
     data class OnDriverClick(val driver: Driver) : SearchAction
     data class OnConstructorClick(val constructor: Constructor) : SearchAction
     data class OnCircuitClick(val circuit: Circuit) : SearchAction

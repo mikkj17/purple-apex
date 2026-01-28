@@ -35,6 +35,12 @@ class SearchViewModel(
                 updateSearchResults()
             }
 
+            is SearchAction.OnToggleSearchOverlay -> {
+                _state.update {
+                    it.copy(showSearchOverlay = action.show)
+                }
+            }
+
             is SearchAction.OnDriverClick -> {}
             is SearchAction.OnConstructorClick -> {}
             is SearchAction.OnCircuitClick -> {}

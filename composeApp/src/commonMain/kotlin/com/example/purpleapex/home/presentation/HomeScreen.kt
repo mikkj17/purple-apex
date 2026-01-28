@@ -10,12 +10,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -72,21 +76,30 @@ private fun HomeScreen(
     onNewsAction: (NewsListAction) -> Unit,
     onSearchAction: (SearchAction) -> Unit,
 ) {
-    var showSearchOverlay by remember { mutableStateOf(false) }
     val blurAlpha by animateFloatAsState(
-        targetValue = if (showSearchOverlay) 1f else 0f,
-        animationSpec = tween(durationMillis = 300)
+        targetValue = if (searchState.showSearchOverlay) 1f else 0f,
+        animationSpec = tween(durationMillis = 300),
+        label = "blurAlpha"
     )
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(searchState.showSearchOverlay) {
+        if (!searchState.showSearchOverlay) {
+            keyboardController?.hide()
+        }
+    }
+
+    val showOverlay = searchState.showSearchOverlay
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .pointerInput(Unit) {
+            .pointerInput(showOverlay) {
                 detectVerticalDragGestures { _, dragAmount ->
-                    if (dragAmount > 20 && !showSearchOverlay) {
-                        showSearchOverlay = true
-                    } else if (dragAmount < -20 && showSearchOverlay && searchState.searchQuery.isEmpty()) {
-                        showSearchOverlay = false
+                    if (dragAmount > 20 && !showOverlay) {
+                        onSearchAction(SearchAction.OnToggleSearchOverlay(true))
+                    } else if (dragAmount < -20 && showOverlay) {
+                        onSearchAction(SearchAction.OnToggleSearchOverlay(false))
                     }
                 }
             }
@@ -150,12 +163,20 @@ private fun HomeScreen(
             }
         }
 
-        if (showSearchOverlay || blurAlpha > 0f) {
+        if (searchState.showSearchOverlay || blurAlpha > 0f) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .graphicsLayer {
+                        alpha = blurAlpha
+                    }
                     .background(MaterialTheme.colorScheme.background.copy(alpha = blurAlpha * 0.4f))
                     .zIndex(1f)
+                    .pointerInput(Unit) {
+                        detectTapGestures {
+                            onSearchAction(SearchAction.OnToggleSearchOverlay(false))
+                        }
+                    }
             ) {
                 SearchOverlay(
                     state = searchState,
@@ -163,18 +184,6 @@ private fun HomeScreen(
                         onSearchAction(action)
                     }
                 )
-
-                if (searchState.searchQuery.isEmpty()) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .pointerInput(Unit) {
-                                detectTapGestures {
-                                    showSearchOverlay = false
-                                }
-                            }
-                    )
-                }
             }
         }
     }
