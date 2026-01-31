@@ -17,6 +17,12 @@ import com.example.purpleapex.driver.data.repository.DefaultDriverRepository
 import com.example.purpleapex.driver.domain.DriverClient
 import com.example.purpleapex.driver.domain.DriverRepository
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailViewModel
+import com.example.purpleapex.grandprix.data.network.ApolloGrandPrixClient
+import com.example.purpleapex.grandprix.data.repository.DefaultGrandPrixRepository
+import com.example.purpleapex.grandprix.domain.GrandPrixClient
+import com.example.purpleapex.grandprix.domain.GrandPrixRepository
+import com.example.purpleapex.grandprix.presentation.GrandPrixDetailViewModel
+import com.example.purpleapex.grandprix.presentation.grand_prix_list.GrandPrixListViewModel
 import com.example.purpleapex.news.data.network.KtorNewsClient
 import com.example.purpleapex.news.data.repository.DefaultNewsRepository
 import com.example.purpleapex.news.domain.NewsClient
@@ -26,13 +32,10 @@ import com.example.purpleapex.qualifying.data.network.ApolloQualifyingClient
 import com.example.purpleapex.qualifying.data.repository.DefaultQualifyingRepository
 import com.example.purpleapex.qualifying.domain.QualifyingClient
 import com.example.purpleapex.qualifying.domain.QualifyingRepository
-import com.example.purpleapex.qualifying.presentation.qualifying_detail.QualifyingDetailViewModel
 import com.example.purpleapex.race.data.network.ApolloRaceClient
 import com.example.purpleapex.race.data.repository.DefaultRaceRepository
 import com.example.purpleapex.race.domain.RaceClient
 import com.example.purpleapex.race.domain.RaceRepository
-import com.example.purpleapex.race.presentation.race_detail.RaceDetailViewModel
-import com.example.purpleapex.race.presentation.race_list.RaceListViewModel
 import com.example.purpleapex.schedule.data.network.ApolloScheduleClient
 import com.example.purpleapex.schedule.data.repository.DefaultScheduleRepository
 import com.example.purpleapex.schedule.domain.ScheduleClient
@@ -92,13 +95,15 @@ val sharedModule = module {
     singleOf(::ApolloQualifyingClient).bind<QualifyingClient>()
     singleOf(::DefaultQualifyingRepository).bind<QualifyingRepository>()
 
+    singleOf(::ApolloGrandPrixClient).bind<GrandPrixClient>()
+    singleOf(::DefaultGrandPrixRepository).bind<GrandPrixRepository>()
+
     singleOf(::KtorNewsClient).bind<NewsClient>()
     singleOf(::DefaultNewsRepository).bind<NewsRepository>()
 
     viewModelOf(::StandingsListViewModel)
-    viewModelOf(::RaceListViewModel)
-    viewModelOf(::RaceDetailViewModel)
-    viewModelOf(::QualifyingDetailViewModel)
+    viewModelOf(::GrandPrixListViewModel)
+    viewModelOf(::GrandPrixDetailViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::DriverDetailViewModel)
     viewModelOf(::ConstructorDetailViewModel)

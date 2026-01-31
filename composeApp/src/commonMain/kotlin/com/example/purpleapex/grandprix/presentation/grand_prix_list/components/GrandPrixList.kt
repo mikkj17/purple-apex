@@ -1,0 +1,64 @@
+package com.example.purpleapex.grandprix.presentation.grand_prix_list.components
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.example.purpleapex.app.LocalScaffoldPadding
+import com.example.purpleapex.race.domain.Race
+import com.example.purpleapex.race.presentation.components.RaceListItem
+import com.example.purpleapex.schedule.domain.Schedule
+import com.example.purpleapex.schedule.presentation.components.ScheduleListItem
+
+@Composable
+fun GrandPrixList(
+    races: List<Race>,
+    schedules: List<Schedule>,
+    onRaceClick: (Race) -> Unit,
+    onScheduleClick: (Schedule) -> Unit,
+    modifier: Modifier = Modifier,
+    scrollState: LazyListState = rememberLazyListState(),
+) {
+    LazyColumn(
+        modifier = modifier,
+        state = scrollState,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        contentPadding = LocalScaffoldPadding.current,
+    ) {
+        item {
+            Spacer(Modifier.height(8.dp))
+        }
+        items(
+            races,
+            key = { it.round },
+        ) { race ->
+            RaceListItem(
+                race = race,
+                onClick = { onRaceClick(race) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        items(
+            schedules.filterNot { it.round in races.map { race -> race.round } },
+            key = { it.round }
+        ) { schedule ->
+            ScheduleListItem(
+                schedule = schedule,
+                onClick = { onScheduleClick(schedule) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        item {
+            Spacer(Modifier.height(8.dp))
+        }
+    }
+}

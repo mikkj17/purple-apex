@@ -1,0 +1,41 @@
+query ScheduleQuery($year: Int!, $round: Int!) {
+    schedule(year: $year, round: $round) {
+        round
+        season
+        time
+        date
+        raceName
+        circuit {
+            id
+            name
+            location {
+                country
+                locality
+            }
+        }
+        firstPractice {
+            date
+            time
+        }
+        secondPractice {
+            date
+            time
+        }
+        thirdPractice {
+            date
+            time
+        }
+        qualifying {
+            date
+            time
+        }
+        sprint {
+            date
+            time
+        }
+        sprintQualifying {
+            date
+            time
+        }
+    }
+}

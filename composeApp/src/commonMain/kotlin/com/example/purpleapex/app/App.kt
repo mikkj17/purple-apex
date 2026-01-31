@@ -15,11 +15,10 @@ import androidx.navigation.compose.*
 import com.example.purpleapex.circuit.presentation.circuit_detail.CircuitDetailScreenRoot
 import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorDetailScreenRoot
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScreenRoot
+import com.example.purpleapex.grandprix.presentation.GrandPrixDetailScreenRoot
+import com.example.purpleapex.grandprix.presentation.grand_prix_list.GrandPrixListScreenRoot
 import com.example.purpleapex.home.presentation.HomeScreenRoot
-import com.example.purpleapex.qualifying.presentation.qualifying_detail.QualifyingDetailScreenRoot
-import com.example.purpleapex.race.presentation.race_detail.LapTimesScreenRoot
-import com.example.purpleapex.race.presentation.race_detail.RaceDetailScreenRoot
-import com.example.purpleapex.race.presentation.race_list.RaceListScreenRoot
+import com.example.purpleapex.lap.presentation.LapTimesScreenRoot
 import com.example.purpleapex.standings.presentation.standings_list.StandingsListScreenRoot
 import com.example.purpleapex.ui.theme.AppTheme
 
@@ -127,31 +126,23 @@ fun App() {
                         // Racing tab graph and its sub-screens
                         navigation<Route.RacingGraph>(startDestination = Route.Racing) {
                             composable<Route.Racing> {
-                                RaceListScreenRoot(
-                                    onRaceClick = { race ->
+                                GrandPrixListScreenRoot(
+                                    onGrandPrixClick = { season, round ->
                                         navController.navigate(
-                                            Route.RaceDetail(
-                                                season = race.season,
-                                                round = race.round,
+                                            Route.GrandPrixDetail(
+                                                season = season,
+                                                round = round,
                                             )
                                         )
                                     }
                                 )
                             }
-                            composable<Route.RaceDetail> {
-                                RaceDetailScreenRoot(
+                            composable<Route.GrandPrixDetail> {
+                                GrandPrixDetailScreenRoot(
                                     onBackClick = { navController.navigateUp() },
-                                    onQualifyingClick = { season, round ->
-                                        navController.navigate(Route.QualifyingDetail(season, round))
-                                    },
                                     onLapTimesClick = { season, round ->
                                         navController.navigate(Route.LapTimes(season, round))
                                     },
-                                )
-                            }
-                            composable<Route.QualifyingDetail> {
-                                QualifyingDetailScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
                                 )
                             }
                             composable<Route.LapTimes> {

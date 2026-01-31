@@ -1,4 +1,4 @@
-package com.example.purpleapex.qualifying.presentation.qualifying_detail.components
+package com.example.purpleapex.race.presentation.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.core.presentation.components.AppCard
-import com.example.purpleapex.qualifying.domain.ResultDetail
+import com.example.purpleapex.race.domain.ResultDetail
 
 @Composable
 fun ResultList(results: List<ResultDetail>) {
@@ -31,18 +31,13 @@ fun ResultList(results: List<ResultDetail>) {
                     modifier = Modifier.weight(1.8f),
                 )
                 Text(
-                    text = "Q1",
+                    text = "Time",
                     modifier = Modifier.weight(1.0f),
                     textAlign = TextAlign.End,
                 )
                 Text(
-                    text = "Q2",
-                    modifier = Modifier.weight(1.0f),
-                    textAlign = TextAlign.End,
-                )
-                Text(
-                    text = "Q3",
-                    modifier = Modifier.weight(1.0f),
+                    text = "Pts.",
+                    modifier = Modifier.weight(0.5f),
                     textAlign = TextAlign.End,
                 )
             }
@@ -50,8 +45,8 @@ fun ResultList(results: List<ResultDetail>) {
                 thickness = 1.dp,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f),
             )
-            results.forEachIndexed { index, result ->
-                ResultListItem(position = index + 1, result = result)
+            results.forEach { result ->
+                ResultListItem(result = result)
             }
         }
     }
