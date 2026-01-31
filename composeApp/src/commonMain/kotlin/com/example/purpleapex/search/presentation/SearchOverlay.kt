@@ -27,12 +27,7 @@ fun SearchOverlay(
     onAction: (SearchAction) -> Unit,
 ) {
     val keyBoardController = LocalSoftwareKeyboardController.current
-    val listState = rememberLazyListState()
     val focusRequester = remember { FocusRequester() }
-
-    val hasResults = state.searchedDrivers.isNotEmpty() ||
-            state.searchedConstructors.isNotEmpty() ||
-            state.searchedCircuits.isNotEmpty()
 
     LaunchedEffect(state.searchQuery, state.showSearchOverlay) {
         if (state.searchQuery.isEmpty() && !state.showSearchOverlay) {
@@ -53,115 +48,178 @@ fun SearchOverlay(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                contentAlignment = Alignment.TopCenter
-            ) {
-                SearchBar(
-                    searchQuery = state.searchQuery,
-                    onSearchQueryChange = {
-                        onAction(SearchAction.OnSearchQueryChange(it))
-                    },
-                    onImeSearch = {
-                        keyBoardController?.hide()
-                    },
-                    focusRequester = focusRequester,
-                    modifier = Modifier.fillMaxWidth()
+            SearchOverlayHeader(
+                searchQuery = state.searchQuery,
+                onSearchQueryChange = { onAction(SearchAction.OnSearchQueryChange(it)) },
+                onImeSearch = { keyBoardController?.hide() },
+                focusRequester = focusRequester
+            )
+
+            when {
+                state.isLoading -> SearchLoadingState(modifier = Modifier.weight(1f))
+                state.errorMessage != null -> SearchErrorState(
+                    errorMessage = state.errorMessage,
+                    onRetry = { onAction(SearchAction.OnRetryClick) },
+                    modifier = Modifier.weight(1f)
                 )
-            }
 
-            if (state.isLoading) {
-                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator()
-                }
-            } else if (state.errorMessage != null) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = state.errorMessage,
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = MaterialTheme.colorScheme.error,
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Button(onClick = { onAction(SearchAction.OnRetryClick) }) { Text("Retry") }
-                }
-            } else if (hasResults || (state.searchQuery.isNotEmpty() && !state.isLoading)) {
-                LazyColumn(
-                    state = listState,
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(bottom = 16.dp),
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 16.dp),
-                ) {
-                    if (state.searchedDrivers.isNotEmpty()) {
-                        item {
-                            ResultsContainer(title = "Drivers") {
-                                state.searchedDrivers.forEach { driver ->
-                                    SearchResultItem(
-                                        title = driver.fullName,
-                                        subtitle = driver.nationality,
-                                        onClick = { onAction(SearchAction.OnDriverClick(driver)) }
-                                    )
-                                }
-                            }
-                        }
-                    }
+                else -> {
+                    val hasResults = state.searchedDrivers.isNotEmpty() ||
+                            state.searchedConstructors.isNotEmpty() ||
+                            state.searchedCircuits.isNotEmpty()
 
-                    if (state.searchedConstructors.isNotEmpty()) {
-                        item {
-                            ResultsContainer(title = "Constructors") {
-                                state.searchedConstructors.forEach { constructor ->
-                                    SearchResultItem(
-                                        title = constructor.name,
-                                        subtitle = constructor.nationality,
-                                        onClick = { onAction(SearchAction.OnConstructorClick(constructor)) }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    if (state.searchedCircuits.isNotEmpty()) {
-                        item {
-                            ResultsContainer(title = "Circuits") {
-                                state.searchedCircuits.forEach { circuit ->
-                                    SearchResultItem(
-                                        title = circuit.name,
-                                        subtitle = "${circuit.location.locality}, ${circuit.location.country}",
-                                        onClick = { onAction(SearchAction.OnCircuitClick(circuit)) }
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    if (state.searchQuery.isNotEmpty() && !hasResults) {
-                        item {
-                            Box(
-                                modifier = Modifier
-                                    .fillParentMaxSize()
-                                    .padding(16.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = "No results found for \"${state.searchQuery}\"",
-                                    style = MaterialTheme.typography.bodyLarge,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    textAlign = TextAlign.Center
-                                )
-                            }
-                        }
+                    if (hasResults || state.searchQuery.isNotEmpty()) {
+                        SearchResultsList(
+                            state = state,
+                            onAction = onAction,
+                            hasResults = hasResults,
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun SearchOverlayHeader(
+    searchQuery: String,
+    onSearchQueryChange: (String) -> Unit,
+    onImeSearch: () -> Unit,
+    focusRequester: FocusRequester,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        contentAlignment = Alignment.TopCenter
+    ) {
+        SearchBar(
+            searchQuery = searchQuery,
+            onSearchQueryChange = onSearchQueryChange,
+            onImeSearch = onImeSearch,
+            focusRequester = focusRequester,
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
+}
+
+@Composable
+private fun SearchLoadingState(
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier, contentAlignment = Alignment.Center) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+private fun SearchErrorState(
+    errorMessage: String,
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = errorMessage,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.error,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(onClick = onRetry) { Text("Retry") }
+    }
+}
+
+@Composable
+private fun SearchResultsList(
+    state: SearchState,
+    onAction: (SearchAction) -> Unit,
+    hasResults: Boolean,
+    modifier: Modifier = Modifier
+) {
+    val listState = rememberLazyListState()
+
+    LazyColumn(
+        state = listState,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(bottom = 16.dp),
+        modifier = modifier
+            .padding(horizontal = 16.dp),
+    ) {
+        if (state.searchedDrivers.isNotEmpty()) {
+            item {
+                ResultsContainer(title = "Drivers") {
+                    state.searchedDrivers.forEach { driver ->
+                        SearchResultItem(
+                            title = driver.fullName,
+                            subtitle = driver.nationality,
+                            onClick = { onAction(SearchAction.OnDriverClick(driver)) }
+                        )
+                    }
+                }
+            }
+        }
+
+        if (state.searchedConstructors.isNotEmpty()) {
+            item {
+                ResultsContainer(title = "Constructors") {
+                    state.searchedConstructors.forEach { constructor ->
+                        SearchResultItem(
+                            title = constructor.name,
+                            subtitle = constructor.nationality,
+                            onClick = { onAction(SearchAction.OnConstructorClick(constructor)) }
+                        )
+                    }
+                }
+            }
+        }
+
+        if (state.searchedCircuits.isNotEmpty()) {
+            item {
+                ResultsContainer(title = "Circuits") {
+                    state.searchedCircuits.forEach { circuit ->
+                        SearchResultItem(
+                            title = circuit.name,
+                            subtitle = "${circuit.location.locality}, ${circuit.location.country}",
+                            onClick = { onAction(SearchAction.OnCircuitClick(circuit)) }
+                        )
+                    }
+                }
+            }
+        }
+
+        if (state.searchQuery.isNotEmpty() && !hasResults) {
+            item {
+                NoSearchResultsState(searchQuery = state.searchQuery)
+            }
+        }
+    }
+}
+
+@Composable
+private fun NoSearchResultsState(
+    searchQuery: String,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "No results found for \"$searchQuery\"",
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center
+        )
     }
 }
 
