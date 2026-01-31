@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,10 +16,7 @@ import com.example.purpleapex.race.domain.ResultDetail
 
 @Composable
 fun ResultList(results: List<ResultDetail>) {
-    AppCard(
-        shape = RoundedCornerShape(8.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-    ) {
+    AppCard {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(8.dp),

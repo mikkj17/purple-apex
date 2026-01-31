@@ -56,86 +56,141 @@ private fun GrandPrixDetailScreen(
     ) {
         when {
             state.isLoading -> CircularProgressIndicator()
-            state.errorMessage != null -> Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = state.errorMessage,
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.error,
+            state.errorMessage != null -> ErrorMessage(
+                message = state.errorMessage,
+                onRetry = { onAction(GrandPrixDetailAction.OnRetryClick) }
+            )
+
+            state.grandPrix != null -> GrandPrixDetailContent(
+                state = state,
+                onAction = onAction
+            )
+        }
+    }
+}
+
+@Composable
+private fun ErrorMessage(
+    message: String,
+    onRetry: () -> Unit,
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = message,
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineSmall,
+            color = MaterialTheme.colorScheme.error,
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Button(onClick = onRetry) { Text("Retry") }
+    }
+}
+
+@Composable
+private fun GrandPrixDetailContent(
+    state: GrandPrixDetailState,
+    onAction: (GrandPrixDetailAction) -> Unit,
+) {
+    val grandPrix = state.grandPrix ?: return
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(LocalTopSafePadding.current)
+    ) {
+        GrandPrixHeader(
+            raceName = grandPrix.schedule.raceName,
+            onAction = onAction
+        )
+        Column(
+            modifier = Modifier
+                .padding(LocalScaffoldPadding.current)
+                .padding(horizontal = 8.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Spacer(modifier = Modifier.height(16.dp))
+            GrandPrixInfoCard(schedule = grandPrix.schedule)
+            Spacer(modifier = Modifier.height(16.dp))
+
+            if (grandPrix.race != null || grandPrix.qualifying != null || grandPrix.sprint != null) {
+                ResultTypeSelector(
+                    state = state,
+                    onAction = onAction
                 )
+
                 Spacer(modifier = Modifier.height(8.dp))
-                Button(onClick = { onAction(GrandPrixDetailAction.OnRetryClick) }) { Text("Retry") }
+
+                ResultDisplay(state = state)
+            } else {
+                WeekendScheduleCard(schedule = grandPrix.schedule)
             }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}
 
-            state.grandPrix != null -> Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(LocalTopSafePadding.current)
-            ) {
-                Header(
-                    onBackClick = { onAction(GrandPrixDetailAction.OnBackClick) },
-                    trailingContent = {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                text = state.grandPrix.schedule.raceName,
-                                style = MaterialTheme.typography.titleLarge,
-                                color = MaterialTheme.colorScheme.onSurface,
-                            )
-                            Menu(onAction = onAction)
-                        }
-                    }
+@Composable
+private fun GrandPrixHeader(
+    raceName: String,
+    onAction: (GrandPrixDetailAction) -> Unit,
+) {
+    Header(
+        onBackClick = { onAction(GrandPrixDetailAction.OnBackClick) },
+        trailingContent = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = raceName,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
-                Column(
-                    modifier = Modifier
-                        .padding(LocalScaffoldPadding.current)
-                        .padding(horizontal = 8.dp)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    GrandPrixInfoCard(schedule = state.grandPrix.schedule)
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    if (state.grandPrix.race != null || state.grandPrix.qualifying != null || state.grandPrix.sprint != null) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceAround,
-                        ) {
-                            if (state.grandPrix.race != null) {
-                                FilterChip(
-                                    selected = state.selectedResultType == ResultType.RACE,
-                                    onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.RACE)) },
-                                    label = { Text("Race") }
-                                )
-                            }
-                            if (state.grandPrix.qualifying != null) {
-                                FilterChip(
-                                    selected = state.selectedResultType == ResultType.QUALIFYING,
-                                    onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.QUALIFYING)) },
-                                    label = { Text("Qualifying") }
-                                )
-                            }
-                            if (state.grandPrix.sprint != null) {
-                                FilterChip(
-                                    selected = state.selectedResultType == ResultType.SPRINT,
-                                    onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.SPRINT)) },
-                                    label = { Text("Sprint") }
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        when (state.selectedResultType) {
-                            ResultType.RACE -> state.grandPrix.race?.let { ResultList(results = it.results) }
-                            ResultType.QUALIFYING -> state.grandPrix.qualifying?.let { QualifyingResultList(results = it.results) }
-                            ResultType.SPRINT -> state.grandPrix.sprint?.let { ResultList(results = it.results) }
-                        }
-                    } else {
-                        WeekendScheduleCard(schedule = state.grandPrix.schedule)
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
-                }
+                Menu(onAction = onAction)
             }
         }
+    )
+}
+
+@Composable
+private fun ResultTypeSelector(
+    state: GrandPrixDetailState,
+    onAction: (GrandPrixDetailAction) -> Unit,
+) {
+    val grandPrix = state.grandPrix ?: return
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceAround,
+    ) {
+        if (grandPrix.race != null) {
+            FilterChip(
+                selected = state.selectedResultType == ResultType.RACE,
+                onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.RACE)) },
+                label = { Text("Race") }
+            )
+        }
+        if (grandPrix.qualifying != null) {
+            FilterChip(
+                selected = state.selectedResultType == ResultType.QUALIFYING,
+                onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.QUALIFYING)) },
+                label = { Text("Qualifying") }
+            )
+        }
+        if (grandPrix.sprint != null) {
+            FilterChip(
+                selected = state.selectedResultType == ResultType.SPRINT,
+                onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.SPRINT)) },
+                label = { Text("Sprint") }
+            )
+        }
+    }
+}
+
+@Composable
+private fun ResultDisplay(state: GrandPrixDetailState) {
+    val grandPrix = state.grandPrix ?: return
+
+    when (state.selectedResultType) {
+        ResultType.RACE -> grandPrix.race?.let { ResultList(results = it.results) }
+        ResultType.QUALIFYING -> grandPrix.qualifying?.let { QualifyingResultList(results = it.results) }
+        ResultType.SPRINT -> grandPrix.sprint?.let { ResultList(results = it.results) }
     }
 }

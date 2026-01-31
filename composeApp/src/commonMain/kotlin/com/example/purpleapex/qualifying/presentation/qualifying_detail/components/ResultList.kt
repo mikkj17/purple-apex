@@ -16,10 +16,7 @@ import com.example.purpleapex.qualifying.domain.ResultDetail
 
 @Composable
 fun ResultList(results: List<ResultDetail>) {
-    AppCard(
-        shape = androidx.compose.foundation.shape.RoundedCornerShape(8.dp),
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-    ) {
+    AppCard {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(8.dp),
