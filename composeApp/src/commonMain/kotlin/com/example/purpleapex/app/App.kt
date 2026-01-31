@@ -20,7 +20,6 @@ import com.example.purpleapex.qualifying.presentation.qualifying_detail.Qualifyi
 import com.example.purpleapex.race.presentation.race_detail.LapTimesScreenRoot
 import com.example.purpleapex.race.presentation.race_detail.RaceDetailScreenRoot
 import com.example.purpleapex.race.presentation.race_list.RaceListScreenRoot
-import com.example.purpleapex.search.presentation.SearchScreenRoot
 import com.example.purpleapex.standings.presentation.standings_list.StandingsListScreenRoot
 import com.example.purpleapex.ui.theme.AppTheme
 
@@ -77,7 +76,44 @@ fun App() {
                         // Home tab graph
                         navigation<Route.HomeGraph>(startDestination = Route.Home) {
                             composable<Route.Home> {
-                                HomeScreenRoot()
+                                HomeScreenRoot(
+                                    onDriverClick = { driver ->
+                                        navController.navigate(
+                                            Route.DriverDetail(
+                                                driverId = driver.id
+                                            )
+                                        )
+                                    },
+                                    onConstructorClick = { constructor ->
+                                        navController.navigate(
+                                            Route.ConstructorDetail(
+                                                constructorId = constructor.id
+                                            )
+                                        )
+                                    },
+                                    onCircuitClick = { circuit ->
+                                        navController.navigate(
+                                            Route.CircuitDetail(
+                                                circuitId = circuit.id
+                                            )
+                                        )
+                                    }
+                                )
+                            }
+                            composable<Route.DriverDetail> {
+                                DriverDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() }
+                                )
+                            }
+                            composable<Route.ConstructorDetail> {
+                                ConstructorDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() }
+                                )
+                            }
+                            composable<Route.CircuitDetail> {
+                                CircuitDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() }
+                                )
                             }
                         }
 
@@ -120,50 +156,6 @@ fun App() {
                             }
                             composable<Route.LapTimes> {
                                 LapTimesScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
-                                )
-                            }
-                        }
-
-                        // Search tab graph and its sub-screens
-                        navigation<Route.SearchGraph>(startDestination = Route.Search) {
-                            composable<Route.Search> {
-                                SearchScreenRoot(
-                                    onDriverClick = { driver ->
-                                        navController.navigate(
-                                            Route.DriverDetail(
-                                                driverId = driver.id
-                                            )
-                                        )
-                                    },
-                                    onConstructorClick = { constructor ->
-                                        navController.navigate(
-                                            Route.ConstructorDetail(
-                                                constructorId = constructor.id
-                                            )
-                                        )
-                                    },
-                                    onCircuitClick = { circuit ->
-                                        navController.navigate(
-                                            Route.CircuitDetail(
-                                                circuitId = circuit.id
-                                            )
-                                        )
-                                    }
-                                )
-                            }
-                            composable<Route.DriverDetail> {
-                                DriverDetailScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
-                                )
-                            }
-                            composable<Route.ConstructorDetail> {
-                                ConstructorDetailScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
-                                )
-                            }
-                            composable<Route.CircuitDetail> {
-                                CircuitDetailScreenRoot(
                                     onBackClick = { navController.navigateUp() }
                                 )
                             }

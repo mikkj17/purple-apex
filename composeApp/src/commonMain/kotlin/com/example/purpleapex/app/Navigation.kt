@@ -6,7 +6,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Leaderboard
 import androidx.compose.material.icons.rounded.RocketLaunch
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -25,7 +24,6 @@ private object GraphRoutes {
     val home by lazy { serialName<Route.HomeGraph>() }
     val standings by lazy { serialName<Route.StandingsGraph>() }
     val racing by lazy { serialName<Route.RacingGraph>() }
-    val search by lazy { serialName<Route.SearchGraph>() }
 }
 
 enum class TopLevelRoutes(
@@ -37,7 +35,6 @@ enum class TopLevelRoutes(
     HOME("Home", Route.HomeGraph, Route.Home, Icons.Rounded.Home),
     STANDINGS("Standings", Route.StandingsGraph, Route.Standings, Icons.Rounded.Leaderboard),
     RACING("Racing", Route.RacingGraph, Route.Racing, Icons.Rounded.RocketLaunch),
-    DRIVERS("Search", Route.SearchGraph, Route.Search, Icons.Rounded.Search),
 }
 
 @Composable
@@ -57,7 +54,6 @@ fun BottomNavigationBar(
                         TopLevelRoutes.HOME -> dest.hasRoute(GraphRoutes.home, null)
                         TopLevelRoutes.STANDINGS -> dest.hasRoute(GraphRoutes.standings, null)
                         TopLevelRoutes.RACING -> dest.hasRoute(GraphRoutes.racing, null)
-                        TopLevelRoutes.DRIVERS -> dest.hasRoute(GraphRoutes.search, null)
                     }
                 } ?: false
 
