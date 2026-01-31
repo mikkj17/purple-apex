@@ -1,14 +1,14 @@
-package com.example.purpleapex.race.presentation.race_detail.components
+package com.example.purpleapex.grandprix.presentation.components
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import com.example.purpleapex.race.presentation.race_detail.RaceDetailAction
+import com.example.purpleapex.grandprix.presentation.GrandPrixDetailAction
 
 @Composable
-fun Menu(onAction: (RaceDetailAction) -> Unit) {
+fun Menu(onAction: (GrandPrixDetailAction) -> Unit) {
     var expanded by remember {
         mutableStateOf(false)
     }
@@ -26,17 +26,10 @@ fun Menu(onAction: (RaceDetailAction) -> Unit) {
             onDismissRequest = { expanded = false }
         ) {
             DropdownMenuItem(
-                text = { Text("Qualifying") },
-                onClick = {
-                    expanded = false
-                    onAction(RaceDetailAction.OnQualifyingClick)
-                }
-            )
-            DropdownMenuItem(
                 text = { Text("Lap times") },
                 onClick = {
                     expanded = false
-                    onAction(RaceDetailAction.OnLapTimesClick)
+                    onAction(GrandPrixDetailAction.OnLapTimesClick)
                 }
             )
         }

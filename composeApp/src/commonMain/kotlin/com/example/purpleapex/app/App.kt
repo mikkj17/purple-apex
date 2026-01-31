@@ -15,10 +15,9 @@ import androidx.navigation.compose.*
 import com.example.purpleapex.circuit.presentation.circuit_detail.CircuitDetailScreenRoot
 import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorDetailScreenRoot
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScreenRoot
+import com.example.purpleapex.grandprix.presentation.GrandPrixDetailScreenRoot
 import com.example.purpleapex.home.presentation.HomeScreenRoot
-import com.example.purpleapex.qualifying.presentation.qualifying_detail.QualifyingDetailScreenRoot
 import com.example.purpleapex.race.presentation.race_detail.LapTimesScreenRoot
-import com.example.purpleapex.race.presentation.race_detail.RaceDetailScreenRoot
 import com.example.purpleapex.race.presentation.race_list.RaceListScreenRoot
 import com.example.purpleapex.standings.presentation.standings_list.StandingsListScreenRoot
 import com.example.purpleapex.ui.theme.AppTheme
@@ -130,7 +129,7 @@ fun App() {
                                 RaceListScreenRoot(
                                     onRaceClick = { race ->
                                         navController.navigate(
-                                            Route.RaceDetail(
+                                            Route.GrandPrixDetail(
                                                 season = race.season,
                                                 round = race.round,
                                             )
@@ -138,20 +137,12 @@ fun App() {
                                     }
                                 )
                             }
-                            composable<Route.RaceDetail> {
-                                RaceDetailScreenRoot(
+                            composable<Route.GrandPrixDetail> {
+                                GrandPrixDetailScreenRoot(
                                     onBackClick = { navController.navigateUp() },
-                                    onQualifyingClick = { season, round ->
-                                        navController.navigate(Route.QualifyingDetail(season, round))
-                                    },
                                     onLapTimesClick = { season, round ->
                                         navController.navigate(Route.LapTimes(season, round))
                                     },
-                                )
-                            }
-                            composable<Route.QualifyingDetail> {
-                                QualifyingDetailScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
                                 )
                             }
                             composable<Route.LapTimes> {

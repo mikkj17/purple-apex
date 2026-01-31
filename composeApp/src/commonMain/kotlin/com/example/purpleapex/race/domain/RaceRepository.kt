@@ -8,5 +8,5 @@ interface RaceRepository {
         circuitId: String? = null,
     ): List<Race>
 
-    suspend fun getRace(year: Int, round: Int): RaceDetail
+    suspend fun getGrandPrix(year: Int, round: Int): GrandPrixDetail
 }

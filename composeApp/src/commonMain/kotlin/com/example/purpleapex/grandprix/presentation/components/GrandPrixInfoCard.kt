@@ -1,4 +1,4 @@
-package com.example.purpleapex.qualifying.presentation.qualifying_detail.components
+package com.example.purpleapex.grandprix.presentation.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -8,10 +8,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.core.presentation.components.AppCard
-import com.example.purpleapex.qualifying.domain.QualifyingDetail
+import com.example.purpleapex.race.domain.RaceDetail
 
 @Composable
-fun QualifyingInfoCard(qualifying: QualifyingDetail, modifier: Modifier = Modifier) {
+fun GrandPrixInfoCard(race: RaceDetail, modifier: Modifier = Modifier) {
     AppCard(
         shape = MaterialTheme.shapes.small,
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -19,20 +19,20 @@ fun QualifyingInfoCard(qualifying: QualifyingDetail, modifier: Modifier = Modifi
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
-                text = "${qualifying.season} • Round ${qualifying.round}",
+                text = "${race.season} • Round ${race.round}",
                 style = MaterialTheme.typography.labelMedium
             )
             Text(
-                text = qualifying.name,
+                text = race.name,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = qualifying.circuit.name,
+                text = race.circuit.name,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            val loc = qualifying.circuit.location
+            val loc = race.circuit.location
             Text(
                 text = "${loc.locality}, ${loc.country}",
                 style = MaterialTheme.typography.bodySmall,
@@ -41,10 +41,10 @@ fun QualifyingInfoCard(qualifying: QualifyingDetail, modifier: Modifier = Modifi
             Spacer(modifier = Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(
-                    text = qualifying.date,
+                    text = race.date,
                     style = MaterialTheme.typography.bodySmall,
                 )
-                qualifying.time?.let { t ->
+                race.time?.let { t ->
                     Text(
                         text = t.dropLast(1),
                         style = MaterialTheme.typography.bodySmall,

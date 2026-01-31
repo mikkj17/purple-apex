@@ -1,0 +1,53 @@
+query SprintQuery($year: Int!, $round: Int!) {
+    sprint(year: $year, round: $round) {
+        season
+        round
+        name
+        date
+        time
+        circuit {
+            id
+            name
+            location {
+                country
+                locality
+            }
+        }
+        results {
+            grid
+            laps
+            number
+            points
+            position
+            positionText
+            status
+            driver {
+                id
+                givenName
+                familyName
+                nationality
+                number
+            }
+            constructor {
+                id
+                name
+                nationality
+            }
+            fastestLap {
+                lap
+                rank
+                time {
+                    time
+                }
+                averageSpeed {
+                    speed
+                    unit
+                }
+            }
+            time {
+                milliseconds
+                time
+            }
+        }
+    }
+}

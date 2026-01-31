@@ -26,12 +26,8 @@ sealed interface Route {
     @Serializable
     data object Racing : Route
 
-    // Racing sub-screens
     @Serializable
-    data class RaceDetail(val season: Int, val round: Int) : Route
-
-    @Serializable
-    data class QualifyingDetail(val season: Int, val round: Int) : Route
+    data class GrandPrixDetail(val season: Int, val round: Int) : Route
 
     @Serializable
     data class LapTimes(val season: Int, val round: Int) : Route
