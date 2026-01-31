@@ -1,4 +1,4 @@
-package com.example.purpleapex.grandprix.presentation.grand_prix_list.components
+package com.example.purpleapex.race.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,12 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.purpleapex.core.presentation.Colors
 import com.example.purpleapex.core.presentation.components.AppCard
-import com.example.purpleapex.schedule.domain.Schedule
+import com.example.purpleapex.race.domain.Race
 
 @Composable
-fun ScheduleListItem(
-    schedule: Schedule,
+fun RaceListItem(
+    race: Race,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -31,26 +32,30 @@ fun ScheduleListItem(
         ) {
             Column {
                 Text(
-                    text = "ROUND ${schedule.round}",
+                    text = "ROUND ${race.round}",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
                 Text(
-                    text = schedule.circuit.location.country,
+                    text = race.circuit.location.country,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
                 Text(
-                    text = schedule.raceName.uppercase(),
+                    text = race.name.uppercase(),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
-            Text(
-                text = schedule.date,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurface,
-            )
+            Column(horizontalAlignment = Alignment.End) {
+                race.results.take(3).zip(Colors.Podium).forEach { (result, color) ->
+                    Text(
+                        text = result.driver.fullName,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = color,
+                    )
+                }
+            }
         }
     }
 }

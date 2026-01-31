@@ -14,7 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.app.LocalScaffoldPadding
 import com.example.purpleapex.race.domain.Race
+import com.example.purpleapex.race.presentation.components.RaceListItem
 import com.example.purpleapex.schedule.domain.Schedule
+import com.example.purpleapex.schedule.presentation.components.ScheduleListItem
 
 @Composable
 fun GrandPrixList(

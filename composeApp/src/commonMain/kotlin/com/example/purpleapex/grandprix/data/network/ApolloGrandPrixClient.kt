@@ -18,23 +18,14 @@ class ApolloGrandPrixClient(
     override suspend fun getGrandPrix(year: Int, round: Int): GrandPrixDetail {
         val raceResponse = apolloClient.query(RaceQuery(year, round)).execute()
         val qualifyingResponse = apolloClient.query(QualifyingQuery(year, round)).execute()
+        val sprintResponse = apolloClient.query(SprintQuery(year, round)).execute()
         val scheduleResponse = apolloClient.query(ScheduleQuery(year, round)).execute()
-        val sprintResponse = try {
-            apolloClient.query(SprintQuery(year, round)).execute()
-        } catch (e: Exception) {
-            null
-        }
-
-        val raceData = raceResponse.data?.race?.toRaceDetail()
-        val qualifyingData = qualifyingResponse.data?.qualifying?.toQualifyingDetail()
-        val scheduleData = scheduleResponse.dataAssertNoErrors.schedule.toScheduleDetail()
-        val sprintData = sprintResponse?.data?.sprint?.toSprintDetail()
 
         return GrandPrixDetail(
-            race = raceData,
-            qualifying = qualifyingData,
-            sprint = sprintData,
-            schedule = scheduleData
+            race = raceResponse.data?.race?.toRaceDetail(),
+            qualifying = qualifyingResponse.data?.qualifying?.toQualifyingDetail(),
+            sprint = sprintResponse.data?.sprint?.toSprintDetail(),
+            schedule = scheduleResponse.dataAssertNoErrors.schedule.toScheduleDetail()
         )
     }
 }

@@ -17,7 +17,7 @@ import com.example.purpleapex.core.presentation.components.Header
 import com.example.purpleapex.grandprix.presentation.components.GrandPrixInfoCard
 import com.example.purpleapex.grandprix.presentation.components.Menu
 import com.example.purpleapex.grandprix.presentation.components.WeekendScheduleCard
-import com.example.purpleapex.race.presentation.race_detail.components.ResultList
+import com.example.purpleapex.race.presentation.components.ResultList
 import org.koin.compose.viewmodel.koinViewModel
 import com.example.purpleapex.qualifying.presentation.qualifying_detail.components.ResultList as QualifyingResultList
 

@@ -1,4 +1,4 @@
-package com.example.purpleapex.race.presentation.race_detail.components
+package com.example.purpleapex.race.presentation.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
