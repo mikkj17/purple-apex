@@ -7,6 +7,4 @@ interface RaceRepository {
         constructorId: String? = null,
         circuitId: String? = null,
     ): List<Race>
-
-    suspend fun getGrandPrix(year: Int, round: Int): GrandPrixDetail
 }

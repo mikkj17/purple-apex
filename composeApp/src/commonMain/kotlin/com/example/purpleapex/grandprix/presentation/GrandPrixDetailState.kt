@@ -1,6 +1,6 @@
 package com.example.purpleapex.grandprix.presentation
 
-import com.example.purpleapex.race.domain.GrandPrixDetail
+import com.example.purpleapex.grandprix.domain.GrandPrixDetail
 
 data class GrandPrixDetailState(
     val isLoading: Boolean = true,

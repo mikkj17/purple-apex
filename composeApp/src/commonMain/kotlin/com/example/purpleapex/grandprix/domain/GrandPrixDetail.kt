@@ -1,6 +1,8 @@
-package com.example.purpleapex.race.domain
+package com.example.purpleapex.grandprix.domain
 
 import com.example.purpleapex.qualifying.domain.QualifyingDetail
+import com.example.purpleapex.race.domain.RaceDetail
+import com.example.purpleapex.sprint.domain.SprintDetail
 
 data class GrandPrixDetail(
     val race: RaceDetail,

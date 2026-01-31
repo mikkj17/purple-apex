@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.example.purpleapex.app.Route
-import com.example.purpleapex.race.domain.RaceRepository
+import com.example.purpleapex.grandprix.domain.GrandPrixRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class GrandPrixDetailViewModel(
     savedStateHandle: SavedStateHandle,
-    private val raceRepository: RaceRepository,
+    private val grandPrixRepository: GrandPrixRepository,
 ) : ViewModel() {
     private val args = savedStateHandle.toRoute<Route.GrandPrixDetail>()
 
@@ -38,7 +38,7 @@ class GrandPrixDetailViewModel(
     private fun load() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }
-            runCatching { raceRepository.getGrandPrix(args.season, args.round) }
+            runCatching { grandPrixRepository.getGrandPrix(args.season, args.round) }
                 .onSuccess { grandPrix ->
                     _state.update {
                         it.copy(

@@ -17,6 +17,10 @@ import com.example.purpleapex.driver.data.repository.DefaultDriverRepository
 import com.example.purpleapex.driver.domain.DriverClient
 import com.example.purpleapex.driver.domain.DriverRepository
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailViewModel
+import com.example.purpleapex.grandprix.data.network.ApolloGrandPrixClient
+import com.example.purpleapex.grandprix.data.repository.DefaultGrandPrixRepository
+import com.example.purpleapex.grandprix.domain.GrandPrixClient
+import com.example.purpleapex.grandprix.domain.GrandPrixRepository
 import com.example.purpleapex.grandprix.presentation.GrandPrixDetailViewModel
 import com.example.purpleapex.news.data.network.KtorNewsClient
 import com.example.purpleapex.news.data.repository.DefaultNewsRepository
@@ -90,6 +94,9 @@ val sharedModule = module {
 
     singleOf(::ApolloQualifyingClient).bind<QualifyingClient>()
     singleOf(::DefaultQualifyingRepository).bind<QualifyingRepository>()
+
+    singleOf(::ApolloGrandPrixClient).bind<GrandPrixClient>()
+    singleOf(::DefaultGrandPrixRepository).bind<GrandPrixRepository>()
 
     singleOf(::KtorNewsClient).bind<NewsClient>()
     singleOf(::DefaultNewsRepository).bind<NewsRepository>()
