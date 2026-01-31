@@ -1,4 +1,4 @@
-package com.example.purpleapex.race.presentation.race_list
+package com.example.purpleapex.grandprix.presentation.grand_prix_list
 
 import com.example.purpleapex.race.domain.Race
 import com.example.purpleapex.schedule.domain.Schedule
@@ -8,7 +8,7 @@ import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
-data class RaceListState(
+data class GrandPrixListState(
     val isLoading: Boolean = true,
     val errorMessage: String? = null,
     val selectedYear: Int = Clock.System.todayIn(TimeZone.UTC).year,

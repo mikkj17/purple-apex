@@ -22,6 +22,7 @@ import com.example.purpleapex.grandprix.data.repository.DefaultGrandPrixReposito
 import com.example.purpleapex.grandprix.domain.GrandPrixClient
 import com.example.purpleapex.grandprix.domain.GrandPrixRepository
 import com.example.purpleapex.grandprix.presentation.GrandPrixDetailViewModel
+import com.example.purpleapex.grandprix.presentation.grand_prix_list.GrandPrixListViewModel
 import com.example.purpleapex.news.data.network.KtorNewsClient
 import com.example.purpleapex.news.data.repository.DefaultNewsRepository
 import com.example.purpleapex.news.domain.NewsClient
@@ -35,7 +36,6 @@ import com.example.purpleapex.race.data.network.ApolloRaceClient
 import com.example.purpleapex.race.data.repository.DefaultRaceRepository
 import com.example.purpleapex.race.domain.RaceClient
 import com.example.purpleapex.race.domain.RaceRepository
-import com.example.purpleapex.race.presentation.race_list.RaceListViewModel
 import com.example.purpleapex.schedule.data.network.ApolloScheduleClient
 import com.example.purpleapex.schedule.data.repository.DefaultScheduleRepository
 import com.example.purpleapex.schedule.domain.ScheduleClient
@@ -102,7 +102,7 @@ val sharedModule = module {
     singleOf(::DefaultNewsRepository).bind<NewsRepository>()
 
     viewModelOf(::StandingsListViewModel)
-    viewModelOf(::RaceListViewModel)
+    viewModelOf(::GrandPrixListViewModel)
     viewModelOf(::GrandPrixDetailViewModel)
     viewModelOf(::SearchViewModel)
     viewModelOf(::DriverDetailViewModel)

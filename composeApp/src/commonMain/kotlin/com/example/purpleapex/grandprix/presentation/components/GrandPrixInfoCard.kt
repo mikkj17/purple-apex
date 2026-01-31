@@ -8,10 +8,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.purpleapex.core.presentation.components.AppCard
-import com.example.purpleapex.race.domain.RaceDetail
+import com.example.purpleapex.schedule.domain.ScheduleDetail
 
 @Composable
-fun GrandPrixInfoCard(race: RaceDetail, modifier: Modifier = Modifier) {
+fun GrandPrixInfoCard(schedule: ScheduleDetail, modifier: Modifier = Modifier) {
     AppCard(
         shape = MaterialTheme.shapes.small,
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -19,20 +19,20 @@ fun GrandPrixInfoCard(race: RaceDetail, modifier: Modifier = Modifier) {
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Text(
-                text = "${race.season} • Round ${race.round}",
+                text = "${schedule.season} • Round ${schedule.round}",
                 style = MaterialTheme.typography.labelMedium
             )
             Text(
-                text = race.name,
+                text = schedule.raceName,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
-                text = race.circuit.name,
+                text = schedule.circuit.name,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
-            val loc = race.circuit.location
+            val loc = schedule.circuit.location
             Text(
                 text = "${loc.locality}, ${loc.country}",
                 style = MaterialTheme.typography.bodySmall,
@@ -41,10 +41,10 @@ fun GrandPrixInfoCard(race: RaceDetail, modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 Text(
-                    text = race.date,
+                    text = schedule.date,
                     style = MaterialTheme.typography.bodySmall,
                 )
-                race.time?.let { t ->
+                schedule.time?.let { t ->
                     Text(
                         text = t.dropLast(1),
                         style = MaterialTheme.typography.bodySmall,

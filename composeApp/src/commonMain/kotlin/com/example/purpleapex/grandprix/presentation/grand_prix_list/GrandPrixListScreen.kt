@@ -1,4 +1,4 @@
-package com.example.purpleapex.race.presentation.race_list
+package com.example.purpleapex.grandprix.presentation.grand_prix_list
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,21 +15,25 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.core.presentation.components.SeasonDropdown
-import com.example.purpleapex.race.domain.Race
-import com.example.purpleapex.race.presentation.race_list.components.RaceList
+import com.example.purpleapex.grandprix.presentation.grand_prix_list.components.GrandPrixList
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun RaceListScreenRoot(
-    viewModel: RaceListViewModel = koinViewModel(),
-    onRaceClick: (Race) -> Unit,
+fun GrandPrixListScreenRoot(
+    viewModel: GrandPrixListViewModel = koinViewModel(),
+    onGrandPrixClick: (season: Int, round: Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    RaceListScreen(
+    GrandPrixListScreen(
         state = state,
         onAction = { action ->
             when (action) {
-                is RaceListAction.OnRaceClick -> onRaceClick(action.race)
+                is GrandPrixListAction.OnRaceClick -> onGrandPrixClick(action.race.season, action.race.round)
+                is GrandPrixListAction.OnScheduleClick -> onGrandPrixClick(
+                    action.schedule.season,
+                    action.schedule.round
+                )
+
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -38,9 +42,9 @@ fun RaceListScreenRoot(
 }
 
 @Composable
-private fun RaceListScreen(
-    state: RaceListState,
-    onAction: (RaceListAction) -> Unit,
+private fun GrandPrixListScreen(
+    state: GrandPrixListState,
+    onAction: (GrandPrixListAction) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -57,14 +61,14 @@ private fun RaceListScreen(
                 .padding(8.dp)
         ) {
             Text(
-                text = "RACES",
+                text = "GRAND PRIX",
                 style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onSurface,
             )
             SeasonDropdown(
                 selectedYear = state.selectedYear,
                 onSelectedYearChanged = {
-                    onAction(RaceListAction.SelectedYearChanged(it))
+                    onAction(GrandPrixListAction.SelectedYearChanged(it))
                 },
             )
         }
@@ -84,20 +88,23 @@ private fun RaceListScreen(
                         color = MaterialTheme.colorScheme.error,
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Button(onClick = { onAction(RaceListAction.OnRetryClick) }) { Text("Retry") }
+                    Button(onClick = { onAction(GrandPrixListAction.OnRetryClick) }) { Text("Retry") }
                 }
 
                 state.races.isEmpty() && state.schedules.isEmpty() -> Text(
-                    text = "No races found...",
+                    text = "No grand prix found...",
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.error,
                 )
 
-                else -> RaceList(
+                else -> GrandPrixList(
                     races = state.races,
                     schedules = state.schedules,
                     onRaceClick = {
-                        onAction(RaceListAction.OnRaceClick(it))
+                        onAction(GrandPrixListAction.OnRaceClick(it))
+                    },
+                    onScheduleClick = {
+                        onAction(GrandPrixListAction.OnScheduleClick(it))
                     },
                     modifier = Modifier.fillMaxSize()
                 )

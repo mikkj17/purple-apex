@@ -16,6 +16,7 @@ import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.core.presentation.components.Header
 import com.example.purpleapex.grandprix.presentation.components.GrandPrixInfoCard
 import com.example.purpleapex.grandprix.presentation.components.Menu
+import com.example.purpleapex.grandprix.presentation.components.WeekendScheduleCard
 import com.example.purpleapex.race.presentation.race_detail.components.ResultList
 import org.koin.compose.viewmodel.koinViewModel
 import com.example.purpleapex.qualifying.presentation.qualifying_detail.components.ResultList as QualifyingResultList
@@ -33,8 +34,9 @@ fun GrandPrixDetailScreenRoot(
             when (action) {
                 GrandPrixDetailAction.OnBackClick -> onBackClick()
                 GrandPrixDetailAction.OnLapTimesClick -> {
-                    val race = state.grandPrix?.race!!
-                    onLapTimesClick(race.season, race.round)
+                    state.grandPrix?.schedule?.let {
+                        onLapTimesClick(it.season, it.round)
+                    }
                 }
 
                 else -> viewModel.onAction(action)
@@ -75,7 +77,7 @@ private fun GrandPrixDetailScreen(
                     trailingContent = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                text = state.grandPrix.race.name,
+                                text = state.grandPrix.schedule.raceName,
                                 style = MaterialTheme.typography.titleLarge,
                                 color = MaterialTheme.colorScheme.onSurface,
                             )
@@ -90,38 +92,46 @@ private fun GrandPrixDetailScreen(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
-                    GrandPrixInfoCard(race = state.grandPrix.race)
+                    GrandPrixInfoCard(schedule = state.grandPrix.schedule)
                     Spacer(modifier = Modifier.height(16.dp))
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                    ) {
-                        FilterChip(
-                            selected = state.selectedResultType == ResultType.RACE,
-                            onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.RACE)) },
-                            label = { Text("Race") }
-                        )
-                        FilterChip(
-                            selected = state.selectedResultType == ResultType.QUALIFYING,
-                            onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.QUALIFYING)) },
-                            label = { Text("Qualifying") }
-                        )
-                        if (state.grandPrix.sprint != null) {
-                            FilterChip(
-                                selected = state.selectedResultType == ResultType.SPRINT,
-                                onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.SPRINT)) },
-                                label = { Text("Sprint") }
-                            )
+                    if (state.grandPrix.race != null || state.grandPrix.qualifying != null || state.grandPrix.sprint != null) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceAround,
+                        ) {
+                            if (state.grandPrix.race != null) {
+                                FilterChip(
+                                    selected = state.selectedResultType == ResultType.RACE,
+                                    onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.RACE)) },
+                                    label = { Text("Race") }
+                                )
+                            }
+                            if (state.grandPrix.qualifying != null) {
+                                FilterChip(
+                                    selected = state.selectedResultType == ResultType.QUALIFYING,
+                                    onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.QUALIFYING)) },
+                                    label = { Text("Qualifying") }
+                                )
+                            }
+                            if (state.grandPrix.sprint != null) {
+                                FilterChip(
+                                    selected = state.selectedResultType == ResultType.SPRINT,
+                                    onClick = { onAction(GrandPrixDetailAction.OnResultTypeSelected(ResultType.SPRINT)) },
+                                    label = { Text("Sprint") }
+                                )
+                            }
                         }
-                    }
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(8.dp))
 
-                    when (state.selectedResultType) {
-                        ResultType.RACE -> ResultList(results = state.grandPrix.race.results)
-                        ResultType.QUALIFYING -> QualifyingResultList(results = state.grandPrix.qualifying.results)
-                        ResultType.SPRINT -> state.grandPrix.sprint?.let { ResultList(results = it.results) }
+                        when (state.selectedResultType) {
+                            ResultType.RACE -> state.grandPrix.race?.let { ResultList(results = it.results) }
+                            ResultType.QUALIFYING -> state.grandPrix.qualifying?.let { QualifyingResultList(results = it.results) }
+                            ResultType.SPRINT -> state.grandPrix.sprint?.let { ResultList(results = it.results) }
+                        }
+                    } else {
+                        WeekendScheduleCard(schedule = state.grandPrix.schedule)
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                 }

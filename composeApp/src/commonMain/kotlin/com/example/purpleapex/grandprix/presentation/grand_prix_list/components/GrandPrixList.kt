@@ -1,4 +1,4 @@
-package com.example.purpleapex.race.presentation.race_list.components
+package com.example.purpleapex.grandprix.presentation.grand_prix_list.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
@@ -17,10 +17,11 @@ import com.example.purpleapex.race.domain.Race
 import com.example.purpleapex.schedule.domain.Schedule
 
 @Composable
-fun RaceList(
+fun GrandPrixList(
     races: List<Race>,
     schedules: List<Schedule>,
     onRaceClick: (Race) -> Unit,
+    onScheduleClick: (Schedule) -> Unit,
     modifier: Modifier = Modifier,
     scrollState: LazyListState = rememberLazyListState(),
 ) {
@@ -32,7 +33,7 @@ fun RaceList(
         contentPadding = LocalScaffoldPadding.current,
     ) {
         item {
-            Spacer(modifier.height(8.dp))
+            Spacer(Modifier.height(8.dp))
         }
         items(
             races,
@@ -50,11 +51,12 @@ fun RaceList(
         ) { schedule ->
             ScheduleListItem(
                 schedule = schedule,
+                onClick = { onScheduleClick(schedule) },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
         item {
-            Spacer(modifier.height(8.dp))
+            Spacer(Modifier.height(8.dp))
         }
     }
 }

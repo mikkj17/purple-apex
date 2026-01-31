@@ -16,9 +16,9 @@ import com.example.purpleapex.circuit.presentation.circuit_detail.CircuitDetailS
 import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorDetailScreenRoot
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScreenRoot
 import com.example.purpleapex.grandprix.presentation.GrandPrixDetailScreenRoot
+import com.example.purpleapex.grandprix.presentation.grand_prix_list.GrandPrixListScreenRoot
 import com.example.purpleapex.home.presentation.HomeScreenRoot
 import com.example.purpleapex.race.presentation.race_detail.LapTimesScreenRoot
-import com.example.purpleapex.race.presentation.race_list.RaceListScreenRoot
 import com.example.purpleapex.standings.presentation.standings_list.StandingsListScreenRoot
 import com.example.purpleapex.ui.theme.AppTheme
 
@@ -126,12 +126,12 @@ fun App() {
                         // Racing tab graph and its sub-screens
                         navigation<Route.RacingGraph>(startDestination = Route.Racing) {
                             composable<Route.Racing> {
-                                RaceListScreenRoot(
-                                    onRaceClick = { race ->
+                                GrandPrixListScreenRoot(
+                                    onGrandPrixClick = { season, round ->
                                         navController.navigate(
                                             Route.GrandPrixDetail(
-                                                season = race.season,
-                                                round = race.round,
+                                                season = season,
+                                                round = round,
                                             )
                                         )
                                     }

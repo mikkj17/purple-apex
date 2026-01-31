@@ -1,4 +1,4 @@
-package com.example.purpleapex.race.presentation.race_list
+package com.example.purpleapex.grandprix.presentation.grand_prix_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,28 +9,29 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class RaceListViewModel(
+class GrandPrixListViewModel(
     private val raceRepository: RaceRepository,
     private val scheduleRepository: ScheduleRepository
 ) : ViewModel() {
-    private val _state = MutableStateFlow(RaceListState())
+    private val _state = MutableStateFlow(GrandPrixListState())
     val state = _state.asStateFlow()
 
     init {
         load()
     }
 
-    fun onAction(action: RaceListAction) {
+    fun onAction(action: GrandPrixListAction) {
         when (action) {
-            is RaceListAction.SelectedYearChanged -> {
+            is GrandPrixListAction.SelectedYearChanged -> {
                 _state.update {
                     it.copy(selectedYear = action.year)
                 }
                 load()
             }
 
-            is RaceListAction.OnRaceClick -> {}
-            is RaceListAction.OnRetryClick -> load()
+            is GrandPrixListAction.OnRaceClick -> {}
+            is GrandPrixListAction.OnScheduleClick -> {}
+            is GrandPrixListAction.OnRetryClick -> load()
         }
     }
 
