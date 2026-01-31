@@ -18,7 +18,7 @@ import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScre
 import com.example.purpleapex.grandprix.presentation.GrandPrixDetailScreenRoot
 import com.example.purpleapex.grandprix.presentation.grand_prix_list.GrandPrixListScreenRoot
 import com.example.purpleapex.home.presentation.HomeScreenRoot
-import com.example.purpleapex.race.presentation.race_detail.LapTimesScreenRoot
+import com.example.purpleapex.lap.presentation.LapTimesScreenRoot
 import com.example.purpleapex.standings.presentation.standings_list.StandingsListScreenRoot
 import com.example.purpleapex.ui.theme.AppTheme
 
