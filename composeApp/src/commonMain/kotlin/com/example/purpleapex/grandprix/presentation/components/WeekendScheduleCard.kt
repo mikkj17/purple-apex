@@ -20,35 +20,34 @@ fun WeekendScheduleCard(schedule: ScheduleDetail, modifier: Modifier = Modifier)
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
         modifier = modifier.fillMaxWidth(),
     ) {
-        Column(modifier = Modifier.padding(12.dp)) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(12.dp),
+        ) {
             Text(
-                text = "WEEKEND SCHEDULE",
+                text = "Weekend schedule",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold
             )
-            Spacer(modifier = Modifier.height(12.dp))
 
-            SessionRow("Practice 1", schedule.firstPractice)
-            SessionRow("Practice 2", schedule.secondPractice)
+            schedule.firstPractice?.let { SessionRow("Practice 1", it) }
+            schedule.secondPractice?.let { SessionRow("Practice 2", it) }
             schedule.thirdPractice?.let { SessionRow("Practice 3", it) }
             schedule.sprintQualifying?.let { SessionRow("Sprint Qualifying", it) }
             schedule.sprint?.let { SessionRow("Sprint", it) }
-            SessionRow("Qualifying", schedule.qualifying)
-            SessionRow("Race", Session(schedule.date, schedule.time))
+            schedule.qualifying?.let { SessionRow("Qualifying", it) }
+            SessionRow("Race", Session(schedule.date, schedule.time), includeDivider = false)
         }
     }
 }
 
 @Composable
-private fun SessionRow(name: String, session: Session?) {
-    if (session == null) return
-    Column {
+private fun SessionRow(name: String, session: Session, includeDivider: Boolean = true) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(
                 text = name,
@@ -69,6 +68,7 @@ private fun SessionRow(name: String, session: Session?) {
                 }
             }
         }
-        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+        if (includeDivider)
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
     }
 }
