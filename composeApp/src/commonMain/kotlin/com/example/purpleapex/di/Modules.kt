@@ -23,7 +23,7 @@ import com.example.purpleapex.grandprix.domain.GrandPrixClient
 import com.example.purpleapex.grandprix.domain.GrandPrixRepository
 import com.example.purpleapex.grandprix.presentation.GrandPrixDetailViewModel
 import com.example.purpleapex.grandprix.presentation.grand_prix_list.GrandPrixListViewModel
-import com.example.purpleapex.news.data.network.KtorNewsClient
+import com.example.purpleapex.news.data.network.ApolloNewsClient
 import com.example.purpleapex.news.data.repository.DefaultNewsRepository
 import com.example.purpleapex.news.domain.NewsClient
 import com.example.purpleapex.news.domain.NewsRepository
@@ -98,7 +98,7 @@ val sharedModule = module {
     singleOf(::ApolloGrandPrixClient).bind<GrandPrixClient>()
     singleOf(::DefaultGrandPrixRepository).bind<GrandPrixRepository>()
 
-    singleOf(::KtorNewsClient).bind<NewsClient>()
+    singleOf(::ApolloNewsClient).bind<NewsClient>()
     singleOf(::DefaultNewsRepository).bind<NewsRepository>()
 
     viewModelOf(::StandingsListViewModel)

@@ -1,0 +1,22 @@
+query NewsQuery {
+    news {
+        id
+        headline
+        description
+        published
+        lastModified
+        images {
+            url
+            name
+            caption
+            alt
+            credit
+            width
+            height
+        }
+        links {
+            web
+            mobile
+        }
+    }
+}
