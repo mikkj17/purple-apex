@@ -120,7 +120,10 @@ private fun GrandPrixDetailContent(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                ResultDisplay(state = state)
+                ResultDisplay(
+                    state = state,
+                    onAction = onAction
+                )
             } else {
                 WeekendScheduleCard(schedule = grandPrix.schedule)
             }
@@ -187,12 +190,29 @@ private fun ResultTypeSelector(
 }
 
 @Composable
-private fun ResultDisplay(state: GrandPrixDetailState) {
+private fun ResultDisplay(
+    state: GrandPrixDetailState,
+    onAction: (GrandPrixDetailAction) -> Unit,
+) {
     val grandPrix = state.grandPrix ?: return
 
     when (state.selectedResultType) {
-        ResultType.RACE -> grandPrix.race?.let { ResultList(results = it.results) }
-        ResultType.QUALIFYING -> grandPrix.qualifying?.let { QualifyingResultList(results = it.results) }
-        ResultType.SPRINT -> grandPrix.sprint?.let { ResultList(results = it.results) }
+        ResultType.RACE -> grandPrix.race?.let {
+            ResultList(
+                results = it.results,
+            )
+        }
+
+        ResultType.QUALIFYING -> grandPrix.qualifying?.let {
+            QualifyingResultList(
+                results = it.results,
+            )
+        }
+
+        ResultType.SPRINT -> grandPrix.sprint?.let {
+            ResultList(
+                results = it.results,
+            )
+        }
     }
 }

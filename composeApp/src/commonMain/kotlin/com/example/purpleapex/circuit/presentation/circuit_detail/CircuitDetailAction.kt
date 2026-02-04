@@ -4,4 +4,5 @@ sealed interface CircuitDetailAction {
     data class OnSearchQueryChange(val query: String) : CircuitDetailAction
     data object OnBackClick : CircuitDetailAction
     data object OnRetryClick : CircuitDetailAction
+    data class OnGrandPrixClick(val season: Int, val round: Int) : CircuitDetailAction
 }

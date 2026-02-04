@@ -12,7 +12,10 @@ import androidx.compose.ui.text.style.TextAlign
 import com.example.purpleapex.qualifying.domain.ResultDetail
 
 @Composable
-fun ResultListItem(position: Int, result: ResultDetail) {
+fun ResultListItem(
+    position: Int,
+    result: ResultDetail,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth(),

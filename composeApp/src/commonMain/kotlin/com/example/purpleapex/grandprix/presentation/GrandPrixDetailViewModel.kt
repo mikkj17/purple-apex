@@ -31,7 +31,8 @@ class GrandPrixDetailViewModel(
                 _state.update { it.copy(selectedResultType = action.resultType) }
             }
 
-            else -> Unit
+            is GrandPrixDetailAction.OnBackClick -> Unit
+            is GrandPrixDetailAction.OnLapTimesClick -> Unit
         }
     }
 

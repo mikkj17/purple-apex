@@ -32,6 +32,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun CircuitDetailScreenRoot(
     viewModel: CircuitDetailViewModel = koinViewModel(),
     onBackClick: () -> Unit,
+    onGrandPrixClick: (Int, Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     CircuitDetailScreen(
@@ -39,6 +40,7 @@ fun CircuitDetailScreenRoot(
         onAction = { action ->
             when (action) {
                 is CircuitDetailAction.OnBackClick -> onBackClick()
+                is CircuitDetailAction.OnGrandPrixClick -> onGrandPrixClick(action.season, action.round)
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -129,6 +131,9 @@ private fun CircuitDetailScreen(
                                 )
                                 else RaceList(
                                     races = state.searchedRaces,
+                                    onRaceClick = { season, round ->
+                                        onAction(CircuitDetailAction.OnGrandPrixClick(season, round))
+                                    },
                                     modifier = Modifier,
                                 )
                             },
@@ -160,6 +165,9 @@ private fun CircuitDetailScreen(
                                 )
                                 else QualifyingList(
                                     qualifyings = state.searchedQualifyings,
+                                    onQualifyingClick = { season, round ->
+                                        onAction(CircuitDetailAction.OnGrandPrixClick(season, round))
+                                    },
                                     modifier = Modifier,
                                 )
                             },

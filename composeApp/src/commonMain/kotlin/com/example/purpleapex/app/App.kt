@@ -101,16 +101,38 @@ fun App() {
                             }
                             composable<Route.DriverDetail> {
                                 DriverDetailScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
+                                    onBackClick = { navController.navigateUp() },
+                                    onGrandPrixClick = { season, round ->
+                                        navController.navigate(Route.GrandPrixDetail(season, round))
+                                    }
                                 )
                             }
                             composable<Route.ConstructorDetail> {
                                 ConstructorDetailScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
+                                    onBackClick = { navController.navigateUp() },
+                                    onGrandPrixClick = { season, round ->
+                                        navController.navigate(Route.GrandPrixDetail(season, round))
+                                    }
                                 )
                             }
                             composable<Route.CircuitDetail> {
                                 CircuitDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onGrandPrixClick = { season, round ->
+                                        navController.navigate(Route.GrandPrixDetail(season, round))
+                                    }
+                                )
+                            }
+                            composable<Route.GrandPrixDetail> {
+                                GrandPrixDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onLapTimesClick = { season, round ->
+                                        navController.navigate(Route.LapTimes(season, round))
+                                    },
+                                )
+                            }
+                            composable<Route.LapTimes> {
+                                LapTimesScreenRoot(
                                     onBackClick = { navController.navigateUp() }
                                 )
                             }
@@ -130,11 +152,30 @@ fun App() {
                             }
                             composable<Route.DriverDetail> {
                                 DriverDetailScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
+                                    onBackClick = { navController.navigateUp() },
+                                    onGrandPrixClick = { season, round ->
+                                        navController.navigate(Route.GrandPrixDetail(season, round))
+                                    }
                                 )
                             }
                             composable<Route.ConstructorDetail> {
                                 ConstructorDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onGrandPrixClick = { season, round ->
+                                        navController.navigate(Route.GrandPrixDetail(season, round))
+                                    }
+                                )
+                            }
+                            composable<Route.GrandPrixDetail> {
+                                GrandPrixDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onLapTimesClick = { season, round ->
+                                        navController.navigate(Route.LapTimes(season, round))
+                                    },
+                                )
+                            }
+                            composable<Route.LapTimes> {
+                                LapTimesScreenRoot(
                                     onBackClick = { navController.navigateUp() }
                                 )
                             }
@@ -165,6 +206,30 @@ fun App() {
                             composable<Route.LapTimes> {
                                 LapTimesScreenRoot(
                                     onBackClick = { navController.navigateUp() }
+                                )
+                            }
+                            composable<Route.DriverDetail> {
+                                DriverDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onGrandPrixClick = { season, round ->
+                                        navController.navigate(Route.GrandPrixDetail(season, round))
+                                    }
+                                )
+                            }
+                            composable<Route.ConstructorDetail> {
+                                ConstructorDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onGrandPrixClick = { season, round ->
+                                        navController.navigate(Route.GrandPrixDetail(season, round))
+                                    }
+                                )
+                            }
+                            composable<Route.CircuitDetail> {
+                                CircuitDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onGrandPrixClick = { season, round ->
+                                        navController.navigate(Route.GrandPrixDetail(season, round))
+                                    }
                                 )
                             }
                         }

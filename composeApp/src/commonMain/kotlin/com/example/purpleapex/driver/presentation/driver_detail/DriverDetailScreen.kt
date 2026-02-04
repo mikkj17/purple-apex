@@ -33,6 +33,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun DriverDetailScreenRoot(
     viewModel: DriverDetailViewModel = koinViewModel(),
     onBackClick: () -> Unit,
+    onGrandPrixClick: (Int, Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     DriverDetailScreen(
@@ -40,6 +41,7 @@ fun DriverDetailScreenRoot(
         onAction = { action ->
             when (action) {
                 is DriverDetailAction.OnBackClick -> onBackClick()
+                is DriverDetailAction.OnGrandPrixClick -> onGrandPrixClick(action.season, action.round)
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -131,6 +133,9 @@ private fun DriverDetailScreen(
                                 )
                                 else RaceList(
                                     races = state.searchedRaces,
+                                    onRaceClick = { season, round ->
+                                        onAction(DriverDetailAction.OnGrandPrixClick(season, round))
+                                    },
                                     modifier = Modifier,
                                 )
                             },
@@ -162,6 +167,9 @@ private fun DriverDetailScreen(
                                 )
                                 else QualifyingList(
                                     qualifyings = state.searchedQualifyings,
+                                    onQualifyingClick = { season, round ->
+                                        onAction(DriverDetailAction.OnGrandPrixClick(season, round))
+                                    },
                                     modifier = Modifier,
                                 )
                             },

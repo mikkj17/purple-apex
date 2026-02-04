@@ -13,7 +13,9 @@ import com.example.purpleapex.core.presentation.extensions.formatAsPoints
 import com.example.purpleapex.race.domain.ResultDetail
 
 @Composable
-fun ResultListItem(result: ResultDetail) {
+fun ResultListItem(
+    result: ResultDetail,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth(),

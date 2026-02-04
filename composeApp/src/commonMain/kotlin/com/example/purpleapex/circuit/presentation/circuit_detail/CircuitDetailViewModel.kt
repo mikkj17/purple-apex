@@ -42,6 +42,7 @@ class CircuitDetailViewModel(
 
             is CircuitDetailAction.OnBackClick -> {}
             is CircuitDetailAction.OnRetryClick -> load()
+            is CircuitDetailAction.OnGrandPrixClick -> {}
         }
     }
 

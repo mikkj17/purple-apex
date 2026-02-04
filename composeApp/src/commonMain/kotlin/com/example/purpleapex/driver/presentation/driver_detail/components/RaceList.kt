@@ -1,5 +1,6 @@
 package com.example.purpleapex.driver.presentation.driver_detail.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -13,11 +14,16 @@ import com.example.purpleapex.race.domain.Race
 @Composable
 fun RaceList(
     races: List<Race>,
+    onRaceClick: (Int, Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         races.forEach { race ->
-            RaceListItem(race = race, modifier = modifier.fillMaxWidth())
+            RaceListItem(
+                race = race,
+                onClick = { onRaceClick(race.season, race.round) },
+                modifier = modifier.fillMaxWidth()
+            )
         }
     }
 }
@@ -25,11 +31,13 @@ fun RaceList(
 @Composable
 private fun RaceListItem(
     race: Race,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     AppCard(
         shape = MaterialTheme.shapes.small,
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        modifier = modifier.clickable { onClick() },
     ) {
         Column(modifier = modifier.padding(8.dp)) {
             Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {

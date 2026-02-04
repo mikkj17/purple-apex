@@ -1,5 +1,6 @@
 package com.example.purpleapex.driver.presentation.driver_detail.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -13,11 +14,16 @@ import com.example.purpleapex.qualifying.domain.Qualifying
 @Composable
 fun QualifyingList(
     qualifyings: List<Qualifying>,
+    onQualifyingClick: (Int, Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         qualifyings.forEach { qual ->
-            QualifyingListItem(qualifying = qual, modifier = modifier.fillMaxWidth())
+            QualifyingListItem(
+                qualifying = qual,
+                onClick = { onQualifyingClick(qual.season, qual.round) },
+                modifier = modifier.fillMaxWidth()
+            )
         }
     }
 }
@@ -25,11 +31,13 @@ fun QualifyingList(
 @Composable
 private fun QualifyingListItem(
     qualifying: Qualifying,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     AppCard(
         shape = MaterialTheme.shapes.small,
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+        modifier = modifier.clickable { onClick() },
     ) {
         Column(modifier = modifier.padding(8.dp)) {
             Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {

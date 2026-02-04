@@ -33,6 +33,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun ConstructorDetailScreenRoot(
     viewModel: ConstructorDetailViewModel = koinViewModel(),
     onBackClick: () -> Unit,
+    onGrandPrixClick: (Int, Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     ConstructorDetailScreen(
@@ -40,6 +41,7 @@ fun ConstructorDetailScreenRoot(
         onAction = { action ->
             when (action) {
                 is ConstructorDetailAction.OnBackClick -> onBackClick()
+                is ConstructorDetailAction.OnGrandPrixClick -> onGrandPrixClick(action.season, action.round)
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -132,6 +134,9 @@ private fun ConstructorDetailScreen(
                                 )
                                 else RaceList(
                                     races = state.searchedRaces,
+                                    onRaceClick = { season, round ->
+                                        onAction(ConstructorDetailAction.OnGrandPrixClick(season, round))
+                                    },
                                     modifier = Modifier,
                                 )
                             },
@@ -163,6 +168,9 @@ private fun ConstructorDetailScreen(
                                 )
                                 else QualifyingList(
                                     qualifyings = state.searchedQualifyings,
+                                    onQualifyingClick = { season, round ->
+                                        onAction(ConstructorDetailAction.OnGrandPrixClick(season, round))
+                                    },
                                     modifier = Modifier,
                                 )
                             },

@@ -15,7 +15,9 @@ import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.qualifying.domain.ResultDetail
 
 @Composable
-fun ResultList(results: List<ResultDetail>) {
+fun ResultList(
+    results: List<ResultDetail>,
+) {
     AppCard {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -51,7 +53,10 @@ fun ResultList(results: List<ResultDetail>) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f),
             )
             results.forEachIndexed { index, result ->
-                ResultListItem(position = index + 1, result = result)
+                ResultListItem(
+                    position = index + 1,
+                    result = result,
+                )
             }
         }
     }
