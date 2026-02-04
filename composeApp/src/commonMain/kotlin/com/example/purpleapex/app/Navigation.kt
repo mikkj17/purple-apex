@@ -21,8 +21,8 @@ private object GraphRoutes {
     inline fun <reified T : Route> serialName(): String =
         serializer<T>().descriptor.serialName
 
-    val home by lazy { serialName<Route.HomeGraph>() }
     val standings by lazy { serialName<Route.StandingsGraph>() }
+    val home by lazy { serialName<Route.HomeGraph>() }
     val racing by lazy { serialName<Route.RacingGraph>() }
 }
 
@@ -32,8 +32,8 @@ enum class TopLevelRoutes(
     val root: Route,
     val icon: ImageVector
 ) {
-    HOME("Home", Route.HomeGraph, Route.Home, Icons.Rounded.Home),
     STANDINGS("Standings", Route.StandingsGraph, Route.Standings, Icons.Rounded.Leaderboard),
+    HOME("Home", Route.HomeGraph, Route.Home, Icons.Rounded.Home),
     RACING("Racing", Route.RacingGraph, Route.Racing, Icons.Rounded.RocketLaunch),
 }
 
@@ -51,8 +51,8 @@ fun BottomNavigationBar(
                 ?.hierarchy
                 ?.any { dest ->
                     when (topLevelRoute) {
-                        TopLevelRoutes.HOME -> dest.hasRoute(GraphRoutes.home, null)
                         TopLevelRoutes.STANDINGS -> dest.hasRoute(GraphRoutes.standings, null)
+                        TopLevelRoutes.HOME -> dest.hasRoute(GraphRoutes.home, null)
                         TopLevelRoutes.RACING -> dest.hasRoute(GraphRoutes.racing, null)
                     }
                 } ?: false
@@ -62,17 +62,17 @@ fun BottomNavigationBar(
                     Icon(
                         topLevelRoute.icon,
                         contentDescription = topLevelRoute.title,
-                        modifier = Modifier.size(32.dp)
+                        modifier = Modifier.size(if (isSelected) 24.dp else 32.dp)
                     )
                 },
                 label = {
                     Text(
                         topLevelRoute.title,
                         style = MaterialTheme.typography.labelLarge,
-                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 },
                 onClick = { onNavigate(topLevelRoute.graph, topLevelRoute.root, isSelected) },
+                alwaysShowLabel = false,
                 selected = isSelected,
             )
         }
