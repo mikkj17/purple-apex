@@ -34,6 +34,9 @@ class StandingsListViewModel(
             }
 
             is StandingsListAction.OnRetryClick -> loadStandings()
+
+            is StandingsListAction.OnDriverClick -> Unit
+            is StandingsListAction.OnConstructorClick -> Unit
         }
     }
 

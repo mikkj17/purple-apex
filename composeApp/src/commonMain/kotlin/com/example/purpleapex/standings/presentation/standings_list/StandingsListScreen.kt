@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -24,12 +22,20 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun StandingsListScreenRoot(
-    viewModel: StandingsListViewModel = koinViewModel()
+    viewModel: StandingsListViewModel = koinViewModel(),
+    onDriverClick: (String) -> Unit,
+    onConstructorClick: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     StandingsListScreen(
         state = state,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when (action) {
+                is StandingsListAction.OnDriverClick -> onDriverClick(action.driverId)
+                is StandingsListAction.OnConstructorClick -> onConstructorClick(action.constructorId)
+                else -> viewModel.onAction(action)
+            }
+        }
     )
 }
 
@@ -147,6 +153,9 @@ private fun StandingsListScreen(
                         content = { driverStanding ->
                             DriverStandingListItem(
                                 driverStanding = driverStanding,
+                                onClick = {
+                                    onAction(StandingsListAction.OnDriverClick(driverStanding.driver.id))
+                                }
                             )
                         }
                     )
@@ -157,6 +166,13 @@ private fun StandingsListScreen(
                         content = { constructorStanding ->
                             ConstructorStandingListItem(
                                 constructorStanding = constructorStanding,
+                                onClick = {
+                                    onAction(
+                                        StandingsListAction.OnConstructorClick(
+                                            constructorStanding.constructor.id
+                                        )
+                                    )
+                                }
                             )
                         }
                     )

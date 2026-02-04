@@ -1,5 +1,6 @@
 package com.example.purpleapex.standings.presentation.standings_list.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -17,12 +18,13 @@ import com.example.purpleapex.standings.domain.ConstructorStanding
 @Composable
 fun ConstructorStandingListItem(
     constructorStanding: ConstructorStanding,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     AppCard(
         shape = RoundedCornerShape(8.dp),
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        modifier = modifier,
+        modifier = modifier.clickable { onClick() },
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

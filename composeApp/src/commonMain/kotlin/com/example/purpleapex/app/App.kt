@@ -119,7 +119,24 @@ fun App() {
                         // Standings tab graph
                         navigation<Route.StandingsGraph>(startDestination = Route.Standings) {
                             composable<Route.Standings> {
-                                StandingsListScreenRoot()
+                                StandingsListScreenRoot(
+                                    onDriverClick = { driverId ->
+                                        navController.navigate(Route.DriverDetail(driverId))
+                                    },
+                                    onConstructorClick = { constructorId ->
+                                        navController.navigate(Route.ConstructorDetail(constructorId))
+                                    }
+                                )
+                            }
+                            composable<Route.DriverDetail> {
+                                DriverDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() }
+                                )
+                            }
+                            composable<Route.ConstructorDetail> {
+                                ConstructorDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() }
+                                )
                             }
                         }
 
