@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.*
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -15,11 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalLiquidState
 import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.core.presentation.components.SeasonDropdown
 import com.example.purpleapex.standings.presentation.standings_list.components.ConstructorStandingListItem
 import com.example.purpleapex.standings.presentation.standings_list.components.DriverStandingListItem
 import com.example.purpleapex.standings.presentation.standings_list.components.StandingsList
+import io.github.fletchmckee.liquid.liquefiable
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -52,7 +52,8 @@ private fun StandingsListScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
-            .padding(LocalTopSafePadding.current),
+            .padding(LocalTopSafePadding.current)
+            .liquefiable(LocalLiquidState.current),
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

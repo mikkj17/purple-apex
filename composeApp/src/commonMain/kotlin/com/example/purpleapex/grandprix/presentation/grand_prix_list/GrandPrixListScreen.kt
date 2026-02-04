@@ -13,9 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalLiquidState
 import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.core.presentation.components.SeasonDropdown
 import com.example.purpleapex.grandprix.presentation.grand_prix_list.components.GrandPrixList
+import io.github.fletchmckee.liquid.liquefiable
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -50,7 +52,8 @@ private fun GrandPrixListScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
-            .padding(LocalTopSafePadding.current),
+            .padding(LocalTopSafePadding.current)
+            .liquefiable(LocalLiquidState.current),
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

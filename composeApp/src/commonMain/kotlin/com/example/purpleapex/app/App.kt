@@ -21,134 +21,144 @@ import com.example.purpleapex.home.presentation.HomeScreenRoot
 import com.example.purpleapex.lap.presentation.LapTimesScreenRoot
 import com.example.purpleapex.standings.presentation.standings_list.StandingsListScreenRoot
 import com.example.purpleapex.ui.theme.AppTheme
+import io.github.fletchmckee.liquid.LiquidState
+import io.github.fletchmckee.liquid.rememberLiquidState
 
 val LocalScaffoldPadding = staticCompositionLocalOf { PaddingValues(0.dp) }
 val LocalTopSafePadding = staticCompositionLocalOf { PaddingValues(0.dp) }
+val LocalLiquidState = staticCompositionLocalOf<LiquidState> {
+    error("No LiquidState provided")
+}
 
 @Composable
 fun App() {
     AppTheme {
+        val liquidState = rememberLiquidState()
         val navController = rememberNavController()
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
-        Scaffold(
-            contentWindowInsets = WindowInsets(0, 0, 0, 0),
-            bottomBar = {
-                BottomNavigationBar(
-                    currentDestination = currentDestination,
-                    onNavigate = { graph, root, reselected ->
-                        // Delegate to a small testable helper via a NavController-backed adapter.
-                        val navigator = object : TabNavigator {
-                            override fun popBackStack(route: Route, inclusive: Boolean): Boolean =
-                                navController.popBackStack(route, inclusive)
+        CompositionLocalProvider(
+            LocalLiquidState provides liquidState
+        ) {
+            Scaffold(
+                contentWindowInsets = WindowInsets(0, 0, 0, 0),
+                bottomBar = {
+                    BottomNavigationBar(
+                        currentDestination = currentDestination,
+                        onNavigate = { graph, root, reselected ->
+                            // Delegate to a small testable helper via a NavController-backed adapter.
+                            val navigator = object : TabNavigator {
+                                override fun popBackStack(route: Route, inclusive: Boolean): Boolean =
+                                    navController.popBackStack(route, inclusive)
 
-                            override fun navigateToGraph(graph: Route) {
-                                navController.navigate(graph) {
-                                    launchSingleTop = true
-                                    restoreState = true
-                                    popUpTo<Route.Graph> { saveState = true }
+                                override fun navigateToGraph(graph: Route) {
+                                    navController.navigate(graph) {
+                                        launchSingleTop = true
+                                        restoreState = true
+                                        popUpTo<Route.Graph> { saveState = true }
+                                    }
                                 }
                             }
-                        }
-                        handleBottomBarNavigation(
-                            navigator = navigator,
-                            graph = graph,
-                            root = root,
-                            reselected = reselected,
-                        )
-                    },
-                )
-            },
-        ) { innerPadding ->
-            CompositionLocalProvider(
-                LocalScaffoldPadding provides innerPadding,
-                LocalTopSafePadding provides WindowInsets.statusBars.asPaddingValues(),
-            ) {
-                NavHost(
-                    navController = navController,
-                    startDestination = Route.Graph,
-                    modifier = Modifier
+                            handleBottomBarNavigation(
+                                navigator = navigator,
+                                graph = graph,
+                                root = root,
+                                reselected = reselected,
+                            )
+                        },
+                    )
+                },
+            ) { innerPadding ->
+                CompositionLocalProvider(
+                    LocalScaffoldPadding provides innerPadding,
+                    LocalTopSafePadding provides WindowInsets.statusBars.asPaddingValues(),
                 ) {
-                    navigation<Route.Graph>(
-                        startDestination = Route.HomeGraph
+                    NavHost(
+                        navController = navController,
+                        startDestination = Route.Graph,
+                        modifier = Modifier
                     ) {
-                        // Home tab graph
-                        navigation<Route.HomeGraph>(startDestination = Route.Home) {
-                            composable<Route.Home> {
-                                HomeScreenRoot(
-                                    onDriverClick = { driver ->
-                                        navController.navigate(
-                                            Route.DriverDetail(
-                                                driverId = driver.id
+                        navigation<Route.Graph>(
+                            startDestination = Route.HomeGraph
+                        ) {
+                            // Home tab graph
+                            navigation<Route.HomeGraph>(startDestination = Route.Home) {
+                                composable<Route.Home> {
+                                    HomeScreenRoot(
+                                        onDriverClick = { driver ->
+                                            navController.navigate(
+                                                Route.DriverDetail(
+                                                    driverId = driver.id
+                                                )
                                             )
-                                        )
-                                    },
-                                    onConstructorClick = { constructor ->
-                                        navController.navigate(
-                                            Route.ConstructorDetail(
-                                                constructorId = constructor.id
+                                        },
+                                        onConstructorClick = { constructor ->
+                                            navController.navigate(
+                                                Route.ConstructorDetail(
+                                                    constructorId = constructor.id
+                                                )
                                             )
-                                        )
-                                    },
-                                    onCircuitClick = { circuit ->
-                                        navController.navigate(
-                                            Route.CircuitDetail(
-                                                circuitId = circuit.id
+                                        },
+                                        onCircuitClick = { circuit ->
+                                            navController.navigate(
+                                                Route.CircuitDetail(
+                                                    circuitId = circuit.id
+                                                )
                                             )
-                                        )
-                                    }
-                                )
+                                        }
+                                    )
+                                }
+                                composable<Route.DriverDetail> {
+                                    DriverDetailScreenRoot(
+                                        onBackClick = { navController.navigateUp() }
+                                    )
+                                }
+                                composable<Route.ConstructorDetail> {
+                                    ConstructorDetailScreenRoot(
+                                        onBackClick = { navController.navigateUp() }
+                                    )
+                                }
+                                composable<Route.CircuitDetail> {
+                                    CircuitDetailScreenRoot(
+                                        onBackClick = { navController.navigateUp() }
+                                    )
+                                }
                             }
-                            composable<Route.DriverDetail> {
-                                DriverDetailScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
-                                )
-                            }
-                            composable<Route.ConstructorDetail> {
-                                ConstructorDetailScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
-                                )
-                            }
-                            composable<Route.CircuitDetail> {
-                                CircuitDetailScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
-                                )
-                            }
-                        }
 
-                        // Standings tab graph
-                        navigation<Route.StandingsGraph>(startDestination = Route.Standings) {
-                            composable<Route.Standings> {
-                                StandingsListScreenRoot()
+                            // Standings tab graph
+                            navigation<Route.StandingsGraph>(startDestination = Route.Standings) {
+                                composable<Route.Standings> {
+                                    StandingsListScreenRoot()
+                                }
                             }
-                        }
 
-                        // Racing tab graph and its sub-screens
-                        navigation<Route.RacingGraph>(startDestination = Route.Racing) {
-                            composable<Route.Racing> {
-                                GrandPrixListScreenRoot(
-                                    onGrandPrixClick = { season, round ->
-                                        navController.navigate(
-                                            Route.GrandPrixDetail(
-                                                season = season,
-                                                round = round,
+                            // Racing tab graph and its sub-screens
+                            navigation<Route.RacingGraph>(startDestination = Route.Racing) {
+                                composable<Route.Racing> {
+                                    GrandPrixListScreenRoot(
+                                        onGrandPrixClick = { season, round ->
+                                            navController.navigate(
+                                                Route.GrandPrixDetail(
+                                                    season = season,
+                                                    round = round,
+                                                )
                                             )
-                                        )
-                                    }
-                                )
-                            }
-                            composable<Route.GrandPrixDetail> {
-                                GrandPrixDetailScreenRoot(
-                                    onBackClick = { navController.navigateUp() },
-                                    onLapTimesClick = { season, round ->
-                                        navController.navigate(Route.LapTimes(season, round))
-                                    },
-                                )
-                            }
-                            composable<Route.LapTimes> {
-                                LapTimesScreenRoot(
-                                    onBackClick = { navController.navigateUp() }
-                                )
+                                        }
+                                    )
+                                }
+                                composable<Route.GrandPrixDetail> {
+                                    GrandPrixDetailScreenRoot(
+                                        onBackClick = { navController.navigateUp() },
+                                        onLapTimesClick = { season, round ->
+                                            navController.navigate(Route.LapTimes(season, round))
+                                        },
+                                    )
+                                }
+                                composable<Route.LapTimes> {
+                                    LapTimesScreenRoot(
+                                        onBackClick = { navController.navigateUp() }
+                                    )
+                                }
                             }
                         }
                     }

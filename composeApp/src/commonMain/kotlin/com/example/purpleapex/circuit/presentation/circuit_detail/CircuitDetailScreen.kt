@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalLiquidState
 import com.example.purpleapex.app.LocalScaffoldPadding
 import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.circuit.presentation.circuit_detail.components.CircuitInfoCard
@@ -25,6 +26,7 @@ import com.example.purpleapex.core.presentation.components.AnimatedContainer
 import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.core.presentation.components.Header
 import com.example.purpleapex.search.presentation.components.SearchBar
+import io.github.fletchmckee.liquid.liquefiable
 import org.koin.compose.viewmodel.koinViewModel
 
 
@@ -54,7 +56,9 @@ private fun CircuitDetailScreen(
     val keyBoardController = LocalSoftwareKeyboardController.current
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .liquefiable(LocalLiquidState.current),
     ) {
         when {
             state.isLoading -> CircularProgressIndicator()
@@ -95,7 +99,6 @@ private fun CircuitDetailScreen(
 
                 Column(
                     modifier = Modifier
-                        .padding(LocalScaffoldPadding.current)
                         .padding(horizontal = 8.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
@@ -166,7 +169,7 @@ private fun CircuitDetailScreen(
                             modifier = Modifier,
                         )
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.padding(LocalScaffoldPadding.current))
                 }
             }
         }

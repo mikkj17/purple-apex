@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalLiquidState
 import com.example.purpleapex.app.LocalScaffoldPadding
 import com.example.purpleapex.app.LocalTopSafePadding
 import com.example.purpleapex.core.presentation.components.Header
@@ -18,6 +19,7 @@ import com.example.purpleapex.grandprix.presentation.components.GrandPrixInfoCar
 import com.example.purpleapex.grandprix.presentation.components.Menu
 import com.example.purpleapex.grandprix.presentation.components.WeekendScheduleCard
 import com.example.purpleapex.race.presentation.components.ResultList
+import io.github.fletchmckee.liquid.liquefiable
 import org.koin.compose.viewmodel.koinViewModel
 import com.example.purpleapex.qualifying.presentation.qualifying_detail.components.ResultList as QualifyingResultList
 
@@ -52,7 +54,9 @@ private fun GrandPrixDetailScreen(
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .liquefiable(LocalLiquidState.current),
     ) {
         when {
             state.isLoading -> CircularProgressIndicator()
@@ -104,7 +108,6 @@ private fun GrandPrixDetailContent(
         )
         Column(
             modifier = Modifier
-                .padding(LocalScaffoldPadding.current)
                 .padding(horizontal = 8.dp)
                 .verticalScroll(rememberScrollState())
         ) {
@@ -124,7 +127,7 @@ private fun GrandPrixDetailContent(
             } else {
                 WeekendScheduleCard(schedule = grandPrix.schedule)
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.padding(LocalScaffoldPadding.current))
         }
     }
 }

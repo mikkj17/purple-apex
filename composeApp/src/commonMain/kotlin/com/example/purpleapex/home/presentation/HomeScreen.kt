@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.purpleapex.app.LocalLiquidState
 import com.example.purpleapex.app.LocalScaffoldPadding
 import com.example.purpleapex.circuit.domain.Circuit
 import com.example.purpleapex.constructor.domain.Constructor
@@ -37,6 +38,7 @@ import com.example.purpleapex.search.presentation.SearchAction
 import com.example.purpleapex.search.presentation.SearchOverlay
 import com.example.purpleapex.search.presentation.SearchState
 import com.example.purpleapex.search.presentation.SearchViewModel
+import io.github.fletchmckee.liquid.liquefiable
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import purpleapex.composeapp.generated.resources.Res
@@ -76,6 +78,7 @@ fun HomeScreen(
     onNewsAction: (NewsListAction) -> Unit,
     onSearchAction: (SearchAction) -> Unit,
 ) {
+    val liquidState = LocalLiquidState.current
     val blurAlpha by animateFloatAsState(
         targetValue = if (searchState.showSearchOverlay) 1f else 0f,
         animationSpec = tween(durationMillis = 300),
@@ -103,6 +106,7 @@ fun HomeScreen(
                     }
                 }
             }
+            .liquefiable(liquidState)
     ) {
         Box(
             modifier = Modifier

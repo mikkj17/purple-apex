@@ -64,6 +64,8 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.jetbrains.compose.navigation)
 
+            implementation(libs.liquid)
+
             implementation(libs.material.icons.extended)
 
             implementation(libs.koin.compose)
