@@ -156,6 +156,8 @@ private fun ResultTypeSelector(
 ) {
     val grandPrix = state.grandPrix ?: return
 
+    if (grandPrix.qualifying == null && grandPrix.sprint == null) return
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceAround,
