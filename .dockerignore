@@ -1,0 +1,19 @@
+# .dockerignore
+
+# Gradle files
+.gradle
+build
+**/build
+
+# IDE files
+.idea
+*.iml
+
+# OS files
+.DS_Store
+
+# Version control
+.git
+
+# Local settings
+local.properties

@@ -39,8 +39,28 @@ kotlin {
         }
     }
 
+    @OptIn(ExperimentalKotlinGradlePluginApi::class, org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        outputModuleName.set("composeApp")
+        browser {
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+            }
+        }
+        binaries.executable()
+    }
+
     sourceSets {
         val desktopMain by getting
+
+        wasmJsMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(libs.ktor.client.js)
+        }
 
         androidMain.dependencies {
             implementation(compose.preview)
