@@ -27,6 +27,20 @@ To run the WASM version in your browser:
 *Note: Ensure you are using JDK 21. Newer JDK versions (like 25) may cause "IllegalArgumentException: 25" during
 compilation.*
 
+### WASM (Docker)
+
+You can also build and run the WASM application as a Docker container:
+
+```bash
+docker build -t purple-apex-wasm .
+docker run -p 8080:80 purple-apex-wasm
+```
+
+The application will then be available at [http://localhost:8080](http://localhost:8080).
+
+*Note: The Docker build requires significant memory for WASM compilation. Ensure your Docker Desktop (or engine) is
+configured with at least 10GB of RAM.*
+
 ## Project Structure
 
 - `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
