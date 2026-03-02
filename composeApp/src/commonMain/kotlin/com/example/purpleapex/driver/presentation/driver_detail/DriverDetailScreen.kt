@@ -1,8 +1,6 @@
 package com.example.purpleapex.driver.presentation.driver_detail
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -88,7 +86,7 @@ private fun DriverDetailScreen(
 
     val backgroundColor = Brush.verticalGradient(
         colors = listOf(
-            teamColor.copy(alpha = 0.8f),
+            teamColor.copy(alpha = 1f),
             MaterialTheme.colorScheme.background,
         )
     )
@@ -96,7 +94,7 @@ private fun DriverDetailScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundColor)
+            .background(backgroundColor),
     ) {
         // Large background number
         state.driver?.number?.let { number ->
@@ -106,7 +104,7 @@ private fun DriverDetailScreen(
                     fontSize = 240.sp,
                     fontWeight = FontWeight.Black
                 ),
-                color = Color.White.copy(alpha = 0.05f),
+                color = if (isDark) Color.White.copy(alpha = 0.1f) else Color.Black.copy(alpha = 0.1f),
                 modifier = Modifier.align(Alignment.BottomEnd)
             )
         }
@@ -129,7 +127,7 @@ private fun DriverDetailScreen(
                 )
             } else if (state.driver != null) {
                 Text(
-                    text = "${state.driver.givenName.firstOrNull() ?: ""}${state.driver.familyName.firstOrNull() ?: ""}",
+                    text = "${state.driver.givenName.first()}${state.driver.familyName.first()}",
                     style = MaterialTheme.typography.displayLarge,
                     color = Color.White.copy(alpha = 0.1f),
                     modifier = Modifier
@@ -138,10 +136,11 @@ private fun DriverDetailScreen(
             }
         }
 
-        // Scrollable content on the left
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(LocalTopSafePadding.current)
                 .padding(horizontal = 24.dp)
         ) {
             Spacer(modifier = Modifier.height(64.dp)) // Padding for header actions
@@ -158,7 +157,7 @@ private fun DriverDetailScreen(
                     )
                     Text(
                         text = driver.familyName.uppercase(),
-                        style = MaterialTheme.typography.headlineLarge,
+                        style = MaterialTheme.typography.headlineMedium,
                         color = if (isDark) Color.White else Color.Black,
                         fontWeight = FontWeight.Black,
                         softWrap = true,
@@ -243,6 +242,8 @@ private fun DriverDetailScreen(
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
         // Header Actions - overlay on top
