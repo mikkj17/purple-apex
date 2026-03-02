@@ -8,5 +8,6 @@ query DriverQuery($driverId: String!) {
         nationality
         number
         url
+        color
     }
 }

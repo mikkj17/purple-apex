@@ -5,4 +5,5 @@ sealed interface DriverDetailAction {
     data object OnBackClick : DriverDetailAction
     data object OnRetryClick : DriverDetailAction
     data class OnGrandPrixClick(val season: Int, val round: Int) : DriverDetailAction
+    data object OnHistoryClick : DriverDetailAction
 }

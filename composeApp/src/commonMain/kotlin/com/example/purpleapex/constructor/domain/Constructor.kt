@@ -4,4 +4,5 @@ data class Constructor(
     val id: String,
     val name: String,
     val nationality: String,
+    val color: String? = null,
 )
