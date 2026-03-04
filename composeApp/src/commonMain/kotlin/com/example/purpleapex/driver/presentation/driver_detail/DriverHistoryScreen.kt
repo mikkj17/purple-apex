@@ -4,22 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.app.LocalScaffoldPadding
 import com.example.purpleapex.app.LocalTopSafePadding
-import com.example.purpleapex.core.presentation.components.AnimatedContainer
-import com.example.purpleapex.core.presentation.components.AppCard
 import com.example.purpleapex.core.presentation.components.Header
 import com.example.purpleapex.driver.presentation.driver_detail.components.QualifyingList
 import com.example.purpleapex.driver.presentation.driver_detail.components.RaceList
@@ -69,113 +64,114 @@ fun DriverHistoryScreen(
                 Button(onClick = { onAction(DriverDetailAction.OnRetryClick) }) { Text("Retry") }
             }
 
-            else -> Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(LocalTopSafePadding.current),
-            ) {
-                Header(
-                    onBackClick = {
-                        onAction(DriverDetailAction.OnBackClick)
-                    },
-                    trailingContent = {
-                        SearchBar(
-                            searchQuery = state.searchQuery,
-                            onSearchQueryChange = {
-                                onAction(DriverDetailAction.OnSearchQueryChange(it))
-                            },
-                            onImeSearch = {
-                                keyBoardController?.hide()
-                            },
-                            modifier = Modifier.padding(end = 8.dp)
-                        )
-                    }
-                )
+            else -> {
+                var selectedTabIndex by remember { mutableIntStateOf(0) }
 
                 Column(
                     modifier = Modifier
-                        .padding(LocalScaffoldPadding.current)
-                        .padding(horizontal = 8.dp)
-                        .verticalScroll(rememberScrollState())
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(LocalTopSafePadding.current),
                 ) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Text(
-                        text = "History - ${state.driver?.fullName ?: ""}",
-                        style = MaterialTheme.typography.headlineMedium,
-                        modifier = Modifier.padding(horizontal = 8.dp)
+                    Header(
+                        onBackClick = {
+                            onAction(DriverDetailAction.OnBackClick)
+                        },
+                        trailingContent = {
+                            SearchBar(
+                                searchQuery = state.searchQuery,
+                                onSearchQueryChange = {
+                                    onAction(DriverDetailAction.OnSearchQueryChange(it))
+                                },
+                                onImeSearch = {
+                                    keyBoardController?.hide()
+                                },
+                                placeholder = "Filter history...",
+                                modifier = Modifier.padding(end = 8.dp),
+                            )
+                        }
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    AppCard(
-                        shape = MaterialTheme.shapes.small,
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                    PrimaryTabRow(
+                        selectedTabIndex = selectedTabIndex,
+                        contentColor = MaterialTheme.colorScheme.primary,
+                        indicator = {
+                            TabRowDefaults.SecondaryIndicator(
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.tabIndicatorOffset(selectedTabIndex),
+                            )
+                        }
                     ) {
-                        AnimatedContainer(
-                            header = {
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
+                        listOf("Races", "Qualifying").forEachIndexed { index, title ->
+                            Tab(
+                                selected = selectedTabIndex == index,
+                                onClick = { selectedTabIndex = index },
+                                selectedContentColor = MaterialTheme.colorScheme.onSurface,
+                                unselectedContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                                text = {
                                     Text(
-                                        text = "Races",
-                                        style = MaterialTheme.typography.headlineSmall,
-                                    )
-                                    Text(
-                                        text = state.searchedRaces.size.toString(),
+                                        text = title,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        fontWeight = if (selectedTabIndex == index) FontWeight.Bold else FontWeight.Normal
                                     )
                                 }
-                            },
-                            content = {
-                                if (state.searchedRaces.isEmpty()) Text(
-                                    text = "No races found...",
-                                )
-                                else RaceList(
-                                    races = state.searchedRaces,
-                                    onRaceClick = { season, round ->
-                                        onAction(DriverDetailAction.OnGrandPrixClick(season, round))
-                                    },
-                                    modifier = Modifier,
-                                )
-                            },
-                            modifier = Modifier,
-                        )
+                            )
+                        }
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
-                    AppCard(
-                        shape = MaterialTheme.shapes.small,
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                    Column(
+                        modifier = Modifier
+                            .padding(LocalScaffoldPadding.current)
+                            .padding(horizontal = 8.dp)
+                            .verticalScroll(rememberScrollState())
                     ) {
-                        AnimatedContainer(
-                            header = {
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Text(
-                                        text = "Qualifying",
-                                        style = MaterialTheme.typography.headlineSmall,
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        when (selectedTabIndex) {
+                            0 -> {
+                                if (state.searchedRaces.isEmpty()) {
+                                    Box(
+                                        modifier = Modifier.fillMaxWidth().padding(32.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = "No races found...",
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                } else {
+                                    RaceList(
+                                        races = state.searchedRaces,
+                                        onRaceClick = { season, round ->
+                                            onAction(DriverDetailAction.OnGrandPrixClick(season, round))
+                                        }
                                     )
-                                    Text(text = state.searchedQualifyings.size.toString())
                                 }
-                            },
-                            content = {
-                                if (state.searchedQualifyings.isEmpty()) Text(
-                                    text = "No qualifying sessions found...",
-                                )
-                                else QualifyingList(
-                                    qualifyings = state.searchedQualifyings,
-                                    onQualifyingClick = { season, round ->
-                                        onAction(DriverDetailAction.OnGrandPrixClick(season, round))
-                                    },
-                                    modifier = Modifier,
-                                )
-                            },
-                            modifier = Modifier,
-                        )
+                            }
+
+                            1 -> {
+                                if (state.searchedQualifyings.isEmpty()) {
+                                    Box(
+                                        modifier = Modifier.fillMaxWidth().padding(32.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = "No qualifying sessions found...",
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                } else {
+                                    QualifyingList(
+                                        qualifyings = state.searchedQualifyings,
+                                        onQualifyingClick = { season, round ->
+                                            onAction(DriverDetailAction.OnGrandPrixClick(season, round))
+                                        }
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
                     }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
