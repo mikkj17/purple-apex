@@ -80,13 +80,15 @@ private fun DriverDetailScreen(
     state: DriverDetailState,
     onAction: (DriverDetailAction) -> Unit,
 ) {
-    val teamColor = state.driver?.color?.let { Color(it.drop(1).toInt(16)) } ?: MaterialTheme.colorScheme.background
+    val teamColor = state.driver?.color
+        ?.let { Color(it.drop(1).toInt(16)).copy(alpha = 1f) }
+        ?: MaterialTheme.colorScheme.background
     val driverImageResource = state.driver?.let { getDriverImage(it) }
     val isDark = isSystemInDarkTheme()
 
     val backgroundColor = Brush.verticalGradient(
         colors = listOf(
-            teamColor.copy(alpha = 1f),
+            teamColor,
             MaterialTheme.colorScheme.background,
         )
     )
@@ -129,9 +131,7 @@ private fun DriverDetailScreen(
                 Text(
                     text = "${state.driver.givenName.first()}${state.driver.familyName.first()}",
                     style = MaterialTheme.typography.displayLarge,
-                    color = Color.White.copy(alpha = 0.1f),
-                    modifier = Modifier
-                        .align(Alignment.Center)
+                    modifier = Modifier.align(Alignment.Center)
                 )
             }
         }
@@ -275,7 +275,6 @@ private fun DriverDetailScreen(
         if (state.isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.align(Alignment.Center),
-                color = if (isDark) Color.White else teamColor
             )
         }
 
