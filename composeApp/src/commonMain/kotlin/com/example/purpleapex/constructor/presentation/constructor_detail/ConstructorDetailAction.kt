@@ -5,4 +5,5 @@ sealed interface ConstructorDetailAction {
     data object OnBackClick : ConstructorDetailAction
     data object OnRetryClick : ConstructorDetailAction
     data class OnGrandPrixClick(val season: Int, val round: Int) : ConstructorDetailAction
+    data class OnHistoryClick(val id: String) : ConstructorDetailAction
 }

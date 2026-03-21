@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.*
 import com.example.purpleapex.circuit.presentation.circuit_detail.CircuitDetailScreenRoot
 import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorDetailScreenRoot
+import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorHistoryScreenRoot
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScreenRoot
 import com.example.purpleapex.driver.presentation.driver_detail.DriverHistoryScreenRoot
 import com.example.purpleapex.grandprix.presentation.GrandPrixDetailScreenRoot
@@ -124,6 +125,17 @@ fun App() {
                                     onBackClick = { navController.navigateUp() },
                                     onGrandPrixClick = { season, round ->
                                         navController.navigate(Route.GrandPrixDetail(season, round))
+                                    },
+                                    onHistoryClick = { id ->
+                                        navController.navigate(Route.ConstructorHistory(id))
+                                    }
+                                )
+                            }
+                            composable<Route.ConstructorHistory> {
+                                ConstructorHistoryScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onGrandPrixClick = { season, round ->
+                                        navController.navigate(Route.GrandPrixDetail(season, round))
                                     }
                                 )
                             }
@@ -183,6 +195,17 @@ fun App() {
                             }
                             composable<Route.ConstructorDetail> {
                                 ConstructorDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onGrandPrixClick = { season, round ->
+                                        navController.navigate(Route.GrandPrixDetail(season, round))
+                                    },
+                                    onHistoryClick = { id ->
+                                        navController.navigate(Route.ConstructorHistory(id))
+                                    }
+                                )
+                            }
+                            composable<Route.ConstructorHistory> {
+                                ConstructorHistoryScreenRoot(
                                     onBackClick = { navController.navigateUp() },
                                     onGrandPrixClick = { season, round ->
                                         navController.navigate(Route.GrandPrixDetail(season, round))
@@ -252,6 +275,17 @@ fun App() {
                             }
                             composable<Route.ConstructorDetail> {
                                 ConstructorDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onGrandPrixClick = { season, round ->
+                                        navController.navigate(Route.GrandPrixDetail(season, round))
+                                    },
+                                    onHistoryClick = { id ->
+                                        navController.navigate(Route.ConstructorHistory(id))
+                                    }
+                                )
+                            }
+                            composable<Route.ConstructorHistory> {
+                                ConstructorHistoryScreenRoot(
                                     onBackClick = { navController.navigateUp() },
                                     onGrandPrixClick = { season, round ->
                                         navController.navigate(Route.GrandPrixDetail(season, round))

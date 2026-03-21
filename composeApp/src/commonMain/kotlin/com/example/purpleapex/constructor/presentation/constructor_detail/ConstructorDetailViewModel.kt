@@ -46,6 +46,7 @@ class ConstructorDetailViewModel(
             is ConstructorDetailAction.OnBackClick -> {}
             is ConstructorDetailAction.OnRetryClick -> load()
             is ConstructorDetailAction.OnGrandPrixClick -> {}
+            is ConstructorDetailAction.OnHistoryClick -> {}
         }
     }
 

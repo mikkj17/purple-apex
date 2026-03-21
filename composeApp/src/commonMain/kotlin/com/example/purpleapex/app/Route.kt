@@ -42,5 +42,8 @@ sealed interface Route {
     data class ConstructorDetail(val constructorId: String) : Route
 
     @Serializable
+    data class ConstructorHistory(val constructorId: String) : Route
+
+    @Serializable
     data class CircuitDetail(val circuitId: String) : Route
 }
