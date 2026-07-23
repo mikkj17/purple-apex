@@ -20,6 +20,8 @@ type Circuit {
 }
 
 type Constructor {
+  color: String
+
   id: String!
 
   name: String!
@@ -51,6 +53,8 @@ type ConstructorStandingList {
 
 type Driver {
   code: String
+
+  color: String
 
   dateOfBirth: String
 

@@ -6,6 +6,7 @@ data class Driver(
     val familyName: String,
     val nationality: String?,
     val number: Int?,
+    val color: String? = null,
 ) {
     val fullName: String
         get() = "$givenName $familyName"

@@ -25,24 +25,6 @@ fun ConstructorInfoCard(
     ) {
         Column(modifier = Modifier.padding(8.dp)) {
             Text(
-                text = "General Information",
-                style = MaterialTheme.typography.headlineSmall,
-            )
-            Spacer(Modifier.height(8.dp))
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column {
-                    LabeledValue(label = "Name", value = constructor.name)
-                }
-                Column(horizontalAlignment = Alignment.End) {
-                    LabeledValue(label = "Nationality", value = constructor.nationality)
-                }
-            }
-
-            Spacer(Modifier.height(16.dp))
-            Text(
                 text = "Stats",
                 style = MaterialTheme.typography.headlineSmall,
             )
@@ -80,11 +62,6 @@ fun ConstructorInfoCard(
     }
 }
 
-@Composable
-private fun LabeledValue(label: String, value: String) {
-    Text(text = label, style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
-    Text(text = value, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.Medium)
-}
 
 @Composable
 private fun StatRow(label: String, value: String) {

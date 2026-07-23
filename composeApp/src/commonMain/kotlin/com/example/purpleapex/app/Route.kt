@@ -36,7 +36,13 @@ sealed interface Route {
     data class DriverDetail(val driverId: String) : Route
 
     @Serializable
+    data class DriverHistory(val driverId: String) : Route
+
+    @Serializable
     data class ConstructorDetail(val constructorId: String) : Route
+
+    @Serializable
+    data class ConstructorHistory(val constructorId: String) : Route
 
     @Serializable
     data class CircuitDetail(val circuitId: String) : Route
