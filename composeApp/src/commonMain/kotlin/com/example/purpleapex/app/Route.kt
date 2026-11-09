@@ -46,4 +46,7 @@ sealed interface Route {
 
     @Serializable
     data class CircuitDetail(val circuitId: String) : Route
+
+    @Serializable
+    data class CircuitHistory(val circuitId: String) : Route
 }

@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.*
 import com.example.purpleapex.circuit.presentation.circuit_detail.CircuitDetailScreenRoot
+import com.example.purpleapex.circuit.presentation.circuit_detail.CircuitHistoryScreenRoot
 import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorDetailScreenRoot
 import com.example.purpleapex.constructor.presentation.constructor_detail.ConstructorHistoryScreenRoot
 import com.example.purpleapex.driver.presentation.driver_detail.DriverDetailScreenRoot
@@ -141,6 +142,14 @@ fun App() {
                             }
                             composable<Route.CircuitDetail> {
                                 CircuitDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onHistoryClick = { id ->
+                                        navController.navigate(Route.CircuitHistory(id))
+                                    }
+                                )
+                            }
+                            composable<Route.CircuitHistory> {
+                                CircuitHistoryScreenRoot(
                                     onBackClick = { navController.navigateUp() },
                                     onGrandPrixClick = { season, round ->
                                         navController.navigate(Route.GrandPrixDetail(season, round))
@@ -294,6 +303,14 @@ fun App() {
                             }
                             composable<Route.CircuitDetail> {
                                 CircuitDetailScreenRoot(
+                                    onBackClick = { navController.navigateUp() },
+                                    onHistoryClick = { id ->
+                                        navController.navigate(Route.CircuitHistory(id))
+                                    }
+                                )
+                            }
+                            composable<Route.CircuitHistory> {
+                                CircuitHistoryScreenRoot(
                                     onBackClick = { navController.navigateUp() },
                                     onGrandPrixClick = { season, round ->
                                         navController.navigate(Route.GrandPrixDetail(season, round))

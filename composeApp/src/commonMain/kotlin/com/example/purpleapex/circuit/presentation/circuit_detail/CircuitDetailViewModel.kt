@@ -40,6 +40,7 @@ class CircuitDetailViewModel(
                 updateSearchResults()
             }
 
+            is CircuitDetailAction.OnHistoryClick -> {}
             is CircuitDetailAction.OnBackClick -> {}
             is CircuitDetailAction.OnRetryClick -> load()
             is CircuitDetailAction.OnGrandPrixClick -> {}
