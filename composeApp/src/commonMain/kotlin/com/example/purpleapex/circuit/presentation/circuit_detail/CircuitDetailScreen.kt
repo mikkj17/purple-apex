@@ -1,6 +1,7 @@
 package com.example.purpleapex.circuit.presentation.circuit_detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,19 +13,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
+import purpleapex.composeapp.generated.resources.*
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.purpleapex.app.LocalScaffoldPadding
 import com.example.purpleapex.app.LocalTopSafePadding
-import com.example.purpleapex.circuit.presentation.circuit_detail.components.CircuitInfoCard
-import com.example.purpleapex.circuit.presentation.circuit_detail.components.QualifyingList
-import com.example.purpleapex.circuit.presentation.circuit_detail.components.RaceList
-import com.example.purpleapex.core.presentation.components.AnimatedContainer
-import com.example.purpleapex.core.presentation.components.AppCard
+import com.example.purpleapex.circuit.presentation.circuit_detail.components.CircuitDetailMenu
+import com.example.purpleapex.circuit.presentation.circuit_detail.components.CircuitStatsSection
 import com.example.purpleapex.core.presentation.components.Header
-import com.example.purpleapex.search.presentation.components.SearchBar
 import org.koin.compose.viewmodel.koinViewModel
 
 
@@ -32,7 +35,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun CircuitDetailScreenRoot(
     viewModel: CircuitDetailViewModel = koinViewModel(),
     onBackClick: () -> Unit,
-    onGrandPrixClick: (Int, Int) -> Unit,
+    onHistoryClick: (String) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     CircuitDetailScreen(
@@ -40,7 +43,7 @@ fun CircuitDetailScreenRoot(
         onAction = { action ->
             when (action) {
                 is CircuitDetailAction.OnBackClick -> onBackClick()
-                is CircuitDetailAction.OnGrandPrixClick -> onGrandPrixClick(action.season, action.round)
+                is CircuitDetailAction.OnHistoryClick -> state.circuit?.let { onHistoryClick(it.id) }
                 else -> Unit
             }
             viewModel.onAction(action)
@@ -53,7 +56,6 @@ private fun CircuitDetailScreen(
     state: CircuitDetailState,
     onAction: (CircuitDetailAction) -> Unit,
 ) {
-    val keyBoardController = LocalSoftwareKeyboardController.current
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize(),
@@ -74,109 +76,91 @@ private fun CircuitDetailScreen(
             else -> Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                MaterialTheme.colorScheme.primaryContainer,
+                                MaterialTheme.colorScheme.background,
+                            )
+                        )
+                    )
                     .padding(LocalTopSafePadding.current),
             ) {
                 Header(
                     onBackClick = {
                         onAction(CircuitDetailAction.OnBackClick)
                     },
+                    backgroundColor = Color.Transparent,
                     trailingContent = {
-                        SearchBar(
-                            searchQuery = state.searchQuery,
-                            onSearchQueryChange = {
-                                onAction(CircuitDetailAction.OnSearchQueryChange(it))
-                            },
-                            onImeSearch = {
-                                keyBoardController?.hide()
-                            },
-                            modifier = Modifier.padding(end = 8.dp),
-                        )
+                        CircuitDetailMenu(onAction = onAction)
                     }
                 )
 
                 Column(
                     modifier = Modifier
                         .padding(LocalScaffoldPadding.current)
-                        .padding(horizontal = 8.dp)
+                        .padding(horizontal = 24.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
                     Spacer(modifier = Modifier.height(16.dp))
-                    CircuitInfoCard(
-                        circuit = state.circuit!!,
-                        stats = state.circuitStats!!,
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    AppCard(
-                        shape = MaterialTheme.shapes.small,
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                    ) {
-                        AnimatedContainer(
-                            header = {
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Text(
-                                        text = "Races",
-                                        style = MaterialTheme.typography.headlineSmall,
-                                    )
-                                    Text(text = state.searchedRaces.size.toString())
-                                }
-                            },
-                            content = {
-                                if (state.searchedRaces.isEmpty()) Text(
-                                    text = "No races found...",
-                                )
-                                else RaceList(
-                                    races = state.searchedRaces,
-                                    onRaceClick = { season, round ->
-                                        onAction(CircuitDetailAction.OnGrandPrixClick(season, round))
-                                    },
-                                    modifier = Modifier,
-                                )
-                            },
-                            modifier = Modifier,
+                    state.circuit?.let { circuit ->
+                        Text(
+                            text = "${circuit.location.locality} • ${circuit.location.country}",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
+                        Spacer(Modifier.height(8.dp))
+                        Text(
+                            text = circuit.name.uppercase(),
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Black,
+                        )
+                        getCircuitImage(circuit.id)?.let { image ->
+                            Image(
+                                painter = painterResource(image),
+                                contentDescription = "${circuit.name} circuit layout",
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(280.dp)
+                                    .padding(vertical = 24.dp),
+                            )
+                        }
+                        state.circuitStats?.let { stats ->
+                            CircuitStatsSection(stats = stats)
+                        }
                     }
                     Spacer(modifier = Modifier.height(16.dp))
-                    AppCard(
-                        shape = MaterialTheme.shapes.small,
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-                    ) {
-                        AnimatedContainer(
-                            header = {
-                                Row(
-                                    horizontalArrangement = Arrangement.SpaceBetween,
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    modifier = Modifier.fillMaxWidth()
-                                ) {
-                                    Text(
-                                        text = "Qualifying",
-                                        style = MaterialTheme.typography.headlineSmall,
-                                    )
-                                    Text(text = state.searchedQualifyings.size.toString())
-                                }
-                            },
-                            content = {
-                                if (state.searchedQualifyings.isEmpty()) Text(
-                                    text = "No qualifying sessions found...",
-                                )
-                                else QualifyingList(
-                                    qualifyings = state.searchedQualifyings,
-                                    onQualifyingClick = { season, round ->
-                                        onAction(CircuitDetailAction.OnGrandPrixClick(season, round))
-                                    },
-                                    modifier = Modifier,
-                                )
-                            },
-                            modifier = Modifier,
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
+
                 }
             }
         }
     }
+}
+
+private fun getCircuitImage(circuitId: String): DrawableResource? = when (circuitId) {
+    "albert_park" -> Res.drawable.circuit_albert_park
+    "americas" -> Res.drawable.cicuit_americas
+    "baku" -> Res.drawable.circuit_baku
+    "catalunya" -> Res.drawable.circuit_catalunya
+    "hungaroring" -> Res.drawable.circuit_hungaroring
+    "interlagos" -> Res.drawable.circuit_interlagos
+    "losail" -> Res.drawable.circuit_losail
+    "madring", "madrid" -> Res.drawable.circuit_madring
+    "marina_bay" -> Res.drawable.circuit_marina_bay
+    "miami" -> Res.drawable.circuit_miami
+    "monaco" -> Res.drawable.circuit_monaco
+    "monza" -> Res.drawable.circuit_monza
+    "red_bull_ring" -> Res.drawable.circuit_red_bull_ring
+    "rodriguez" -> Res.drawable.circuit_rodriguez
+    "sepang" -> Res.drawable.circuit_sepang
+    "shanghai" -> Res.drawable.circuit_shanghai
+    "silverstone" -> Res.drawable.circuit_silverstone
+    "spa" -> Res.drawable.circuit_spa
+    "suzuka" -> Res.drawable.circuit_suzuka
+    "vegas" -> Res.drawable.circuit_vegas
+    "villeneuve" -> Res.drawable.circuit_villenueve
+    "yas_marina" -> Res.drawable.circuit_yas_marina
+    "zandvoort" -> Res.drawable.circuit_zandvoort
+    else -> null
 }

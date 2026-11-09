@@ -23,4 +23,5 @@ fun DriverQuery.Driver.toDriver() = DriverDetail(
     nationality = nationality,
     number = number,
     url = url,
+    color = color,
 )

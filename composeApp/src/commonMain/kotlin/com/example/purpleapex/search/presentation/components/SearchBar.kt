@@ -25,8 +25,9 @@ fun SearchBar(
     searchQuery: String,
     onSearchQueryChange: (String) -> Unit,
     onImeSearch: () -> Unit,
+    placeholder: String = "Search...",
+    focusRequester: FocusRequester = FocusRequester(),
     modifier: Modifier = Modifier,
-    focusRequester: FocusRequester = FocusRequester()
 ) {
     val textFieldValue = TextFieldValue(
         text = searchQuery,
@@ -60,7 +61,7 @@ fun SearchBar(
             ),
             placeholder = {
                 Text(
-                    text = "Search...",
+                    text = placeholder,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             },

@@ -7,4 +7,5 @@ fun ConstructorsQuery.Constructor.toConstructor() = Constructor(
     id = id,
     name = name,
     nationality = nationality,
+    color = color,
 )

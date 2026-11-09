@@ -3,5 +3,6 @@ query ConstructorsQuery($year: Int, $round: Int, $driverId: String) {
         id
         name
         nationality
+        color
     }
 }

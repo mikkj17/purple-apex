@@ -11,6 +11,7 @@ data class DriverDetail(
     val nationality: String?,
     val number: Int?,
     val url: String?,
+    val color: String?,
 ) {
     val fullName: String
         get() = "$givenName $familyName"

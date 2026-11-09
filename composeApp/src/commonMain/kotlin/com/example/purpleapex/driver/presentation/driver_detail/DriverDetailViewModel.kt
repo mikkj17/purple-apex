@@ -46,6 +46,7 @@ class DriverDetailViewModel(
             is DriverDetailAction.OnBackClick -> {}
             is DriverDetailAction.OnRetryClick -> load()
             is DriverDetailAction.OnGrandPrixClick -> {}
+            is DriverDetailAction.OnHistoryClick -> {}
         }
     }
 

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -35,21 +36,38 @@ private fun RaceListItem(
     modifier: Modifier = Modifier,
 ) {
     AppCard(
-        shape = MaterialTheme.shapes.small,
-        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
-        modifier = modifier.clickable { onClick() },
+        modifier = modifier.clickable { onClick() }
     ) {
-        Column(modifier = modifier.padding(8.dp)) {
-            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
-                Text(text = "${race.season} • Round ${race.round}", style = MaterialTheme.typography.labelMedium)
+        Column(modifier = Modifier.padding(8.dp)) {
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column {
+                    Text(
+                        text = race.name,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "${race.season} • Round ${race.round}",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
                 Text(
                     text = "P${race.results.first().position}",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Black,
+                    color = MaterialTheme.colorScheme.primary,
                 )
             }
-            Text(text = race.name, style = MaterialTheme.typography.titleMedium)
-            Row(horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.height(4.dp))
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
                     text = race.circuit.name,
                     style = MaterialTheme.typography.bodySmall,
@@ -58,7 +76,7 @@ private fun RaceListItem(
                 Text(
                     text = race.results.first().constructor.name,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.Medium,
                 )
             }
         }
